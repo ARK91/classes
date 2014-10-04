@@ -8,6 +8,20 @@ module mux(f, a, b, select);
     assign f = (select & a) | ((~select) & b);
 endmodule
 
+// This was added afterward, because I overlooked this item in the
+// instructions, the first time through:
+module problem_2_5_2_basic_gates_bdd(a, b, f0, f1, f2, f3, f4, f5);
+    input a, b;
+    output f0, f1, f2, f3, f4, f5;
+
+    and  func1(f0, a, b);
+    or   func2(f1, a, b);
+    xor  func2(f2, a, b);
+    nand func2(f3, a, b);
+    nor  func2(f4, a, b);
+    xnor func2(f5, a, b);
+
+endmodule
 
 module problem_2_5_2_basic_gates_bdd(a, b, f0, f1, f2, f3, f4, f5);
     input a, b;
