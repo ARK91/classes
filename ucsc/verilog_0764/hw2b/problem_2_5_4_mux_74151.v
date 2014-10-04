@@ -2,13 +2,6 @@
 // John Hubbard, 03 Oct 2014
 // hw2 assignment
 
-module mux(f, a, b, select);
-    input a, b, select;
-    output f;
-    assign f = (select & a) | ((~select) & b);
-endmodule
-
-
 module problem_2_5_4_mux_74151_structural(a, b, c, s, y, w,
                                           d0, d1, d2, d3, d4, d5, d6, d7);
     input a, b, c, s, d0, d1, d2, d3, d4, d5, d6, d7;
