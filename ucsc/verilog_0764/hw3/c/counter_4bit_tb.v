@@ -20,13 +20,8 @@ module counter_4bit_tb;
 
     initial
     begin
-        #1 $monitor ("time %t ", $time, "tclk, treset: %b %b, tcount: %b%b%b%b",
-                     tclk, treset,
-                     tcount[3],
-                     tcount[2],
-                     tcount[1],
-                     tcount[0]
-                     );
+        #1 $monitor ("time %t ", $time, "tclk, treset: %b %b, tcount: %d",
+                     tclk, treset, tcount);
 
         // Reset the counter:
         treset = 1'b1;
