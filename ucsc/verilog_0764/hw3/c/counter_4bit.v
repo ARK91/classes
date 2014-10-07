@@ -17,11 +17,12 @@ module d_flop(d, clk, q, qbar);
     end
 endmodule
 
-module counter_4bit(clk, reset, count_output);
+module counter_4bit(clk, reset, count);
     input clk, reset;
-    output [3:0] count_output;
+    output [3:0] count;
 
     wire [3:0] d_in;
+    wire [3:0] d_in_and_not_reset;
     wire [3:0] count;
     wire [3:0] count_qbar;
     wire d2_d1bar;
@@ -33,10 +34,10 @@ module counter_4bit(clk, reset, count_output);
     wire d3bar_d2_d1_d0;
     wire not_reset;
 
-    d_flop d0(count_qbar[0], clk, count[0], count_qbar[0]);
-    d_flop d1(d_in[1],       clk, count[1], count_qbar[1]);
-    d_flop d2(d_in[2],       clk, count[2], count_qbar[2]);
-    d_flop d3(d_in[3],       clk, count[3], count_qbar[3]);
+    d_flop d0(d_in_and_not_reset[0], clk, count[0], count_qbar[0]);
+    d_flop d1(d_in_and_not_reset[1], clk, count[1], count_qbar[1]);
+    d_flop d2(d_in_and_not_reset[2], clk, count[2], count_qbar[2]);
+    d_flop d3(d_in_and_not_reset[3], clk, count[3], count_qbar[3]);
 
     xor bit1_next(d_in[1], count[0], count[1]);
 
@@ -52,10 +53,10 @@ module counter_4bit(clk, reset, count_output);
     or bit3_or1(d_in[3], d3_d2bar, d3_d1bar, d3_d0bar, d3bar_d2_d1_d0);
 
     not reset_inv(not_reset, reset);
-    and f0(count_output[0], not_reset, count[0]);
-    and f1(count_output[1], not_reset, count[1]);
-    and f2(count_output[2], not_reset, count[2]);
-    and f3(count_output[3], not_reset, count[3]);
+    and f0(d_in_and_not_reset[0], not_reset, count_qbar[0]);
+    and f1(d_in_and_not_reset[1], not_reset, d_in[1]);
+    and f2(d_in_and_not_reset[2], not_reset, d_in[2]);
+    and f3(d_in_and_not_reset[3], not_reset, d_in[3]);
 endmodule
 
 
