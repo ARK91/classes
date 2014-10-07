@@ -14,22 +14,27 @@
 `timescale 1ns/1ns
 module counter_4bit_tb;
     reg tclk, treset;
-    wire [3:0] td;
-    reg [3:0] vec;
+    wire [3:0] tcount;
 
-    counter_4bit DUT(tclk, treset, td);
+    counter_4bit DUT(tclk, treset, tcount);
 
     initial
     begin
+        #1 $monitor ("time %t ", $time, "tclk, treset: %b %b, tcount: %b%b%b%b",
+                     tclk, treset,
+                     tcount[3],
+                     tcount[2],
+                     tcount[1],
+                     tcount[0]
+                     );
+
         // Reset the counter:
         treset = 1'b1;
         tclk = 0'b0;
 
-        // Begin counting:
-        #1 treset = 1'b0;
+        // Allow counting to run with the clock:
+        #10 treset = 1'b0;
 
-        #1 $monitor ("time %t ", $time, "tclk, treset, td: %b %b %h",
-                  tclk, treset, td);
     end
 
     // Start up a clock:

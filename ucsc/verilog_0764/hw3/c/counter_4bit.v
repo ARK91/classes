@@ -8,6 +8,7 @@ module d_flop(d, clk, q, qbar);
     output q, qbar;
 
     reg q, qbar;
+    wire d, clk;
 
     always @(posedge clk)
     begin
@@ -16,42 +17,45 @@ module d_flop(d, clk, q, qbar);
     end
 endmodule
 
-module counter_4bit(clk, reset, d);
+module counter_4bit(clk, reset, count_output);
     input clk, reset;
-    output d;
+    output [3:0] count_output;
 
-    wire clk, reset;
-    reg [3:0] d;
+    wire [3:0] d_in;
+    wire [3:0] count;
+    wire [3:0] count_qbar;
+    wire d2_d1bar;
+    wire d2_d0bar;
+    wire d2bar_d1_d0;
+    wire d3_d2bar;
+    wire d3_d1bar;
+    wire d3_d0bar;
+    wire d3bar_d2_d1_d0;
+    wire not_reset;
 
-    reg [3:0] priv_d;
-    reg [3:0] priv_q;
-    reg [3:0] priv_qbar;
-    reg priv_clk;
+    d_flop d0(count_qbar[0], clk, count[0], count_qbar[0]);
+    d_flop d1(d_in[1],       clk, count[1], count_qbar[1]);
+    d_flop d2(d_in[2],       clk, count[2], count_qbar[2]);
+    d_flop d3(d_in[3],       clk, count[3], count_qbar[3]);
 
-    d_flop ff1(priv_d[0:0], priv_clk, priv_q[0:0], priv_qbar[0:0]);
-    d_flop ff2(priv_d[1:1], priv_clk, priv_q[1:1], priv_qbar[1:1]);
-    d_flop ff3(priv_d[2:2], priv_clk, priv_q[2:2], priv_qbar[2:2]);
-    d_flop ff4(priv_d[3:3], priv_clk, priv_q[3:3], priv_qbar[3:3]);
+    xor bit1_next(d_in[1], count[0], count[1]);
 
-    always @(posedge clk or reset)
-    begin
-        if (reset == 1)
-        begin
-            // asynch reset, no need to clock it in:
-            priv_d = 0;
+    and bit2_and0(d2_d1bar, count[2], count_qbar[1]);
+    and bit2_and1(d2_d0bar, count[2], count_qbar[0]);
+    and bit2_and2(d2bar_d1_d0, count_qbar[2], count[1], count[0]);
+    or  bit2_or1(d_in[2], d2_d1bar, d2_d0bar, d2bar_d1_d0);
 
-            // hold the clock low during reset:
-            priv_clk = 1'b0;
-        end
-        else
-        begin
-            priv_d = priv_d + 4'h1;
-            // clock in a new value:
-            priv_clk = 1'b1;
-            #5 priv_clk = 1'b0;
-        end
-    end
+    and bit3_and0(d3_d2bar, count[3], count_qbar[2]);
+    and bit3_and1(d3_d1bar, count[3], count_qbar[1]);
+    and bit3_and2(d3_d0bar, count[3], count_qbar[0]);
+    and bit3_and4(d3bar_d2_d1_d0, count_qbar[3], count[2], count[1], count[0]);
+    or bit3_or1(d_in[3], d3_d2bar, d3_d1bar, d3_d0bar, d3bar_d2_d1_d0);
 
+    not reset_inv(not_reset, reset);
+    and f0(count_output[0], not_reset, count[0]);
+    and f1(count_output[1], not_reset, count[1]);
+    and f2(count_output[2], not_reset, count[2]);
+    and f3(count_output[3], not_reset, count[3]);
 endmodule
 
 

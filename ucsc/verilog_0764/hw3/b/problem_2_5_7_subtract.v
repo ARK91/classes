@@ -6,7 +6,7 @@ module problem_2_5_7_subtract_dataflow(m, n, bin, d, bout);
     input m, n, bin;
     output d, bout;
 
-    reg m, n, bin;
+    wire m, n, bin;
     reg d, bout;
 
     assign d = (!bin & !m &  n) |
