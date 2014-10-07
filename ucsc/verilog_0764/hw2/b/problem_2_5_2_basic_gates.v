@@ -16,10 +16,10 @@ module problem_2_5_2_basic_gates_bdd(a, b, f0, f1, f2, f3, f4, f5);
 
     and  func1(f0, a, b);
     or   func2(f1, a, b);
-    xor  func2(f2, a, b);
-    nand func2(f3, a, b);
-    nor  func2(f4, a, b);
-    xnor func2(f5, a, b);
+    xor  func3(f2, a, b);
+    nand func4(f3, a, b);
+    nor  func5(f4, a, b);
+    xnor func6(f5, a, b);
 
 endmodule
 
