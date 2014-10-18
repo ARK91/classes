@@ -15,8 +15,8 @@ module cal(year, month, day, dayOfWeek, errorFlag);
     parameter MONTH_TABLE_DEPTH = 14;     // A-N
     parameter MONTH_TABLE_WIDTH = 12 * 4; // 12 months, 4 bits per entry
 
-    parameter DAY_TABLE_DEPTH = 31;     // 31 days max in a month
-    parameter DAY_TABLE_WIDTH = 7 * 5;  // 7 days per week, 5 bits per entry
+    parameter DAY_TABLE_DEPTH = 7;       // One row for each "calendar"
+    parameter DAY_TABLE_WIDTH = 37 * 8;  // 37 entries, 8 bits per entry
 
     // Encoding: lower 4 bits: key, upper 20 bits: year:
     reg [YEAR_TABLE_WIDTH - 1:0] yearEntry;
@@ -50,7 +50,7 @@ module cal(year, month, day, dayOfWeek, errorFlag);
             $display("year: %d, dayKey: %h\n", yearEntry[19:4], dayKey);
 
             dayEntry = dayTable[dayKey];
-            dayOfWeek = dayEntry[3:0];
+            dayOfWeek = dayEntry[day:day];
 
         end
 
