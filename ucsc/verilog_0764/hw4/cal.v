@@ -45,7 +45,6 @@ module cal(year, month, day, dayOfWeek, errorFlag);
         else
         begin
             errorFlag = 0;
-            dayOfWeek = 30000; // TODO: implement
 
             yearEntry = yearTable[year - 1755];
             // Subtract one, because the zero-th entry is for month 1:
@@ -59,9 +58,9 @@ module cal(year, month, day, dayOfWeek, errorFlag);
             dayEntry = dayTable[dayKey] - 1;
             dayOfWeek = (dayEntry >> ((day - 1) * 8)) & 8'hFF;
 
-            $display("CAL: year: %d, key: %h\n", yearEntry[19:4], monthKey);
-            $display("CAL: year: %d, dayKey: %h\n", yearEntry[19:4], dayKey);
-            $display("CAL: year: %d, dayEntry: %h\n", yearEntry[19:4], dayEntry);
+            // $display("CAL: year: %d, key: %h\n", yearEntry[19:4], monthKey);
+            // $display("CAL: year: %d, dayKey: %h\n", yearEntry[19:4], dayKey);
+            // $display("CAL: year: %d, dayEntry: %h\n", yearEntry[19:4], dayEntry);
         end
 
     end

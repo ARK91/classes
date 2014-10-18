@@ -163,3 +163,40 @@ module cal_tb;
 
     end
 endmodule
+
+/* Sample test run:
+
+vlog ../*.v -sv
+# Model Technology ModelSim ALTERA vlog 10.1e Compiler 2013.06 Jun 12 2013
+# -- Compiling module cal
+# -- Compiling module cal_tb
+#
+# Top level modules:
+#       cal_tb
+vsim work.cal_tb
+# vsim work.cal_tb
+# Loading sv_std.std
+# Loading work.cal_tb
+# Loading work.cal
+run 200 ns
+#        1200/          1/         15: PASS: out of range, as expected.
+#
+#        1840/          1/         15:           4 (0 == Sunday, 1 == Monday, ...)
+#
+# Year        1840: PASS
+#        1950/          4/          7:           5
+#
+# Year        1950: PASS
+#        1980/          3/         29:           6
+#
+# Year        1980: PASS
+#        2000/          4/          9:           0
+#
+# Year        2000: PASS
+#        2014/          5/         19:           1
+#
+# Year        2014: PASS
+
+
+
+*/
