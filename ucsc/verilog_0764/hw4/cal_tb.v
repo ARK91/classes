@@ -12,7 +12,7 @@
 //    Dates selected: (year/month/day):
 //
 //    1840/01/15: Wednesday (leap year)
-//    1950/02/07: Tuesday
+//    1950/04/07: Friday
 //    1980/03/29: Saturday
 //    2000/04/09: Sunday  (leap year)
 //    2014/05/19: Monday
@@ -26,14 +26,15 @@
 //    19 20 21 22 23 24 25
 //    26 27 28 29 30 31
 //
-//    <sandstorm> hw4 (master)$ cal 2 1950
-//      February 1950
+//    <sandstorm> hw4 (master)$ cal 4 1950
+//       April 1950
 //    Su Mo Tu We Th Fr Sa
-//            1  2  3  4
-//     5  6  7  8  9 10 11
-//    12 13 14 15 16 17 18
-//    19 20 21 22 23 24 25
-//    26 27 28
+//                     1
+//     2  3  4  5  6  7  8
+//     9 10 11 12 13 14 15
+//    16 17 18 19 20 21 22
+//    23 24 25 26 27 28 29
+//    30
 //
 //    <sandstorm> hw4 (master)$ cal 3 1980
 //       March 1980
@@ -67,7 +68,6 @@
 module cal_tb;
     parameter DEPTH = 279; // 2033 - 1755 + 1
     parameter WIDTH = 20;
-    integer year;
     reg [WIDTH - 1:0] entry;
     reg [WIDTH - 1:0] yearTable[DEPTH - 1:0];
     integer yeartb, monthtb, daytb, dayOfWeektb, errorFlagtb;
@@ -78,51 +78,85 @@ module cal_tb;
     begin
         #10 yeartb = 1200; monthtb = 01; daytb = 15; // Should set error flag
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            #10 $display("Year %d: FAIL", yeartb);
         else
-            #10 $display("%d/%d/%d: ERROR: out of range\n",
+            #10 $display("%d/%d/%d: PASS: out of range, as expected.\n",
                      yeartb, monthtb, daytb);
 
         // Yes, I will be relieved when we get to "subroutines". Copy and paste
         // like a mad monkey until then:
 
-        #10 yeartb = 1840; monthtb = 01; daytb = 15; // Wednesday
+        #10 yeartb = 1840; monthtb = 01; daytb = 15; // Wednesday (day 4)
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            begin
+                #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
+                         yeartb, monthtb, daytb, dayOfWeektb);
+
+                if (dayOfWeektb == 4)
+                    $display("Year %d: PASS", yeartb);
+                else
+                    $display("Year %d: FAIL", yeartb);
+            end
         else
             #10 $display("%d/%d/%d: ERROR: out of range\n",
                      yeartb, monthtb, daytb);
 
-        #10 yeartb = 1950; monthtb = 02; daytb = 07; // Tuesday
+        #10 yeartb = 1950; monthtb = 04; daytb = 07; // Friday (day 5)
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            begin
+                #10 $display("%d/%d/%d: %d\n",
+                         yeartb, monthtb, daytb, dayOfWeektb);
+
+                if (dayOfWeektb == 5)
+                    $display("Year %d: PASS", yeartb);
+                else
+                    $display("Year %d: FAIL", yeartb);
+            end
         else
             #10 $display("%d/%d/%d: ERROR: out of range\n",
                      yeartb, monthtb, daytb);
 
-        #10 yeartb = 1980; monthtb = 03; daytb = 29; // Saturday
+        #10 yeartb = 1980; monthtb = 03; daytb = 29; // Saturday (day 6)
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            begin
+                #10 $display("%d/%d/%d: %d\n",
+                         yeartb, monthtb, daytb, dayOfWeektb);
+
+                if (dayOfWeektb == 6)
+                    $display("Year %d: PASS", yeartb);
+                else
+                    $display("Year %d: FAIL", yeartb);
+            end
         else
             #10 $display("%d/%d/%d: ERROR: out of range\n",
                      yeartb, monthtb, daytb);
 
-        #10 yeartb = 2000; monthtb = 04; daytb = 09; // Sunday
+        #10 yeartb = 2000; monthtb = 04; daytb = 09; // Sunday (day 0)
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            begin
+                #10 $display("%d/%d/%d: %d\n",
+                         yeartb, monthtb, daytb, dayOfWeektb);
+
+                if (dayOfWeektb == 0)
+                    $display("Year %d: PASS", yeartb);
+                else
+                    $display("Year %d: FAIL", yeartb);
+            end
         else
             #10 $display("%d/%d/%d: ERROR: out of range\n",
                      yeartb, monthtb, daytb);
 
-        #10 yeartb = 2014; monthtb = 05; daytb = 19; // Monday
+        #10 yeartb = 2014; monthtb = 05; daytb = 19; // Monday (day 1)
         #10 if (!errorFlagtb)
-            #10 $display("%d/%d/%d: %d (0 == Sunday, 1 == Monday, ...)\n",
-                     yeartb, monthtb, daytb, dayOfWeektb);
+            begin
+                #10 $display("%d/%d/%d: %d\n",
+                         yeartb, monthtb, daytb, dayOfWeektb);
+
+                if (dayOfWeektb == 1)
+                    $display("Year %d: PASS", yeartb);
+                else
+                    $display("Year %d: FAIL", yeartb);
+            end
         else
             #10 $display("%d/%d/%d: ERROR: out of range\n",
                      yeartb, monthtb, daytb);

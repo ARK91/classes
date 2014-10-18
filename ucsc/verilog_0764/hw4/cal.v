@@ -7,7 +7,7 @@ module cal(year, month, day, dayOfWeek, errorFlag);
     input year, month, day;
     output dayOfWeek, errorFlag;
     integer year, month, day, dayOfWeek, errorFlag;
-    integer monthKey;
+    integer monthKey, dayKey;
 
     parameter YEAR_TABLE_DEPTH = 279; // 2033 - 1755 + 1
     parameter YEAR_TABLE_WIDTH = 20;  // 16 bits for year, 4 bits for key
@@ -21,6 +21,12 @@ module cal(year, month, day, dayOfWeek, errorFlag);
     // Encoding: lower 4 bits: key, upper 20 bits: year:
     reg [YEAR_TABLE_WIDTH - 1:0] yearEntry;
     reg [YEAR_TABLE_WIDTH - 1:0] yearTable[YEAR_TABLE_DEPTH - 1:0];
+
+    reg [MONTH_TABLE_WIDTH - 1:0] monthEntry;
+    reg [MONTH_TABLE_WIDTH - 1:0] monthTable[MONTH_TABLE_DEPTH - 1:0];
+
+    reg [DAY_TABLE_WIDTH - 1:0] dayEntry;
+    reg [DAY_TABLE_WIDTH - 1:0] dayTable[DAY_TABLE_DEPTH - 1:0];
 
     // Not synthesizable, but allowed for this assignment:
     initial
@@ -42,16 +48,20 @@ module cal(year, month, day, dayOfWeek, errorFlag);
             dayOfWeek = 30000; // TODO: implement
 
             yearEntry = yearTable[year - 1755];
-            monthKey = yearEntry[3:0];
-            //$display("year: %d, key: %h\n", yearEntry[19:4], monthKey);
+            // Subtract one, because the zero-th entry is for month 1:
+            monthKey = yearEntry[3:0] - 1;
 
             monthEntry = monthTable[monthKey];
-            dayKey = monthEntry[month:month];
-            $display("year: %d, dayKey: %h\n", yearEntry[19:4], dayKey);
+            // Subtract one, to make month zero-based:
+            dayKey = ((monthEntry >> ((month-1)*4)) & 4'hF);
 
-            dayEntry = dayTable[dayKey];
-            dayOfWeek = dayEntry[day:day];
+            // Subtract 1 again, to get to a zero-based row index:
+            dayEntry = dayTable[dayKey] - 1;
+            dayOfWeek = (dayEntry >> ((day - 1) * 8)) & 8'hFF;
 
+            $display("CAL: year: %d, key: %h\n", yearEntry[19:4], monthKey);
+            $display("CAL: year: %d, dayKey: %h\n", yearEntry[19:4], dayKey);
+            $display("CAL: year: %d, dayEntry: %h\n", yearEntry[19:4], dayEntry);
         end
 
     end
