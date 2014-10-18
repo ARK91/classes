@@ -16,17 +16,19 @@ module cal_tb;
     parameter DEPTH = 279; // 2033 - 1755 + 1
     parameter WIDTH = 20;
     integer year;
-
+    reg [WIDTH - 1:0] entry;
     reg [WIDTH - 1:0] yearTable[DEPTH - 1:0];
 
     initial
     begin
-        readmemh("year_table_transformed.txt", yearTable);
+        $readmemh("../year_table_transformed.txt", yearTable);
         #10 $display("year_table_transformed.txt:\n");
 
         for (year = 0; year < DEPTH; year++)
         begin
-           // $display("year: %d, key: %h\n", yearTable[
+            entry = yearTable[year];
+            $display("year: %d, key: %h\n",
+                     entry[19:4], entry[3:0]);
         end
 
     end
