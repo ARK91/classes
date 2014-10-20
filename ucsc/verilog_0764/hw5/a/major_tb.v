@@ -7,7 +7,7 @@
 // vlib work
 // vlog -sv ../major.v ../major_tb.v
 // vsim work.major_tb
-// run 100 ns
+// run 400 ns
 //
 
 `timescale 1ns/1ns
@@ -28,7 +28,7 @@ module major_tb;
     always @(*)
     begin
         if (ftb ^ reftb)
-            $display("FAILURE:                   a: %b%b%b%b%b, f: %b, reftb: %b",
+            $display("FAILURE:                 a: %b%b%b%b%b, f: %b, reftb: %b",
                  atb[4], atb[3], atb[2], atb[1], atb[0], ftb, reftb);
     end
 

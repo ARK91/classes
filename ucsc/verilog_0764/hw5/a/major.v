@@ -16,25 +16,25 @@ module major(a, f);
     not notA1(na1, a[1]);
     not notA0(na0, a[0]);
 
-    and X0(x0,    na4,  na3,     a[2],    a[1],   a[0]);   // 00111
-    and X1(x1,    na4,   a[3],  na2,      a[1],   a[0]);   // 01011
-    and X2(x2,    na4,   a[3],   a[2],   na1,     a[0]);   // 01101
-    and X3(x3,    na4,   a[3],   a[2],    a[1],  na0);     // 01110
+    and X0(x0,    na4,  na3,     a[2],    a[1],   a[0]);     // 00111
+    and X1(x1,    na4,   a[3],  na2,      a[1],   a[0]);     // 01011
+    and X2(x2,    na4,   a[3],   a[2],   na1,     a[0]);     // 01101
+    and X3(x3,    na4,   a[3],   a[2],    a[1],  na0);       // 01110
 
-    and X4(x4,    na4, a[3],  a[2],      a[1],      a[0]); // 01111
+    and X4(x4,    na4, a[3],  a[2],      a[1],      a[0]);   // 01111
     and X5(x5,    a[4], na3,   na2,        a[1],      a[0]); // 10011
     and X6(x6,    a[4], na3,    a[2],     na1,        a[0]); // 10101
     and X7(x7,    a[4], na3,    a[2],      a[1],     na0);   // 10110
 
     and X8(x8,    a[4], na3,   a[2],     a[1],      a[0]);   // 10111
-    and X9(x9,    a[4], a[3],   na2,      na1,      a[0]);     // 11001
-    and Xa(xa,    a[4], a[3],   na2,       a[1],     na0);     // 11010
-    and Xb(xb,    a[4], a[3],   na2,       a[1],      a[0]);   // 11011
+    and X9(x9,    a[4], a[3],   na2,      na1,      a[0]);   // 11001
+    and Xa(xa,    a[4], a[3],   na2,       a[1],     na0);   // 11010
+    and Xb(xb,    a[4], a[3],   na2,       a[1],      a[0]); // 11011
 
-    and Xc(xc,    a[4], a[3],   a[2],     na1,     na0);       // 11100
-    and Xd(xd,    a[4], a[3],   a[2],     na1,      a[0]);     // 11101
-    and Xe(xe,    a[4], a[3],   a[2],      a[1],   na0);       // 11110
-    and Xf(xf,    a[4], a[3],   a[2],      a[1],    a[0]);     // 11111
+    and Xc(xc,    a[4], a[3],   a[2],     na1,     na0);     // 11100
+    and Xd(xd,    a[4], a[3],   a[2],     na1,      a[0]);   // 11101
+    and Xe(xe,    a[4], a[3],   a[2],      a[1],   na0);     // 11110
+    and Xf(xf,    a[4], a[3],   a[2],      a[1],    a[0]);   // 11111
 
     or f0(f, x0, x1, x2, x3, x4, x5, x6, x7,
              x8, x9, xa, xb, xc, xd, xe, xf);
