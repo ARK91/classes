@@ -12,23 +12,32 @@
 
 `timescale 1ns/1ns
 module major_tb;
-    reg a4tb, a3tb, a2tb, a1tb, a0tb;
-    wire ftb;
+    reg [4:0]atb;
+    wire ftb, reftb;
     integer count;
 
-    major DUT(a4tb, a3tb, a2tb, a1tb, a0tb, ftb);
+    major DUT(atb, ftb);
+    major_reference DUT_REFERENCE(atb, reftb);
 
     initial
     begin
-        $monitor("Time %t, a4tb:a4tb:a4tb:a4tb:a4tb: f ::: ",
-                 $time, a4tb, a3tb, a2tb, a1tb, a0tb, ftb);
+        $monitor("Time %t, a: %b%b%b%b%b, f: %b, reftb: %b",
+                 $time, atb[4], atb[3], atb[2], atb[1], atb[0], ftb, reftb);
+    end
+
+    always @(*)
+    begin
+        if (ftb ^ reftb)
+            $display("FAILURE:                   a: %b%b%b%b%b, f: %b, reftb: %b",
+                 atb[4], atb[3], atb[2], atb[1], atb[0], ftb, reftb);
     end
 
     initial
     begin
         for (count = 0; count < 32; count++)
         begin
-            #10 (a4tb, a3tb, a2tb, a1tb, a0tb) = count;
+            {atb} = count;
+            #10;
         end
     end
 endmodule
