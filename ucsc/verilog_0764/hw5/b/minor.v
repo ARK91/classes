@@ -1,9 +1,23 @@
-// File: major.v
-// John Hubbard, 18 Oct 2014
-// hw5a assignment for Verilog 0764 class: Problem 4.4.1: Majority Circuit
+// File: minor.v
+// John Hubbard, 19 Oct 2014
+// hw5a assignment for Verilog 0764 class: Problem 4.4.1: Minority Circuit
 //
 
 // Structural Verilog version, as required by the problem statement:
+
+module minor(a, f);
+    input [4:0] a;
+    output f;
+
+    wire x0;
+
+    // Minority circuit with an odd number of inputs is the precise opposite of
+    // a majority circuit:
+
+    major maj(a, x0);
+    not f0(f, x0);
+endmodule
+
 module major(a, f);
     input [4:0] a;
     output f;
@@ -44,11 +58,14 @@ endmodule
 
 // Dataflow version of the same logic. This provides a reference, which the
 // testbench uses to compare against:
-module major_reference(a, f);
+module minor_reference(a, f);
     input [4:0] a;
     output f;
 
-    assign f =
+    // Just negate the majority circuit logic, which was already tested in
+    // the previous problem assignment:
+
+    assign f = !(
       (  !a[4] & !a[3] & a[2] & a[1] & a[0]  )  |   // 00111
       (  !a[4] & a[3] & !a[2] & a[1] & a[0]  )  |   // 01011
       (  !a[4] & a[3] & a[2] & !a[1] & a[0]  )  |   // 01101
@@ -67,6 +84,6 @@ module major_reference(a, f);
       (  a[4] & a[3] & a[2] & !a[1] & !a[0]  )  |   // 11100
       (  a[4] & a[3] & a[2] & !a[1] & a[0]   )  |   // 11101
       (  a[4] & a[3] & a[2] & a[1] & !a[0]   )  |   // 11110
-      (  a[4] & a[3] & a[2] & a[1] & a[0]);         // 11111
+      (  a[4] & a[3] & a[2] & a[1] & a[0]));         // 11111
 
 endmodule
