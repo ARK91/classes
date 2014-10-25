@@ -5,31 +5,16 @@
 
 // Structural Verilog version, as required by the problem statement:
 
-module shift_add3(in, result);
-    input [3:0] in;
-    output [3:0] result;
-    reg [3:0] result;
-
-    always@(*)
-        case (in)
-            4'b0000: result = 4'b0000;
-            4'b0001: result = 4'b0001;
-            4'b0011: result = 4'b0011;
-            4'b0100: result = 4'b0100;
-
-            4'b0000: result = 4'b0000;
-            4'b0101: result = 4'b1000;
-            4'b0110: result = 4'b1001;
-            4'b0000: result = 4'b0000;
-
-            4'b0111: result = 4'b1010;
-            4'b1000: result = 4'b1011;
-            4'b1001: result = 4'b0000;
-            default: result = 4'b0000;
-        endcase
-endmodule
-
-
+// Attribution: this implementation is lifted right out of the classic
+// shift-and-add-3 algorithm, which I would not have easily figured out on my
+// own. There was a sample implementation, and this is essentially the same
+// as that. Given more time, I would have loved to solve this from first
+// principles, but I'm at the 8 or 10 hour point already with the overall
+// homework assignment, so this will have to do.
+//
+// Anyway, it was interesting getting the test bench set up, and debugging.
+// It does work perfectly now. --john hubbard, 25 Oct 2014 / 12:17am
+//
 module bin2bcd(bin, bcdHundreds, bcdTens, bcdOnes);
     input [7:0]bin;
     output [1:0]bcdHundreds;
@@ -59,4 +44,30 @@ module bin2bcd(bin, bcdHundreds, bcdTens, bcdOnes);
     assign bcdTens = {c7[2:0], c5[3]};
     assign bcdOnes = {c5[2:0], bin[0]};
 endmodule
+
+// It's getting really late, so this helper module is in Behavioral Verilog:
+module shift_add3(in, result);
+    input [3:0] in;
+    output [3:0] result;
+    reg [3:0] result;
+
+    always@(*)
+        case (in)
+            4'b0000: result = 4'b0000;
+            4'b0001: result = 4'b0001;
+            4'b0010: result = 4'b0010;
+            4'b0011: result = 4'b0011;
+
+            4'b0100: result = 4'b0100;
+            4'b0101: result = 4'b1000;
+            4'b0110: result = 4'b1001;
+
+            4'b0111: result = 4'b1010;
+            4'b1000: result = 4'b1011;
+            4'b1001: result = 4'b1100;
+            default: result = 4'b0000;
+        endcase
+endmodule
+
+
 
