@@ -15,7 +15,7 @@
 module gray2bin_tb;
     reg [3:0]gray_tb;
     wire [3:0]bin_tb;
-    integer count, bev;
+    integer count;
 
     gray2bin DUT(gray_tb, bin_tb);
 
