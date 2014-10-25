@@ -31,35 +31,32 @@ endmodule
 
 
 module bin2bcd(bin, bcdHundreds, bcdTens, bcdOnes);
-    input [3:0]bin;
-    output [3:0]bcdHundreds;
+    input [7:0]bin;
+    output [1:0]bcdHundreds;
     output [3:0]bcdTens;
     output [3:0]bcdOnes;
 
-    wire x0, x1, x2, x3, x4, x5;
-    wire [3:0]not_bin;
+    wire [3:0] c1, c2, c3, c4, c5, c6, c7;
+    wire [3:0] d1, d2, d3, d4, d5, d6, d7;
 
-    not i0(not_bin[0], bin[0]);
-    not i1(not_bin[1], bin[1]);
-    not i2(not_bin[2], bin[2]);
-    not i3(not_bin[3], bin[3]);
+    assign d1 = {1'b0, bin[7:5]};
+    assign d2 = {c1[2:0], bin[4]};
+    assign d3 = {c2[2:0], bin[3]};
+    assign d4 = {c3[2:0], bin[2]};
+    assign d5 = {c4[2:0], bin[1]};
+    assign d6 = {1'b0, c1[3], c2[3], c3[3]};
+    assign d7 = {c6[2:0], c4[3]};
 
-    // bit 0:
-    and a0(x0,   bin[0], not_bin[1]);
-    and a1(x1,   not_bin[0], bin[1]);
-    or g0(bcdOnes[0], x0, x1);
+    shift_add3 m1(d1, c1);
+    shift_add3 m2(d2, c2);
+    shift_add3 m3(d3, c3);
+    shift_add3 m4(d4, c4);
+    shift_add3 m5(d5, c5);
+    shift_add3 m6(d6, c6);
+    shift_add3 m7(d7, c7);
 
-    // bit 1:
-    and a2(x2,   bin[1], not_bin[2]);
-    and a3(x3,   not_bin[1], bin[2]);
-    or g1(bcdOnes[1], x2, x3);
-
-    // bit 2:
-    and a4(x4,   bin[2], not_bin[3]);
-    and a5(x5,   not_bin[2], bin[3]);
-    or g2(bcdOnes[2], x4, x5);
-
-    // bit 3:
-    buf g3(bcdOnes[3], bin[3]);
+    assign bcdHundreds = {c6[3], c7[3]};
+    assign bcdTens = {c7[2:0], c5[3]};
+    assign bcdOnes = {c5[2:0], bin[0]};
 endmodule
 

@@ -12,8 +12,8 @@
 
 `timescale 1ns/1ns
 module bin2bcd_tb;
-    reg [3:0]bin_tb;
-    wire [3:0]bcdHundreds_tb;
+    reg [7:0]bin_tb;
+    wire [1:0]bcdHundreds_tb;
     wire [3:0]bcdTens_tb;
     wire [3:0]bcdOnes_tb;
     integer count;
@@ -23,17 +23,17 @@ module bin2bcd_tb;
     // This block prints whenever the inputs or outputs change:
     initial
     begin
-        $monitor("Time %t: bin: %b%b%b%b bcd: %h %h %h ",
-                 $time, bin_tb[3], bin_tb[2], bin_tb[1], bin_tb[0],
+        $monitor("Time %t: bin: %h bcd: %h %h %h ",
+                 $time, bin_tb,
                  bcdHundreds_tb, bcdTens_tb, bcdOnes_tb);
     end
 
     // Test pattern: exhaustive inputs:
     initial
     begin
-        for (count = 0; count < 16; count++)
+        for (count = 0; count < 256; count++)
         begin
-            {bin_tb} = count[3:0];
+            {bin_tb} = count[7:0];
             #10;
         end
     end
