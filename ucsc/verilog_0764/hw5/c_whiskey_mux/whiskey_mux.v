@@ -6,7 +6,8 @@
 // Structural Verilog version, as required by the problem statement:
 
 module whiskey_mux(select, beer, wine, rum, whiskey, f);
-    input [1:0]select, beer, wine, rum, whiskey;
+    input [1:0]select;
+    input beer, wine, rum, whiskey;
     output f;
 
     wire x0, x1, x2, x3;
