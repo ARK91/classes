@@ -1,6 +1,7 @@
 // File: bin2gray.v
 // John Hubbard, 24 Oct 2014
-// hw5 assignment for Verilog 0764 class: Problem 4.4.3: Liquid dispenser MUX
+// hw5 assignment for Verilog 0764 class: Problem 4.4.5: Binary to Gray code
+// converter.
 //
 
 // Structural Verilog version, as required by the problem statement:
@@ -9,7 +10,7 @@ module bin2gray(bin, gray);
     input [3:0]bin;
     output [3:0]gray;
 
-    wire [5:0]x;
+    wire x0, x1, x2, x3, x4, x5;
     wire [3:0]not_bin;
 
     not i0(not_bin[0], bin[0]);

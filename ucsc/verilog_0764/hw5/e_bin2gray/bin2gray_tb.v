@@ -39,4 +39,33 @@ module bin2gray_tb;
 endmodule
 
 /* Sample test run:
+vlog ../*.v -sv
+# Model Technology ModelSim ALTERA vlog 10.1e Compiler 2013.06 Jun 12 2013
+# -- Compiling module bin2gray
+# -- Compiling module bin2gray_tb
+#
+# Top level modules:
+#   bin2gray_tb
+vsim work.bin2gray_tb
+# vsim work.bin2gray_tb
+# Loading sv_std.std
+# Loading work.bin2gray_tb
+# Loading work.bin2gray
+run 300 ns
+# Time                    0: bin: 0000 gray: 0000
+# Time                   10: bin: 0001 gray: 0001
+# Time                   20: bin: 0010 gray: 0011
+# Time                   30: bin: 0011 gray: 0010
+# Time                   40: bin: 0100 gray: 0110
+# Time                   50: bin: 0101 gray: 0111
+# Time                   60: bin: 0110 gray: 0101
+# Time                   70: bin: 0111 gray: 0100
+# Time                   80: bin: 1000 gray: 1100
+# Time                   90: bin: 1001 gray: 1101
+# Time                  100: bin: 1010 gray: 1111
+# Time                  110: bin: 1011 gray: 1110
+# Time                  120: bin: 1100 gray: 1010
+# Time                  130: bin: 1101 gray: 1011
+# Time                  140: bin: 1110 gray: 1001
+# Time                  150: bin: 1111 gray: 1000
 */
