@@ -23,7 +23,8 @@ module gray2bin_tb;
     initial
     begin
         $monitor("Time %t: gray: %b%b%b%b bin: %b%b%b%b",
-                 gray_tb[3:0], bin_tb[3:0]);
+                 $time, gray_tb[3], gray_tb[2], gray_tb[1], gray_tb[0],
+                 bin_tb[3], bin_tb[2], bin_tb[1], bin_tb[0]);
     end
 
     // Test pattern: exhaustive inputs:
@@ -38,4 +39,34 @@ module gray2bin_tb;
 endmodule
 
 /* Sample test run:
+vlog ../*.v -sv
+# Model Technology ModelSim ALTERA vlog 10.1e Compiler 2013.06 Jun 12 2013
+# -- Compiling module gray2bin
+# -- Compiling module gray2bin_tb
+#
+# Top level modules:
+#   gray2bin_tb
+vsim work.gray2bin_tb
+# vsim work.gray2bin_tb
+# Loading sv_std.std
+# Loading work.gray2bin_tb
+# Loading work.gray2bin
+run 400 ns
+# Time                    0: gray: 0000 bin: 0000
+# Time                   10: gray: 0001 bin: 0001
+# Time                   20: gray: 0010 bin: 0011
+# Time                   30: gray: 0011 bin: 0010
+# Time                   40: gray: 0100 bin: 0111
+# Time                   50: gray: 0101 bin: 0110
+# Time                   60: gray: 0110 bin: 0100
+# Time                   70: gray: 0111 bin: 0101
+# Time                   80: gray: 1000 bin: 1111
+# Time                   90: gray: 1001 bin: 1110
+# Time                  100: gray: 1010 bin: 1100
+# Time                  110: gray: 1011 bin: 1101
+# Time                  120: gray: 1100 bin: 1000
+# Time                  130: gray: 1101 bin: 1001
+# Time                  140: gray: 1110 bin: 1011
+# Time                  150: gray: 1111 bin: 1010
+
 */

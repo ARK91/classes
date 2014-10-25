@@ -19,7 +19,16 @@ module gray2bin(gray, bin);
     not i3(not_gray[3], gray[3]);
 
     // bit 0:
+    and a0(x0,   not_gray[0], not_gray[1], not_gray[2], gray[3]);
+    and a1(x1,   not_gray[0], not_gray[1], gray[2], not_gray[3]);
+    and a2(x2,   not_gray[0], gray[1], not_gray[2], not_gray[3]);
+    and a3(x3,   not_gray[0], gray[1], gray[2], gray[3]);
 
+    and a4(x4,   gray[0], gray[1], not_gray[2], gray[3]);
+    and a5(x5,   gray[0], gray[1], gray[2], not_gray[3]);
+    and a6(x6,   gray[0], not_gray[1], not_gray[2], not_gray[3]);
+    and a7(x7,   gray[0], not_gray[1], gray[2], gray[3]);
+    or b0(bin[0], x0, x1, x2, x3, x4, x5, x6, x7);
 
     // bit 1:
     and a8(x8,   gray[1], not_gray[2], not_gray[3]);
