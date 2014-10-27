@@ -6,13 +6,16 @@
 `timescale 1ns/1ns
 module coconuts_tb;
     integer coconuts_tb;
-    wire integer man_tb[5];
-    wire integer big_pile_tb[5];
+    integer man_tb[5];
+    integer big_pile_tb[5];
     wire [2:0]monkey_tb;
     wire valid_tb;
     integer total_tb;
 
-    coconut_allocator DUT(coconuts_tb, man_tb, big_pile_tb, monkey_tb, valid_tb);
+    coconut_allocator DUT(coconuts_tb,
+                          man_tb[0], man_tb[1], man_tb[2], man_tb[3], man_tb[4],
+                          big_pile_tb[0], big_pile_tb[1], big_pile_tb[2], big_pile_tb[3], big_pile_tb[4],
+                          monkey_tb, valid_tb);
 
     always @(*)
     begin

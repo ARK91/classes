@@ -3,38 +3,42 @@
 // hw6 assignment for Verilog 0764 class: Problem 6.8.7. Coconut and Monkey Puzzle
 //
 
-module coconut_allocator(coconuts, man, big_pile, monkey, valid);
-    input integer coconuts;
-    output integer man[5];
-    output integer big_pile[5];
+`timescale 1ns/1ns
+module coconut_allocator(coconuts,
+                         man1, man2, man3, man4, man5,
+                         big_pile1, big_pile2, big_pile3, big_pile4, big_pile5,
+                         monkey, valid);
+    input wire  [31:0]coconuts;
+    output wire [31:0] man1, man2, man3, man4, man5;
+    output wire [31:0] big_pile1, big_pile2, big_pile3, big_pile4, big_pile5;
     output wire [2:0]monkey;
     output wire valid;
 
     wire [5:0]preValid;
 
-    assign man[0]      = (coconuts - 1) / 5;
-    assign big_pile[0] = (coconuts - 1) * 4/5;
+    assign man1      = (coconuts - 1) / 5;
+    assign big_pile1 = (coconuts - 1) * 4/5;
     assign preValid[0] = ((coconuts % 5) == 1);
 
-    assign man[1]      = (big_pile[0] - 1) / 5;
-    assign big_pile[1] = (big_pile[0] - 1) * 4/5;
-    assign preValid[1] = ((big_pile[0] % 5) == 1);
+    assign man2      = (big_pile1 - 1) / 5;
+    assign big_pile2= (big_pile1 - 1) * 4/5;
+    assign preValid[1] = ((big_pile1 % 5) == 1);
 
-    assign man[2]      = (big_pile[1] - 1) / 5;
-    assign big_pile[2] = (big_pile[1] - 1) * 4/5;
-    assign preValid[2] = ((big_pile[1] % 5) == 1);
+    assign man3      = (big_pile2- 1) / 5;
+    assign big_pile3= (big_pile2- 1) * 4/5;
+    assign preValid[2] = ((big_pile2% 5) == 1);
 
-    assign man[3]      = (big_pile[2] - 1) / 5;
-    assign big_pile[3] = (big_pile[2] - 1) * 4/5;
-    assign preValid[3] = ((big_pile[2] % 5) == 1);
+    assign man4      = (big_pile3- 1) / 5;
+    assign big_pile4= (big_pile3- 1) * 4/5;
+    assign preValid[3] = ((big_pile3% 5) == 1);
 
-    assign man[4]      = (big_pile[3] - 1) / 5;
-    assign big_pile[4] = (big_pile[3] - 1) * 4/5;
-    assign preValid[4] = ((big_pile[3] % 5) == 1);
+    assign man5      = (big_pile4- 1) / 5;
+    assign big_pile5= (big_pile4- 1) * 4/5;
+    assign preValid[4] = ((big_pile4% 5) == 1);
 
-    assign preValid[5] = ((big_pile[4] % 5) == 1);
+    assign preValid[5] = ((big_pile5% 5) == 1);
 
-    assign valid = &(preValid[5:0]) && (big_pile[4] > 5);
+    assign valid = &(preValid[5:0]) && (big_pile5> 5);
 
     assign monkey = 6;
 
