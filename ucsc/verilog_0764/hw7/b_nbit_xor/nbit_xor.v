@@ -11,7 +11,7 @@ module XOR2(a, b, f);
 endmodule
 
 module nbit_xor_unbalanced(number, result);
-    parameter N = 3; // N must be at least 2
+    parameter N = 4; // N must be at least 2
     input [N-1:0] number;
     output result;
 
@@ -23,7 +23,7 @@ module nbit_xor_unbalanced(number, result);
     genvar i;
     generate
         for (i = 0; i < N - 1; i = i + 1)
-        begin: genOneBit
+        begin: genXorUnbalanced
 
             assign tinyInput[i*2]   = (i == 0 ? number[i] : f[i-1]);
             assign tinyInput[i*2+1] = number[i+1];
