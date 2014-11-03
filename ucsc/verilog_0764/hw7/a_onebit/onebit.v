@@ -13,24 +13,27 @@ module tiny_onebit(a, b, all_ones, f);
 endmodule
 
 module onebit(number, result);
-    parameter N = 2;
+    parameter N = 2; // N must be at least 2
     input [N-1:0] number;
     output result;
 
     wire no_all_one_failures;
-    wire [N-1:0] all_ones;
-    wire [N-1:0] f;
+    wire [N:0] all_ones;
+    wire [N:0] f;
+    wire [N:0] a;
 
-    assign no_all_one_failures = ~|all_ones[N-1:0]; // reduction nor
-    and xResult(result, no_all_one_failures, f[N-1]);
-
-    tiny_onebit ONEBIT(number[0], number[1], all_ones[0], f[0]);
+    assign no_all_one_failures = ~|all_ones[N-2:0]; // reduction nor
+    and xResult(result, no_all_one_failures, f[N-2]);
 
     genvar i;
     generate
-        for (i = 1; i < N; i = i + 1)
+        for (i = 0; i < N - 1; i = i + 1)
         begin: genOneBit
-            tiny_onebit genOneBit(f[i-1], number[i+1], all_ones[i], f[i]);
+
+            assign a[i]   = (i == 0 ? number[i] : f[i-1]);
+            assign a[i+1] = number[i+1];
+
+            tiny_onebit genOneBit(a[i], a[i+1], all_ones[i], f[i]);
         end
     endgenerate
 

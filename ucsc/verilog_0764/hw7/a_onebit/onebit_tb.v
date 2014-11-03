@@ -5,7 +5,7 @@
 
 `timescale 1ns/1ns
 module onebit_tb;
-    parameter N = 3;
+    parameter N = 2;
     reg [N-1:0] number_tb;
     wire result_tb;
 
@@ -19,23 +19,23 @@ module onebit_tb;
     // 2-bit test pattern:
     initial
     begin
-//      number_tb     = 2'b00;
-//      #10 number_tb = 2'b01;
-//      #10 number_tb = 2'b10;
-//      #10 number_tb = 2'b11;
+      number_tb     = 2'b00;
+      #10 number_tb = 2'b01;
+      #10 number_tb = 2'b10;
+      #10 number_tb = 2'b11;
     end
 
     // 3-bit test pattern:
     initial
     begin
-        number_tb     = 3'b000;
-        #10 number_tb = 3'b001;
-        #10 number_tb = 3'b010;
-        #10 number_tb = 3'b011;
-        #10 number_tb = 3'b100;
-        #10 number_tb = 3'b101;
-        #10 number_tb = 3'b110;
-        #10 number_tb = 3'b111;
+//      number_tb     = 3'b000;
+//      #10 number_tb = 3'b001;
+//      #10 number_tb = 3'b010;
+//      #10 number_tb = 3'b011;
+//      #10 number_tb = 3'b100;
+//      #10 number_tb = 3'b101;
+//      #10 number_tb = 3'b110;
+//      #10 number_tb = 3'b111;
     end
 
     // 8-bit test pattern:
