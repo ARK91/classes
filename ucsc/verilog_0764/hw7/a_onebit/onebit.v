@@ -4,7 +4,7 @@
 // one bit is set.
 //
 
-module tiny_onebit(a, b, f, all_ones);
+module tiny_onebit(a, b, all_ones, f);
     input a, b;
     output f, all_ones;
 
@@ -21,7 +21,7 @@ module onebit(number, result);
     wire [N-1:0] all_ones;
     wire [N-1:0] f;
 
-    nor xNoAllOnesFailures(no_all_one_failures, all_ones);
+    assign no_all_one_failures = ~|all_ones[N-1:0]; // reduction nor
     and xResult(result, no_all_one_failures, f[N-1]);
 
     tiny_onebit ONEBIT(number[0], number[1], all_ones[0], f[0]);
