@@ -11,7 +11,7 @@ module XOR2(a, b, f);
 endmodule
 
 module nbit_xor(number, result);
-    parameter N = 2; // N must be at least 2
+    parameter N = 3; // N must be at least 2
     input [N-1:0] number;
     output result;
 
@@ -34,3 +34,10 @@ module nbit_xor(number, result);
 
 endmodule
 
+module xorn_rtl(a, f);
+    parameter N = 3; // N must be at least 2
+    input [N-1:0] a;
+    output f;
+
+    assign f = ^a; // reduction xor
+endmodule

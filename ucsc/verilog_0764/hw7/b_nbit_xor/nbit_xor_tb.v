@@ -4,37 +4,47 @@
 
 `timescale 1ns/1ns
 module nbit_xor_tb;
-    parameter N = 2;
+    parameter N = 3;
     reg [N-1:0] number_tb;
-    wire result_tb;
+    wire result_tb, result_reference_tb;
+    reg matching_results;
 
     nbit_xor #(N) DUT(number_tb, result_tb);
+    xorn_rtl #(N) DUT_REF(number_tb, result_reference_tb);
 
     always @(*)
     begin
-        $monitor("number: %b, result: %b", number_tb, result_tb);
+        // Formal equivalence check (FEC):
+        matching_results = result_tb ~^ result_reference_tb;
+
+        $monitor("number: %b, result: %b, pass?: %b)",
+                 number_tb, result_tb, matching_results);
+    end
+
+    initial
+    begin
     end
 
     // 2-bit test pattern:
     initial
     begin
-        number_tb     = 2'b00;
-        #10 number_tb = 2'b01;
-        #10 number_tb = 2'b10;
-        #10 number_tb = 2'b11;
+//      number_tb     = 2'b00;
+//      #10 number_tb = 2'b01;
+//      #10 number_tb = 2'b10;
+//      #10 number_tb = 2'b11;
     end
 
     // 3-bit test pattern:
     initial
     begin
-//      number_tb     = 3'b000;
-//      #10 number_tb = 3'b001;
-//      #10 number_tb = 3'b010;
-//      #10 number_tb = 3'b011;
-//      #10 number_tb = 3'b100;
-//      #10 number_tb = 3'b101;
-//      #10 number_tb = 3'b110;
-//      #10 number_tb = 3'b111;
+        number_tb     = 3'b000;
+        #10 number_tb = 3'b001;
+        #10 number_tb = 3'b010;
+        #10 number_tb = 3'b011;
+        #10 number_tb = 3'b100;
+        #10 number_tb = 3'b101;
+        #10 number_tb = 3'b110;
+        #10 number_tb = 3'b111;
     end
 
     // 8-bit test pattern:
