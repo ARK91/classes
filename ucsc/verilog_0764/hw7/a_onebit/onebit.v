@@ -5,14 +5,16 @@
 //
 
 `timescale 1ns/1ns
-module onebit(number, one_bit_set);
+module onebit(number, result);
     parameter N = 2;
     input [N-1:0] number;
-    output one_bit_set;
+    output  result;
+
+    assign result = 1;
 
     always @(*)
     begin
-        one_bit_set = 1;
+        //x
     end
 
 endmodule
