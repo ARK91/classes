@@ -13,7 +13,7 @@ module tiny_onebit(a, b, all_ones, f);
 endmodule
 
 module onebit(number, result);
-    parameter N = 3; // N must be at least 2
+    parameter N = 4; // N must be at least 2
     input [N-1:0] number;
     output result;
 
