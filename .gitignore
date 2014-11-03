@@ -2,3 +2,4 @@
 modelsim/
 quartus/
 vivado/
+*.v.pdf
