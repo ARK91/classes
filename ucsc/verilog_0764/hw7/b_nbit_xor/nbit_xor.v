@@ -10,7 +10,7 @@ module XOR2(a, b, f);
     assign f = a ^ b;
 endmodule
 
-module nbit_xor(number, result);
+module nbit_xor_unbalanced(number, result);
     parameter N = 3; // N must be at least 2
     input [N-1:0] number;
     output result;

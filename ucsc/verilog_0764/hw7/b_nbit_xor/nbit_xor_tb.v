@@ -9,7 +9,7 @@ module nbit_xor_tb;
     wire result_tb, result_reference_tb;
     reg matching_results;
 
-    nbit_xor #(N) DUT(number_tb, result_tb);
+    nbit_xor_unbalanced #(N) DUT(number_tb, result_tb);
     xorn_rtl #(N) DUT_REF(number_tb, result_reference_tb);
 
     always @(*)
