@@ -18,9 +18,9 @@ module onebit(number, result);
     output result;
 
     wire no_all_one_failures;
-    wire [N:0] all_ones;
-    wire [N:0] f;
-    wire [2*N+1:0] tinyInput;
+    wire [N-1:0] all_ones;
+    wire [N-1:0] f;
+    wire [2*N:0] tinyInput;
 
     assign no_all_one_failures = ~|all_ones[N-2:0]; // reduction nor
     and xResult(result, no_all_one_failures, f[N-2]);
