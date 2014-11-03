@@ -16,13 +16,21 @@ module onebit_tb;
         $monitor("number: %b, result: %b", number_tb, result_tb);
     end
 
+    // 1-bit test pattern:
+    initial
+    begin
+//      #10 $display("One bit cases:");
+//      #10 number_tb = 1'b0;
+//      #10 number_tb = 1'b1;
+    end
+
     // 2-bit test pattern:
     initial
     begin
-//    number_tb     = 2'b00;
-//    #10 number_tb = 2'b01;
-//    #10 number_tb = 2'b10;
-//    #10 number_tb = 2'b11;
+//      number_tb     = 2'b00;
+//      #10 number_tb = 2'b01;
+//      #10 number_tb = 2'b10;
+//      #10 number_tb = 2'b11;
     end
 
     // 3-bit test pattern:
