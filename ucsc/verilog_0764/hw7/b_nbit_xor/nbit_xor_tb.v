@@ -6,19 +6,28 @@
 module nbit_xor_tb;
     parameter N = 3;
     reg [N-1:0] number_tb;
-    wire result_tb, result_reference_tb;
-    reg matching_results;
+    wire bal_result_tb, unbal_result_tb, reference_result_tb;
+    reg bal_match;
+    reg unbal_match;
 
-    nbit_xor_unbalanced #(N) DUT(number_tb, result_tb);
-    xorn_rtl #(N) DUT_REF(number_tb, result_reference_tb);
+    nbit_xor_balanced   #(N) DUT_balanced(number_tb, bal_result_tb);
+    nbit_xor_unbalanced #(N) DUT_unbalanced(number_tb, unbal_result_tb);
+    xorn_rtl            #(N) DUT_REF(number_tb, reference_result_tb);
+
+
+    initial
+    begin
+        $monitor("number: %b, bal_result_tb: %b, pass?: %b :::",
+                 number_tb, bal_result_tb, bal_match,
+                 "unbal_result_tb: %b, pass?: %b",
+                 unbal_result_tb, unbal_match);
+    end
 
     always @(*)
     begin
-        // Formal equivalence check (FEC):
-        matching_results = result_tb ~^ result_reference_tb;
-
-        $monitor("number: %b, result: %b, pass?: %b)",
-                 number_tb, result_tb, matching_results);
+        // Formal equivalence checks:
+        bal_match   = bal_result_tb ~^ reference_result_tb;
+        unbal_match = unbal_result_tb ~^ reference_result_tb;
     end
 
     initial
