@@ -11,7 +11,7 @@ module XOR2(a, b, f);
 endmodule
 
 module nbit_xor_balanced(number, result);
-    parameter N = 8;
+    parameter N = 7;
     input [N-1:0] number;
     output result;
 
@@ -23,11 +23,17 @@ module nbit_xor_balanced(number, result);
 
     genvar i;
     generate
-        for (i = 1; i < N; i = i + 1)
+        // The N%2 term adds an extra gate for odd numbered N.
+        for (i = 1; i < N + (N%2); i = i + 1)
         begin: genBalanced
             XOR2 theXOR2(a[i], b[i], f[i]);
-            assign a[i] = (i >= N/2 ? number[(i - N/2)*2]  : f[i*2]);
-            assign b[i] = (i >= N/2 ? number[(i - N/2)*2+1]: f[i*2+1]);
+
+            assign a[i] = (i >= (N+1)/2 ? number[(i - (N+1)/2)*2]  : f[i*2]);
+
+            // wire any extra inputs to zero, which causes the XOR to pass
+            // through the other input (acts as a buffer):
+            assign b[i] = (i >= N? 0 :
+                           (i >= (N+1)/2 ? number[(i - (N+1)/2)*2+1]: f[i*2+1]));
         end
     endgenerate
 endmodule
