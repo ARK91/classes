@@ -84,6 +84,45 @@ module nbit_xor_tb;
 endmodule
 
 /* Sample test run:
+vlog ../*.v
+# Model Technology ModelSim ALTERA vlog 10.1e Compiler 2013.06 Jun 12 2013
+# -- Compiling module XOR2
+# -- Compiling module nbit_xor_balanced
+# -- Compiling module nbit_xor_unbalanced
+# -- Compiling module xorn_rtl
+# -- Compiling module nbit_xor_tb
+#
+# Top level modules:
+#   nbit_xor_tb
+vsim nbit_xor_tb
+# vsim nbit_xor_tb
+# Loading work.nbit_xor_tb
+# Loading work.nbit_xor_balanced
+# Loading work.nbit_xor_unbalanced
+# Loading work.xorn_rtl
+# Loading work.XOR2
+run 200 ns
+# number: xxxxxxxx, bal_result_tb: x, pass?: x :::unbal_result_tb: x, pass?: x
+# Test cases:
+# number: 00000001, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00000010, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00000100, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00001000, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00010000, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00100000, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 01000000, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 10000000, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 00000000, bal_result_tb: 0, pass?: 1 :::unbal_result_tb: 0, pass?: 1
+# number: 00001001, bal_result_tb: 0, pass?: 1 :::unbal_result_tb: 0, pass?: 1
+# number: 00011001, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 10001001, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 10000001, bal_result_tb: 0, pass?: 1 :::unbal_result_tb: 0, pass?: 1
+# number: 11111111, bal_result_tb: 0, pass?: 1 :::unbal_result_tb: 0, pass?: 1
+# number: 11101111, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 01111111, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 11111110, bal_result_tb: 1, pass?: 1 :::unbal_result_tb: 1, pass?: 1
+# number: 01111110, bal_result_tb: 0, pass?: 1 :::unbal_result_tb: 0, pass?: 1
+
 
 
 */
