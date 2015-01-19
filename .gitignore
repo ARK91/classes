@@ -3,3 +3,4 @@ modelsim/
 quartus/
 vivado/
 *.v.pdf
+*.o
