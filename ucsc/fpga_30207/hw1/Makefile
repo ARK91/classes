@@ -1,7 +1,9 @@
-all: run
+VERILOG_CODE := verilog_code_generated.v
 
-truth_table_generator: truth_table_generator.c 
+all: $(VERILOG_CODE)
+
+verilog_code_generator: verilog_code_generator.c 
 	gcc $+ -o $@ 
 
-run: truth_table_generator
-	./truth_table_generator | tee truth_table.txt
+$(VERILOG_CODE): verilog_code_generator
+	./verilog_code_generator > $@
