@@ -67,7 +67,7 @@ int main(int argc, char * argv[])
 
     for (bit = 0; bit <= 5; bit++)
     {
-        printf("sum[%d] = ", bit);
+        printf("assign sum[%d] = ", bit);
 
         for (a = 0; a < 16; a++)
         {
@@ -79,7 +79,7 @@ int main(int argc, char * argv[])
             printf("\n");
         }
 
-        printf("\n\n");
+        printf("0\n\n");
     }
     return 0;
 }
