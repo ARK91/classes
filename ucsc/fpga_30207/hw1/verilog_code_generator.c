@@ -79,7 +79,7 @@ int main(int argc, char * argv[])
             printf("\n");
         }
 
-        printf("0\n\n");
+        printf("0;\n\n");
     }
     return 0;
 }
