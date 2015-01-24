@@ -28,16 +28,18 @@ void print_algebraic(const char * digitName, int x, int bitLength, int bit)
 
     for (index = bitLength - 1; index >=0; index--)
     {
+        if (index == bitLength - 1)
+            printf("(");
+
         if (x & (1 << index))
             printf("%s[%d]", digitName, index);
         else
             printf("!%s[%d]", digitName, index);
 
-        if ((index != bitLength - 1) &&
-            (index != 0))
-        {
-            printf(" & ");
-        }
+        if (index == 0)
+            printf(")");
+        else
+            printf("&");
     }
 }
 
@@ -46,8 +48,8 @@ print_term(int a, int b, int sum, int bit)
     // if bit[n] of sum is set, print
     if (sum & (1 << bit))
     {
-        printf("sum[%d] = ", bit);
         print_algebraic("a", a, BIT_LENGTH_A, bit);
+        printf(" & ");
         print_algebraic("b", b, BIT_LENGTH_B, bit);
         printf(" + ");
     }
@@ -60,11 +62,13 @@ int main(int argc, char * argv[])
     int sum;
     int bit;
 
-    printf(" a    b   | sum\n");
-    printf("---------------------------\n");
+    printf("// 4-bit counter truth table: structural verilog");
+    printf("\n\n");
 
-    for (bit = 0; bit < 4; bit++)
+    for (bit = 0; bit <= 5; bit++)
     {
+        printf("sum[%d] = ", bit);
+
         for (a = 0; a < 16; a++)
         {
             for (b = 0; b < 16; b++)
@@ -74,7 +78,8 @@ int main(int argc, char * argv[])
             }
             printf("\n");
         }
-        printf("------------------\n");
+
+        printf("\n\n");
     }
     return 0;
 }
