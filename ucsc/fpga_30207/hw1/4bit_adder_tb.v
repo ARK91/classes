@@ -49,3 +49,23 @@ module add4_tb();
     end
 endmodule
 
+/*
+Sample run:
+
+vlog 4bit*.v
+# Model Technology ModelSim ALTERA vlog 10.1e Compiler 2013.06 Jun 12 2013
+# -- Compiling module add4
+# -- Compiling module add4_struct
+# -- Compiling module add4_tb
+#
+# Top level modules:
+#   add4_tb
+vsim work.add4_tb
+# vsim work.add4_tb
+# Loading work.add4_tb
+# Loading work.add4
+# Loading work.add4_struct
+run 300 ns
+
+*/
+
