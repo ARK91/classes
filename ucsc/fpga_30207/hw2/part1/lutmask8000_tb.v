@@ -6,7 +6,7 @@
 
 // Steps to run in ModelSim:
 //
-// cd D:/git_wa/classes/ucsc/fpga_30207/hw2/a
+// cd D:/git_wa/classes/ucsc/fpga_30207/hw2/part1
 // vlib work
 // vlog *.v
 // vsim work.lutmask_test
@@ -22,8 +22,8 @@ module lutmask_test();
     wire lutmask_result, myAnd4_result, f_compare;
 
     lutmask8000 X(lutmask_result, a, b, c, d);
-    myAnd4      Y(myAnd4_result, a, b, c, d);
-    comparison  Z(f_compare, a, b, c, d);
+    myAnd4      Y(myAnd4_result,  a, b, c, d);
+    comparison  Z(f_compare,      a, b, c, d);
 
     initial
     begin
