@@ -47,7 +47,7 @@ module onesecond_bad(clk, btnU, seg, an, led) ;
     counter #C MEDIUM_CLOCK(clk,(btnU|| one_second_clock),sec_counter) ;
     counter #N4 S(one_minute_clock,btnU,zero_to_f_counter) ;
 
-    hex2_7seg_structural D(zero_to_f_counter,seg);
+    hex2_7seg D(zero_to_f_counter,seg);
 
     assign led = zero_to_f_counter;
 endmodule
