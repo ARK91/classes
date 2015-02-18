@@ -28,7 +28,7 @@ module rom(in,out) ;
     end
 endmodule
 
-module heartbreat_top_module(clk, btnU, seg, an);
+module random_numbers_top_module(clk, btnU, seg, an);
     parameter C = 28; //27..0 counter
     parameter N7 = 7 ;
     parameter N4 = 4 ;
@@ -36,7 +36,8 @@ module heartbreat_top_module(clk, btnU, seg, an);
     parameter NUM_SEC = 1 ;
     parameter STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1 ;
 
-    output [13:0] number;
+    wire [13:0] number;
+    wire [15:0] text;
 
     input clk, btnU;
     output [0:6] seg; // abcdefg
@@ -50,8 +51,9 @@ module heartbreat_top_module(clk, btnU, seg, an);
 
     rom THE_ROM(zero_to_8_counter, number);
 
+    binary2bcd BCD(number, text);
     // TODO: this needs to handle four digit display
-    hex2_7seg DISPLAY(number, seg);
+    hex2_7seg DISPLAY(text, seg);
 
 endmodule
 

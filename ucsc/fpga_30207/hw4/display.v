@@ -1,6 +1,18 @@
 // File: display.v
 // John Hubbard, 16 Feb 2015
 
+module simple_counter(clk, arst,q) ;
+    parameter N = 7 ;
+    input clk,arst;
+    output reg [N-1:0] q ;
+
+    always @(posedge clk or posedge arst)
+        if (arst == 1'b1)
+            q <= 0 ;
+        else
+            q <= q + 1 ;
+endmodule
+
 module decoder(text,s,y,val) ;
     input [15:0] text;
     input [1:0] s ;
@@ -55,7 +67,7 @@ module display(text,clk, arst, seg, an) ;
     //assign sel[1] = q[15] ; 23 hz
     //assign sel[0] = q[20] ; 762 hz
     //Run with above number and see display
-    counter #C U(clk,arst,q) ;
+    simple_counter #C U(clk,arst,q) ;
     decoder D(text,sel,an,zero_to_f_counter) ;
     hex2_7seg H(zero_to_f_counter,seg);
 endmodule
