@@ -20,7 +20,7 @@ module binary2bcd(number, text);
         digit         = workingNumber % 10;
         digitEnd      = 3;
 
-        while(workingNumber > 0)
+        while(workingNumber > 0 && (digitEnd < N))
         begin
             text[digitEnd-:4] = digit;
 

@@ -53,7 +53,7 @@ module random_numbers_top_module(clk, btnU, seg, an);
 
     binary2bcd BCD(number, text);
     // TODO: this needs to handle four digit display
-    hex2_7seg DISPLAY(text, seg);
+    display DISPLAY(text, clk, btnU, seg, an);
 
 endmodule
 
