@@ -31,15 +31,51 @@ module binary2bcdBehavioral(number,text) ;
     end
 endmodule
 
-module binary2bcdStructral(number,text) ;
+module add3(a, sum);
+    input [3:0]a;
+    output [3:0]sum;
+
+    LUT4 #(16'h03E0) (sum[3], a[0], a[1], a[2], a[3]);
+    LUT4 #(16'h0210) (sum[2], a[0], a[1], a[2], a[3]);
+    LUT4 #(16'h018C) (sum[1], a[0], a[1], a[2], a[3]);
+    LUT4 #(16'h014A) (sum[0], a[0], a[1], a[2], a[3]);
+endmodule
+
+module add3_tb();
+    reg [16:0] vec;
+    wire [16:0] sum;
+
+    add3 ADD3(vec, sum);
+
+    initial
+    begin
+        for (vec = 0; vec < 16; vec = vec + 1)
+        begin
+            #1;
+            $display("vec: %d, sum: %h", vec, sum);
+        end
+    end
+endmodule
+
+module binary2bcdStructral(n,text) ;
     parameter N = 16 ;
     parameter W = 4 ;
-    input [N-1:0] number ;
+    input [N-1:0] n ;
     output [N-1:0] text ;
 
-    // TODO: implement
-    binary2bcdDivision DIVISION(number, text);
+    wire [0:3] c1_out, c2_out, c3_out, c4_out, c5_out;
 
+    buf BUF0(text[0], n[0]);
+    buf BUF1(text[10], 0);
+    buf BUF2(text[11], 0);
+
+    add3 C1(n[5], n[6], n[7], 0, c1_out);
+    add3 C2(n[4], c1_out[0:2], c2_out);
+    add3 C3(n[3], c2_out[0:2], c3_out);
+    add3 C4(c3_out[3], c2_out[3], c1_out[3], 0, c4_out[0:2], text[9]);
+    add3 C5(n[2], c3_out[0:2], c5_out);
+    add3 C6(c5_out[0], c4_out[0:2], text[5], text[6], text[7], text[8]);
+    add3 C7(n[1], c5_out[0:2], text[1], text[2], text[3], text[4]);
 endmodule
 
 module d10(n,q,r);
