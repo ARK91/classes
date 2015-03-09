@@ -12,7 +12,7 @@
 //
 // 3. When linking (running vsim), pass in the library as follows:
 //
-//     vsim other_files.v -L unisims_ver
+//     vsim work.quick_test -L unisims_ver
 //
 // References:
 // [1] Vivado Simulation Guide: ug900-vivado-logic-simulation.pdf
