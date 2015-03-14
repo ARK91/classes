@@ -41,14 +41,25 @@ module bcd_to_ascii(bcd, ascii);
     input [BCD_BITS-1:0] bcd;
     output reg [BUF_BITS-1:0] ascii;
     integer digit;
+    regss firstNonZero;
 
     always @(bcd) begin
         digit = 0;
+        firstNonZero = 1'b0;
+
         for (digit = 0; digit < NUM_DIGITS; digit = digit + 1) begin
 
             // 0x30 is an ASCII "0":
             ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] =
                 bcd[(digit*BITS_PER_BCD_DIGIT + BITS_PER_BCD_DIGIT   - 1)-:BITS_PER_BCD_DIGIT] + 'h30;
+        end
+
+        // Turn leading zeros into underscores:
+        for (digit = NUM_DIGITS - 1; digit >=0; digit = digit  - 1) begin
+            if ((ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] == 'h30) && !firstNonZero)
+                ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] = 'h5f;
+            else
+                firstNonZero = 1'b1;
         end
     end
 endmodule
