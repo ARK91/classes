@@ -50,7 +50,7 @@ module scrolling_display_tb(clk, btnU, seg, an);
     parameter BUF_BITS = ASCII_DIGITS * BITS_PER_DIGIT;
 
     parameter [BUF_BITS-1:0] initialString =
-        'h68656c6c6f2d2d4a464800; // "hello-JFH "
+        'h68656c6c6f2d4a464800; // "hello-JFH "
 
     input clk, btnU;
     output [0:7-1] seg;
@@ -65,4 +65,5 @@ module scrolling_display_tb(clk, btnU, seg, an);
         end
     end
 endmodule
+
 
