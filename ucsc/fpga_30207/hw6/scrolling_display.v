@@ -75,7 +75,7 @@ endmodule
 // Test the module by displaying number at a distance of 2000 for a every sec
 // The display should start scrolling after 9999.
 //
-module scrolling_numeric_display(clk, reset, seg, an, numericInput, scrollingDone);
+module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrollingDone);
     parameter NUM_DIGITS = 10;
     parameter BCD_BITS = NUM_DIGITS * 'd4;
     parameter BITS_PER_ASCII_DIGIT = 8;
@@ -89,7 +89,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numericInput, scrollingDon
     parameter [C-1:0] STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
 
     input clk, reset;
-    input [BUF_BITS-1:0] numericInput;
+    input [BUF_BITS-1:0] numberToDisplay;
     output [0:7-1] seg;
     output [4-1:0] an;
     output scrollingDone;
@@ -98,7 +98,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numericInput, scrollingDon
     wire [BUF_BITS-1:0] fullPackedAsciiString;
     wire scroll;
 
-    assign scroll = numericInput <= 'd9999 ? 1'b0 : 1'b1;
+    assign scroll = (numberToDisplay <= 'd9999 ? 1'b0 : 1'b1);
     mod_counter #(C, STOPAT) SCROLL_COUNTER(clk, reset, clock, scrollingDone);
     binary2bcd #(BUF_BITS) BCD(numberToDisplay, fullPackedBcdString);
     bcd_to_ascii #(NUM_DIGITS) BCD_TO_ASCII(fullPackedBcdString, fullPackedAsciiString);
@@ -116,16 +116,16 @@ module numeric_scrolling_display_tb(clk, btnU, seg, an);
     output [4-1:0] an;
 
     reg [BUF_BITS-1:0] numberToDisplay;
-    wire done;
+    wire scrollingDone;
 
-    scrolling_numeric_display DUT(clk, btnU, seg, an, numberToDisplay, done);
+    scrolling_numeric_display DUT(clk, btnU, seg, an, numberToDisplay, scrollingDone);
 
     always @(posedge clk) begin
         if (btnU) begin
             numberToDisplay = 'd1;
         end
         else begin
-            if (done) begin
+            if (scrollingDone) begin
                numberToDisplay = numberToDisplay * 'd2000;
 
                if (numberToDisplay > 'd9999_9999_99) begin

@@ -40,18 +40,55 @@ module bcd_to_ascii(bcd, ascii);
 
     input [BCD_BITS-1:0] bcd;
     output reg [BUF_BITS-1:0] ascii;
-    reg [NUM_DIGITS:0] digit;
+    integer digit;
 
     always @(bcd) begin
-        digit = 'd0;
-        while (digit < NUM_DIGITS) begin
+        digit = 0;
+        for (digit = 0; digit < NUM_DIGITS; digit = digit + 1) begin
 
             // 0x30 is an ASCII "0":
-            ascii[(digit+BITS_PER_ASCII_DIGIT)-:BITS_PER_ASCII_DIGIT] =
-                bcd[(digit+BITS_PER_BCD_DIGIT)-:BITS_PER_BCD_DIGIT] + 'h30;
-
-            digit = digit + 'd1;
+            ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] =
+                bcd[(digit*BITS_PER_BCD_DIGIT + BITS_PER_BCD_DIGIT   - 1)-:BITS_PER_BCD_DIGIT] + 'h30;
         end
+    end
+endmodule
+
+module bcd_to_ascii_tb();
+    parameter NUM_DIGITS = 10;
+    parameter BCD_BITS = NUM_DIGITS * 'd4;
+    parameter BITS_PER_ASCII_DIGIT = 8;
+    parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
+
+    reg [BCD_BITS-1:0] number;
+    reg [BCD_BITS-1:0] bcd;
+    wire [BUF_BITS-1:0] ascii;
+    integer digit, count;
+
+    //binary2bcd #(BUF_BITS) BCD_TB(number, bcd);
+    bcd_to_ascii #(NUM_DIGITS) B(bcd, ascii);
+
+    initial begin
+        bcd = 'h0;
+        for (count = 0; count < 10; count = count + 1) begin
+            #1;
+            $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+            bcd = bcd + 1;
+        end
+
+        bcd = 'h10;
+        for (count = 0; count < 10; count = count + 1) begin
+            #1;
+            $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+            bcd = bcd + 1;
+        end
+
+        bcd = 'h1000;
+        for (count = 0; count < 10; count = count + 1) begin
+            #1;
+            $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+            bcd = bcd + 1;
+        end
+
     end
 endmodule
 
