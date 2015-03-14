@@ -16,8 +16,8 @@ module scrolling_display(clk, reset, seg, an, inputNumber, outputNumber, getNext
     parameter N = 70; // 70 bits can contain 10 digits.
     input clk, reset, getNextNumber;
     input [N-1:0]inputNumber;
-    output [0:7-1] seg ;
-    output [4-1:0] an ;
+    output [0:7-1] seg;
+    output [4-1:0] an;
     output reg [N-1:0]outputNumber;
 
     wire getNextNumber;
@@ -43,8 +43,8 @@ endmodule
 module scrolling_display_test(clk, btnU, seg, an);
     parameter N = 70; // 70 bits can contain 10 digits.
     input clk, btnU;
-    output [0:7-1] seg ;
-    output [4-1:0] an ;
+    output [0:7-1] seg;
+    output [4-1:0] an;
 
     // These variables are only for modelsim runs:
     reg simReset;
