@@ -16,17 +16,20 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
     input [BUF_BITS-1:0] fullPackedAsciiInput;
     output [0:7-1] seg;
     output [4-1:0] an;
-    wire done;
+    wire doneWithDigit;
 
     reg [BUF_BITS-1:0] sb; // scroll buffer
+    reg [3:0] numShifts;
 
     always @(posedge clk) begin
+        numShifts = 4'h0;
+
         if (reset) begin
             sb[BUF_BITS-1:0] = fullPackedAsciiInput[BUF_BITS-1:0];
         end
-        else if (done && scroll) begin
+        else if (doneWithDigit && scroll && (numShifts < 9)) begin
             // Shift (rotate) left by one ASCII digit:
-            sb[(8-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(80-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(8-1)-:BITS_PER_ASCII_DIGIT]  <= 8'h00;
             sb[(16-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(8-1)-:BITS_PER_ASCII_DIGIT];
             sb[(24-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(16-1)-:BITS_PER_ASCII_DIGIT];
             sb[(32-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(24-1)-:BITS_PER_ASCII_DIGIT];
@@ -36,19 +39,26 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
             sb[(64-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(56-1)-:BITS_PER_ASCII_DIGIT];
             sb[(72-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(64-1)-:BITS_PER_ASCII_DIGIT];
             sb[(80-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(72-1)-:BITS_PER_ASCII_DIGIT];
+
+            numShifts = numShifts + 1;
+        end
+        else if (!scroll) begin
+            // Non-scrolling case:
+            // Just shift the bottom 4 digits to the top 4 position:
+            sb[(80-1)-:32] = fullPackedAsciiInput[(32-1)-:32];
         end
     end
 
-    // Display the bottom 4 digits (32 bits) of the scroll buffer:
+    // Display the top 4 digits (32 bits) of the scroll buffer:
     display_packed_ascii_for_n_seconds #(0.3)
-        DISPLAY(clk, reset, seg, an, sb[(32-1)-:32] , done);
+        DISPLAY(clk, reset, seg, an, sb[(80-1)-:32], doneWithDigit);
 endmodule
 
 // Problem statement that this module addresses:
 // Instead of hex2_7seg.v write a routine called ascill_2_7seg.
 // Try to display as many characters as possible on the board.
 //
-module scrolling_ascii_display_tb(clk, btnU, seg, an);
+module scrolling_ascii_display_tb(clk, btnU, seg, an, sw);
     parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
@@ -59,9 +69,10 @@ module scrolling_ascii_display_tb(clk, btnU, seg, an);
     input clk, btnU;
     output [0:7-1] seg;
     output [4-1:0] an;
+    input [0:0] sw;
     reg [BUF_BITS-1:0] fullPackedAsciiString;
 
-    scrolling_ascii_display DUT(clk, btnU, seg, an, fullPackedAsciiString, 1'b1);
+    scrolling_ascii_display DUT(clk, btnU, seg, an, fullPackedAsciiString, sw[0]);
 
     always @(posedge clk) begin
         if (btnU) begin
