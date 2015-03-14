@@ -48,7 +48,7 @@ module display_packed_hex_for_n_seconds(clk, arst, seg, an, packedHex, done);
     output done;
     wire [C-1:0] clock;
 
-    mod_counter #(C,STOPAT) U(clk, arst, clock, done);
+    mod_counter #(C, STOPAT) U(clk, arst, clock, done);
     display_hex #(C)T(packedHex, clk, arst, seg, an);
 endmodule
 
@@ -61,9 +61,9 @@ module display_packed_ascii_for_n_seconds(clk, arst, seg, an, packedAscii, done)
     parameter W = 4;
     parameter CRYSTAL = 100; // 100 MHZ
     parameter [C-1:0] STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
-    parameter ASCII_DIGITS = 4;
-    parameter BITS_PER_DIGIT = 8;
-    parameter BUF_BITS = ASCII_DIGITS * BITS_PER_DIGIT;
+    parameter NUM_DIGITS = 4;
+    parameter BITS_PER_ASCII_DIGIT = 8;
+    parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
 
     input clk, arst;
     input [BUF_BITS-1:0] packedAscii;
