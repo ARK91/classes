@@ -39,9 +39,9 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
         end
     end
 
-    // Display the top 4 digits (32 bits) of the scroll buffer:
+    // Display the bottom 4 digits (32 bits) of the scroll buffer:
     display_packed_ascii_for_n_seconds #(0.3)
-        DISPLAY(clk, reset, seg, an, sb[(80-1)-:32] , done);
+        DISPLAY(clk, reset, seg, an, sb[(32-1)-:32] , done);
 endmodule
 
 // Problem statement that this module addresses:
@@ -80,6 +80,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
     parameter BCD_BITS = NUM_DIGITS * 'd4;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
+    parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
 
     parameter NUM_SEC = 5; // Allow time for the number to display and scroll
     parameter C = 35; //27 for 1 sec
@@ -89,7 +90,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
     parameter [C-1:0] STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
 
     input clk, reset;
-    input [BUF_BITS-1:0] numberToDisplay;
+    input [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
     output [0:7-1] seg;
     output [4-1:0] an;
     output scrollingDone;
@@ -100,7 +101,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
 
     assign scroll = (numberToDisplay <= 'd9999 ? 1'b0 : 1'b1);
     mod_counter #(C, STOPAT) SCROLL_COUNTER(clk, reset, clock, scrollingDone);
-    binary2bcd #(BUF_BITS) BCD(numberToDisplay, fullPackedBcdString);
+    binary2bcd #(BCD_BITS) BCD(numberToDisplay, fullPackedBcdString);
     bcd_to_ascii #(NUM_DIGITS) BCD_TO_ASCII(fullPackedBcdString, fullPackedAsciiString);
 
     scrolling_ascii_display DUT(clk, reset, seg, an, fullPackedAsciiString, scroll);
@@ -110,23 +111,24 @@ module numeric_scrolling_display_tb(clk, btnU, seg, an);
     parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
+    parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
 
     input clk, btnU;
     output [0:7-1] seg;
     output [4-1:0] an;
 
-    reg [BUF_BITS-1:0] numberToDisplay;
+    reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
     wire scrollingDone;
 
     scrolling_numeric_display DUT(clk, btnU, seg, an, numberToDisplay, scrollingDone);
 
     always @(posedge clk) begin
         if (btnU) begin
-            numberToDisplay = 'd1;
+            numberToDisplay = 'd2000;
         end
         else begin
             if (scrollingDone) begin
-               numberToDisplay = numberToDisplay * 'd2000;
+               numberToDisplay = numberToDisplay + 'd2000;
 
                if (numberToDisplay > 'd9999_9999_99) begin
                     numberToDisplay = 'd1;

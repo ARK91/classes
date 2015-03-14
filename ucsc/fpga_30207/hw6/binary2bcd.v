@@ -69,6 +69,17 @@ module bcd_to_ascii_tb();
 
     initial begin
         bcd = 'h0;
+        #1;
+        $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+
+        bcd = 'h1;
+        #1;
+        $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+
+        bcd = 'h2000;
+        #1;
+        $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
+
         for (count = 0; count < 10; count = count + 1) begin
             #1;
             $display("number: %d, bcd: %h, ascii: %h", number, bcd, ascii);
