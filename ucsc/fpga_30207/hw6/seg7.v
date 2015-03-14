@@ -1,4 +1,4 @@
-// File: display.v
+// File: seg7.v
 // John Hubbard, 16 Feb 2015
 
 module simple_counter(clk, arst,q);

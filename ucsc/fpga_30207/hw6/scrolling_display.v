@@ -4,85 +4,64 @@
 // hw6: Implement a scrolling display, that can display any number, up to
 // 10-digits long.
 //
-// To compile:
-// vlog ../scrolling_display.v ../display_packed_hex_for_n_seconds.v ../hex2_7seg.v
-//      ../binary2bcd.v ../seg7.v
-//
-// vsim work.scrolling_display_test -L unisims_ver
 
 `timescale 1ns/1ns
 
-module scrolling_display(clk, reset, seg, an, inputNumber, outputNumber, getNextNumber);
-    parameter N = 70; // 70 bits can contain 10 digits.
-    input clk, reset, getNextNumber;
-    input [N-1:0]inputNumber;
+module scrolling_display(clk, reset, seg, an, fullPackedAsciiInput);
+    parameter ASCII_DIGITS = 10;
+    parameter BITS_PER_DIGIT = 8;
+    parameter BUF_BITS = ASCII_DIGITS * BITS_PER_DIGIT;
+
+    input clk, reset;
+    input [BUF_BITS-1:0] fullPackedAsciiInput;
     output [0:7-1] seg;
     output [4-1:0] an;
-    output reg [N-1:0]outputNumber;
+    wire done;
 
-    wire getNextNumber;
-    wire [15:0]text;
+    reg [BUF_BITS-1:0] sb; // scroll buffer
 
-    always @(posedge clk)
-    begin
-        if (reset)
-            outputNumber = 70'd00_0000_0000;
-        else if (getNextNumber)
-        begin
-            if (inputNumber <= 9999)
-                outputNumber = inputNumber;
-            else
-                outputNumber = inputNumber * 10;
+    always @(posedge clk) begin
+        if (reset) begin
+            sb[BUF_BITS-1:0] = fullPackedAsciiInput[BUF_BITS-1:0];
+        end
+        else if (done) begin
+            // Shift (rotate) left by one ASCII digit:
+            sb[(8-1)-:BITS_PER_DIGIT]  <= sb[(80-1)-:BITS_PER_DIGIT];
+            sb[(16-1)-:BITS_PER_DIGIT]  <= sb[(8-1)-:BITS_PER_DIGIT];
+            sb[(24-1)-:BITS_PER_DIGIT]  <= sb[(16-1)-:BITS_PER_DIGIT];
+            sb[(32-1)-:BITS_PER_DIGIT]  <= sb[(24-1)-:BITS_PER_DIGIT];
+            sb[(40-1)-:BITS_PER_DIGIT]  <= sb[(32-1)-:BITS_PER_DIGIT];
+            sb[(48-1)-:BITS_PER_DIGIT]  <= sb[(40-1)-:BITS_PER_DIGIT];
+            sb[(56-1)-:BITS_PER_DIGIT]  <= sb[(48-1)-:BITS_PER_DIGIT];
+            sb[(64-1)-:BITS_PER_DIGIT]  <= sb[(56-1)-:BITS_PER_DIGIT];
+            sb[(72-1)-:BITS_PER_DIGIT]  <= sb[(64-1)-:BITS_PER_DIGIT];
+            sb[(80-1)-:BITS_PER_DIGIT]  <= sb[(72-1)-:BITS_PER_DIGIT];
         end
     end
 
-//  binary2bcd BCD(outputNumber[N-1-:16], text);
-//  display_packed_hex_for_n_seconds #(1.0) D (clk, btnU, seg, an, text, getNextNumber);
+    // Display the top 4 digits (32 bits) of the scroll buffer:
+    display_packed_ascii_for_n_seconds #(1.0)
+        DISPLAY(clk, reset, seg, an, sb[(80-1)-:32] , done);
 endmodule
 
-module scrolling_display_test(clk, btnU, seg, an);
-    parameter N = 70; // 70 bits can contain 10 digits.
+module scrolling_display_tb(clk, btnU, seg, an);
+    parameter ASCII_DIGITS = 10;
+    parameter BITS_PER_DIGIT = 8;
+    parameter BUF_BITS = ASCII_DIGITS * BITS_PER_DIGIT;
+
+    parameter [BUF_BITS-1:0] initialString =
+        'h68656c6c6f2d2d4a464800; // "hello-JFH "
+
     input clk, btnU;
     output [0:7-1] seg;
     output [4-1:0] an;
+    reg [BUF_BITS-1:0] fullPackedAsciiString;
 
-    // These variables are only for modelsim runs:
-    reg simReset;
-    reg simClock;
-    reg getNextNumber;
+    scrolling_display DUT(clk, btnU, seg, an, fullPackedAsciiString);
 
-    reg [N-1:0]vec;
-    wire [15:0]text;
-    reg [N-1:0]inputNumber;
-    wire [N-1:0]outputNumber;
-
-    // TODO: change reset to btnU, for running on real board. Leave it alone,
-    // for running in modelsim:
-    //scrolling_display DUT(clk, btnU, seg, an, inputNumber, outputNumber);
-    scrolling_display DUT(simClock, simReset, seg, an, inputNumber, outputNumber, getNextNumber);
-
-    // Create a clock
-    always
-    begin
-        #1; simClock <= ~simClock;
-    end
-
-    initial
-    begin
-        // Reset:
-        simClock = 1'b0;
-        simReset = 1'b0;
-        getNextNumber = 1'b1;
-
-        #1; simReset = 1'b1;
-        #2; simReset = 1'b0;
-
-        for (vec = 19; vec <= 70'd99_9999_9999; vec = vec + 2000)
-        begin
-            #1;
-            inputNumber = vec;
-            $display("simClock: %b, getNextNumber: %b, inputNumber: %d, outputNumber: %d",
-                     simClock, getNextNumber, inputNumber, outputNumber);
+    always @(posedge clk) begin
+        if (btnU) begin
+            fullPackedAsciiString = initialString;
         end
     end
 endmodule

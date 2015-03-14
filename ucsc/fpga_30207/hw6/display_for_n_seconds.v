@@ -31,6 +31,8 @@ module mod_counter(clk, arst, q, done);
     end
 endmodule
 
+// This module displays a 4-digit hex number, and toggles "done" after
+// NUM_SEC seconds.
 module display_packed_hex_for_n_seconds(clk, arst, seg, an, packedHex, done);
     parameter NUM_SEC = 1;
     parameter C = 35; //27 for 1 sec
@@ -50,6 +52,8 @@ module display_packed_hex_for_n_seconds(clk, arst, seg, an, packedHex, done);
     display_hex #(C)T(packedHex, clk, arst, seg, an);
 endmodule
 
+// This module displays a 4-digit ASCII string, and toggles "done" after
+// NUM_SEC seconds.
 module display_packed_ascii_for_n_seconds(clk, arst, seg, an, packedAscii, done);
     parameter NUM_SEC = 1;
     parameter C = 35; //27 for 1 sec
@@ -57,9 +61,12 @@ module display_packed_ascii_for_n_seconds(clk, arst, seg, an, packedAscii, done)
     parameter W = 4;
     parameter CRYSTAL = 100; // 100 MHZ
     parameter [C-1:0] STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
+    parameter ASCII_DIGITS = 4;
+    parameter BITS_PER_DIGIT = 8;
+    parameter BUF_BITS = ASCII_DIGITS * BITS_PER_DIGIT;
 
     input clk, arst;
-    input [80-1:0] packedAscii;
+    input [BUF_BITS-1:0] packedAscii;
     output [0:N-1] seg;
     output [W-1:0] an;
     output done;
