@@ -33,21 +33,23 @@ endmodule
 
 module bcd_to_ascii(bcd, ascii);
     parameter NUM_DIGITS = 10;
-    parameter BCD_BITS = NUM_DIGITS * 'd4;
+    parameter BCD_BITS = NUM_DIGITS * 4;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BITS_PER_BCD_DIGIT = 4;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
 
     input [BCD_BITS-1:0] bcd;
-    output [BUF_BITS-1:0] ascii;
+    output reg [BUF_BITS-1:0] ascii;
+    reg [NUM_DIGITS:0] digit;
 
-    always @(*) begin
+    always @(bcd) begin
         digit = 'd0;
         while (digit < NUM_DIGITS) begin
-            bcdDigit = bcd[(digit+BITS_PER_BCD_DIGIT)-:BITS_PER_BCD_DIGIT];
-            asciiDigit = ascii[(digit+BITS_PER_ASCII_DIGIT)-:BITS_PER_ASCII_DIGIT];
 
-            asciiDigit = bcdDigit + 'h30; // 0x30 is an ASCII "0"
+            // 0x30 is an ASCII "0":
+            ascii[(digit+BITS_PER_ASCII_DIGIT)-:BITS_PER_ASCII_DIGIT] =
+                bcd[(digit+BITS_PER_BCD_DIGIT)-:BITS_PER_BCD_DIGIT] + 'h30;
+
             digit = digit + 'd1;
         end
     end
