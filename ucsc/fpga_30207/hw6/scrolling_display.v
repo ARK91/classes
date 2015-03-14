@@ -5,7 +5,7 @@
 // 10-digits long.
 //
 // To compile:
-// vlog ../scrolling_display.v ../display_at_n_second.v ../hex2_7seg.v
+// vlog ../scrolling_display.v ../display_packed_hex_for_n_seconds.v ../hex2_7seg.v
 //      ../binary2bcd.v ../seg7.v
 //
 // vsim work.scrolling_display_test -L unisims_ver
@@ -37,7 +37,7 @@ module scrolling_display(clk, reset, seg, an, inputNumber, outputNumber, getNext
     end
 
 //  binary2bcd BCD(outputNumber[N-1-:16], text);
-//  display_at_n_second #(1.0) D (clk, btnU, seg, an, text, getNextNumber);
+//  display_packed_hex_for_n_seconds #(1.0) D (clk, btnU, seg, an, text, getNextNumber);
 endmodule
 
 module scrolling_display_test(clk, btnU, seg, an);

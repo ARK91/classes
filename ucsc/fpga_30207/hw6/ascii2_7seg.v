@@ -2,7 +2,7 @@
 // John Hubbard, 08 Mar 2015
 
 module ascii2_7seg(asciiIn, seg);
-    parameter N = 7; // 7-bit (printable) ascii, rather than the extended 8-bit
+    parameter N = 8; // 8-bit ascii makes it easier to specify string arrays
     input  [N-1:0] asciiIn;    //3210
     output reg [6:0] seg; // abcdefg
 
@@ -36,7 +36,7 @@ module ascii2_7seg(asciiIn, seg);
             71: seg = 7'b0000100; //   G        9
             72: seg = 7'b1001000; //   H        H
             73: seg = 7'b1001111; //   I        l
-            74: seg = 7'b1000111; //   J        J
+            74: seg = 7'b1000011; //   J        J
             75: seg = 7'b1111111; //   K        blank/off
             76: seg = 7'b1110001; //   L        L
             77: seg = 7'b1111111; //   M        blank/off
@@ -65,7 +65,7 @@ module ascii2_7seg(asciiIn, seg);
             103: seg = 7'b0000100; //  g        9
             104: seg = 7'b1101000; //  h        h
             105: seg = 7'b1001111; //  i        l
-            106: seg = 7'b1000111; //  j        J
+            106: seg = 7'b1000011; //  j        J
             107: seg = 7'b1111111; //  k        blank/off
             108: seg = 7'b1001111; //  l        l
             109: seg = 7'b1111111; //  m        blank/off
@@ -91,7 +91,7 @@ endmodule
 module bcd_digit_to_ascii(bcdIn, asciiOut);
     parameter N = 4; // 4-bit BCD
     input  [N-1:0] bcdIn;
-    output reg [6:0] asciiOut;
+    output reg [7:0] asciiOut;
 
     always @(*)
     begin
@@ -106,7 +106,7 @@ module bcd_digit_to_ascii(bcdIn, asciiOut);
              7: asciiOut = 55;
              8: asciiOut = 56;
              9: asciiOut = 57;
-            default: asciiOut = 7'bx;
+            default: asciiOut = 8'b00000000; // Make any bugs less random
          endcase
      end
 endmodule
