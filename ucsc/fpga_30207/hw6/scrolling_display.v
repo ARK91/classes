@@ -7,7 +7,7 @@
 
 `timescale 1ns/1ns
 
-module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll);
+module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll, scrollingDone);
     parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
@@ -16,6 +16,7 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
     input [BUF_BITS-1:0] fullPackedAsciiInput;
     output [0:7-1] seg;
     output [4-1:0] an;
+    input scrollingDone;
     wire doneWithDigit;
 
     reg [BUF_BITS-1:0] sb; // scroll buffer
@@ -24,7 +25,7 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
     always @(posedge clk) begin
         numShifts = 4'h0;
 
-        if (reset) begin
+        if (reset || scrollingDone) begin
             sb[BUF_BITS-1:0] = fullPackedAsciiInput[BUF_BITS-1:0];
         end
         else if (doneWithDigit && scroll && (numShifts < 9)) begin
@@ -50,7 +51,7 @@ module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll
     end
 
     // Display the top 4 digits (32 bits) of the scroll buffer:
-    display_packed_ascii_for_n_seconds #(0.3)
+    display_packed_ascii_for_n_seconds #(0.5)
         DISPLAY(clk, reset, seg, an, sb[(80-1)-:32], doneWithDigit);
 endmodule
 
@@ -93,7 +94,7 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
     parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
 
-    parameter NUM_SEC = 5; // Allow time for the number to display and scroll
+    parameter NUM_SEC = 7; // Allow time for the number to display and scroll
     parameter C = 35; //27 for 1 sec
     parameter N = 7;
     parameter W = 4;
@@ -109,13 +110,14 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
     wire [BCD_BITS-1:0] fullPackedBcdString;
     wire [BUF_BITS-1:0] fullPackedAsciiString;
     wire scroll;
+    wire digitsDone;
 
     assign scroll = (numberToDisplay <= 'd9999 ? 1'b0 : 1'b1);
     mod_counter #(C, STOPAT) SCROLL_COUNTER(clk, reset, clock, scrollingDone);
     binary2bcd #(BCD_BITS) BCD(numberToDisplay, fullPackedBcdString);
     bcd_to_ascii #(NUM_DIGITS) BCD_TO_ASCII(fullPackedBcdString, fullPackedAsciiString);
 
-    scrolling_ascii_display DUT(clk, reset, seg, an, fullPackedAsciiString, scroll);
+    scrolling_ascii_display DUT(clk, reset, seg, an, fullPackedAsciiString, scroll, scrollingDone);
 endmodule
 
 module numeric_scrolling_display_tb(clk, btnU, seg, an);
@@ -135,7 +137,7 @@ module numeric_scrolling_display_tb(clk, btnU, seg, an);
 
     always @(posedge clk) begin
         if (btnU) begin
-            numberToDisplay = 'd2000;
+            numberToDisplay = 'd1005;
         end
         else begin
             if (scrollingDone) begin
