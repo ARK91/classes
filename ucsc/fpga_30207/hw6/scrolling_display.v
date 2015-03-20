@@ -7,46 +7,50 @@
 
 `timescale 1ns/1ns
 
-module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput, scroll, scrollingDone);
+module scrolling_ascii_display(clk, reset, seg, an, fullPackedAsciiInput,
+                               scroll, displayNewNumber);
     parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
 
-    input clk, reset, scroll;
+    input clk, reset, scroll, displayNewNumber;
     input [BUF_BITS-1:0] fullPackedAsciiInput;
     output [0:7-1] seg;
     output [4-1:0] an;
-    input scrollingDone;
     wire doneWithDigit;
 
     reg [BUF_BITS-1:0] sb; // scroll buffer
     reg [3:0] numShifts;
+    reg savedScroll;
 
     always @(posedge clk) begin
         numShifts = 4'h0;
 
-        if (reset || scrollingDone) begin
-            sb[BUF_BITS-1:0] = fullPackedAsciiInput[BUF_BITS-1:0];
+        if (reset || displayNewNumber) begin
+            // Latch in everything
+            savedScroll = scroll;
+
+            if (savedScroll)
+                sb[BUF_BITS-1:0] = fullPackedAsciiInput[BUF_BITS-1:0];
+            else
+                // Non-scrolling case:
+                // Just shift the bottom 4 digits to the top 4 position:
+                sb[(80-1)-:32] = fullPackedAsciiInput[(32-1)-:32];
         end
-        else if (doneWithDigit && scroll && (numShifts < 9)) begin
+        else if (doneWithDigit && savedScroll && (numShifts < 9)) begin
             // Shift (rotate) left by one ASCII digit:
             sb[(8-1)-:BITS_PER_ASCII_DIGIT]  <= 8'h00;
-            sb[(16-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(8-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(24-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(16-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(32-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(24-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(40-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(32-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(48-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(40-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(56-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(48-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(64-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(56-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(72-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(64-1)-:BITS_PER_ASCII_DIGIT];
-            sb[(80-1)-:BITS_PER_ASCII_DIGIT]  <= sb[(72-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(16-1)-:BITS_PER_ASCII_DIGIT] <= sb[(8-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(24-1)-:BITS_PER_ASCII_DIGIT] <= sb[(16-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(32-1)-:BITS_PER_ASCII_DIGIT] <= sb[(24-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(40-1)-:BITS_PER_ASCII_DIGIT] <= sb[(32-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(48-1)-:BITS_PER_ASCII_DIGIT] <= sb[(40-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(56-1)-:BITS_PER_ASCII_DIGIT] <= sb[(48-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(64-1)-:BITS_PER_ASCII_DIGIT] <= sb[(56-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(72-1)-:BITS_PER_ASCII_DIGIT] <= sb[(64-1)-:BITS_PER_ASCII_DIGIT];
+            sb[(80-1)-:BITS_PER_ASCII_DIGIT] <= sb[(72-1)-:BITS_PER_ASCII_DIGIT];
 
             numShifts = numShifts + 1;
-        end
-        else if (!scroll) begin
-            // Non-scrolling case:
-            // Just shift the bottom 4 digits to the top 4 position:
-            sb[(80-1)-:32] = fullPackedAsciiInput[(32-1)-:32];
         end
     end
 
@@ -73,7 +77,10 @@ module scrolling_ascii_display_tb(clk, btnU, seg, an, sw);
     input [0:0] sw;
     reg [BUF_BITS-1:0] fullPackedAsciiString;
 
-    scrolling_ascii_display DUT(clk, btnU, seg, an, fullPackedAsciiString, sw[0]);
+    // moveToNewDisplayBuffer is tied to switch zero, so you can freeze the
+    // display:
+    scrolling_ascii_display DUT(clk, btnU, seg, an, fullPackedAsciiString,
+                                sw[0]);
 
     always @(posedge clk) begin
         if (btnU) begin
@@ -87,9 +94,66 @@ endmodule
 // Test the module by displaying number at a distance of 2000 for a every sec
 // The display should start scrolling after 9999.
 //
-module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrollingDone);
+module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay,
+                                 displayNewNumber);
     parameter NUM_DIGITS = 10;
     parameter BCD_BITS = NUM_DIGITS * 'd4;
+    parameter BITS_PER_ASCII_DIGIT = 8;
+    parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
+    parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
+
+    input clk, reset;
+    input [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
+    output [0:7-1] seg;
+    output [4-1:0] an;
+    input displayNewNumber;
+
+    wire [BCD_BITS-1:0] fullPackedBcdString;
+    wire [BUF_BITS-1:0] fullPackedAsciiString;
+    wire scroll;
+    wire digitsDone;
+
+    assign scroll = (numberToDisplay > 'd9999) ? 1'b1 : 1'b0;
+
+    binary2bcd #(BCD_BITS) BCD(numberToDisplay, fullPackedBcdString);
+    bcd_to_ascii #(NUM_DIGITS) BCD_TO_ASCII(fullPackedBcdString,
+                                            fullPackedAsciiString);
+    scrolling_ascii_display DUT(clk, reset, seg, an, fullPackedAsciiString,
+                                scroll, displayNewNumber);
+endmodule
+
+module mod_counter_for_testbenches(clk, arst, q, done) ;
+    parameter N = 7 ;
+    parameter MAX = 127 ;
+    input clk,arst;
+    output [N-1:0] q ;
+    output done ;
+
+    reg [N-1:0] q ;
+    reg done ;
+
+    always @(negedge clk or posedge arst)
+    begin
+        if (arst == 1'b1)
+        begin
+            q <= 0 ;
+            done <= 0 ;
+        end
+        else if (q == MAX)
+        begin
+            q <= 0 ;
+            done <= 1 ;
+        end
+        else
+        begin
+            q <= q + 1 ;
+            done <= 0 ;
+        end
+    end
+endmodule
+
+module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
+    parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
     parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
     parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
@@ -101,52 +165,46 @@ module scrolling_numeric_display(clk, reset, seg, an, numberToDisplay, scrolling
     parameter CRYSTAL = 100; // 100 MHZ
     parameter [C-1:0] STOPAT = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
 
-    input clk, reset;
-    input [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
-    output [0:7-1] seg;
-    output [4-1:0] an;
-    output scrollingDone;
-
-    wire [BCD_BITS-1:0] fullPackedBcdString;
-    wire [BUF_BITS-1:0] fullPackedAsciiString;
-    wire scroll;
-    wire digitsDone;
-
-    assign scroll = (numberToDisplay <= 'd9999 ? 1'b0 : 1'b1);
-    mod_counter #(C, STOPAT) SCROLL_COUNTER(clk, reset, clock, scrollingDone);
-    binary2bcd #(BCD_BITS) BCD(numberToDisplay, fullPackedBcdString);
-    bcd_to_ascii #(NUM_DIGITS) BCD_TO_ASCII(fullPackedBcdString, fullPackedAsciiString);
-
-    scrolling_ascii_display DUT(clk, reset, seg, an, fullPackedAsciiString, scroll, scrollingDone);
-endmodule
-
-module numeric_scrolling_display_tb(clk, btnU, seg, an);
-    parameter NUM_DIGITS = 10;
-    parameter BITS_PER_ASCII_DIGIT = 8;
-    parameter BUF_BITS = NUM_DIGITS * BITS_PER_ASCII_DIGIT;
-    parameter BITS_FOR_NUMBER_TO_DISPLAY = 40;
-
-    input clk, btnU;
+    input clk, btnU, btnD, btnC;
     output [0:7-1] seg;
     output [4-1:0] an;
 
-    reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
-    wire scrollingDone;
+    reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay, countedNumber;
+    wire displayTimeDone;
+    reg pendingNewNumber, displayNewNumber;
+    reg [2-1:0] countDown;
 
-    scrolling_numeric_display DUT(clk, btnU, seg, an, numberToDisplay, scrollingDone);
 
-    always @(posedge clk) begin
-        if (btnU) begin
-            numberToDisplay = 'd1005;
-        end
+    assign reset = btnU || btnD || btnC || displayNewNumber;
+
+    mod_counter_for_testbenches #(C, STOPAT)
+        SCROLL_COUNTER(clk, reset, clock, displayTimeDone);
+
+    scrolling_numeric_display DUT(clk, reset, seg, an, numberToDisplay,
+                                  displayNewNumber);
+
+    always @(negedge clk) begin
+
+        // Start from different numbers, depending on which button is pressed:
+        if (btnU)
+            numberToDisplay <= 'd7005;
+        else if (btnD)
+            numberToDisplay <= 'd10002;
+        else if (btnC)
+            numberToDisplay <= countedNumber;
+
         else begin
-            if (scrollingDone) begin
-               numberToDisplay = numberToDisplay + 'd2000;
+            if (displayTimeDone) begin
+                countedNumber <= countedNumber + 'd2000;
 
-               if (numberToDisplay > 'd9999_9999_99) begin
-                    numberToDisplay = 'd1;
-               end
+                 // start counting down to displaying the new number
+                displayNewNumber = 1'b1;
+
+                if (countedNumber > 'd9999_9999_99)
+                    countedNumber <= 'd1;
             end
+            else
+                displayNewNumber = 1'b0;
         end
     end
 endmodule

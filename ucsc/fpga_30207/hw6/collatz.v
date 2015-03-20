@@ -43,7 +43,6 @@ module collatz_test(clk, btnU, seg, an);
     input clk, btnU;
     output [0:7-1] seg ;
     output [4-1:0] an ;
-    wire [15:0] text;
 
     assign startingN = 'd27;
 

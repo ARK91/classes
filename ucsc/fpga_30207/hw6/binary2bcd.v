@@ -41,7 +41,7 @@ module bcd_to_ascii(bcd, ascii);
     input [BCD_BITS-1:0] bcd;
     output reg [BUF_BITS-1:0] ascii;
     integer digit;
-    regss firstNonZero;
+    reg firstNonZero;
 
     always @(bcd) begin
         digit = 0;
