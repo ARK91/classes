@@ -39,14 +39,14 @@ module scrolling_ascii_display(clk, reset,
         else if (waitingForStart) begin
             // Latch in everything
             savedNeedToScroll = needToScroll;
-            waitingForStart = 1'b1;
 
             if (savedNeedToScroll)
                 sb[BUF_BITS-1:0] = asciiStringToDisplay[BUF_BITS-1:0];
-            else
+            else begin
                 // Non-scrolling case:
                 // Just shift the bottom 4 digits to the top 4 position:
                 sb[(80-1)-:32] = asciiStringToDisplay[(32-1)-:32];
+            end
 
             waitingForStart = 1'b0;
         end

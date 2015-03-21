@@ -54,12 +54,15 @@ module bcd_to_ascii(bcd, ascii);
                 bcd[(digit*BITS_PER_BCD_DIGIT + BITS_PER_BCD_DIGIT   - 1)-:BITS_PER_BCD_DIGIT] + 'h30;
         end
 
-        // Turn leading zeros into underscores:
-        for (digit = NUM_DIGITS - 1; digit >=0; digit = digit  - 1) begin
-            if ((ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] == 'h30) && !firstNonZero)
-                ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] = 'h5f;
-            else
-                firstNonZero = 1'b1;
+        // Turn leading zeros into underscores, but only if the number is not
+        // actually just zero:
+        if (bcd > 0) begin
+            for (digit = NUM_DIGITS - 1; digit >=0; digit = digit  - 1) begin
+                if ((ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] == 'h30) && !firstNonZero)
+                    ascii[(digit*BITS_PER_ASCII_DIGIT + BITS_PER_ASCII_DIGIT - 1)-:BITS_PER_ASCII_DIGIT] = 'h5f;
+                else
+                    firstNonZero = 1'b1;
+            end
         end
     end
 endmodule

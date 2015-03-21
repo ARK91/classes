@@ -72,7 +72,7 @@ module packed_ascii_to_hex_digit(packedAscii, select, anode, asciiDigitOut);
                 asciiDigitOut <= packedAscii[31:24];
             end
             default:begin
-                anode <= 4'bx;
+                anode <= 4'b1000;
                 asciiDigitOut <= 8'h3d; // "=", for easier debugging
             end
         endcase

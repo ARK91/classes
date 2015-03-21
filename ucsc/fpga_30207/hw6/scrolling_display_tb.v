@@ -21,13 +21,13 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
     output [0:7-1] seg;
     output [4-1:0] an;
 
-    reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay, countedNumber;
+    reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
     wire displayTimeDone;
     wire [C-1:0]displayTickCount;
     reg pendingNewNumber, startDisplayingNewNumber;
 
     // Any of these buttons will reset everything:
-    assign reset = btnU || btnD || btnC;
+    assign reset = btnU || btnD || btnC || displayTimeDone;
 
     // Timer for how long to display each complete number:
     mod_counter #(C, CYCLES_TO_DISPLAY) DISPLAY_TIMER(clk, reset,
@@ -50,12 +50,11 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
             numberToDisplay <= 'd10002;
         else begin
             if (displayTimeDone) begin
-                countedNumber = countedNumber + 'd2000;
+                numberToDisplay = numberToDisplay + 'd2000;
 
-                if (countedNumber > 'd9999_9999_99)
-                    countedNumber <= 'd1;
+                if (numberToDisplay > 'd9999_9999_99)
+                    numberToDisplay <= 'd1;
 
-                numberToDisplay = countedNumber;
                 startDisplayingNewNumber = 1'b1;
             end
             else if (startDisplayingNewNumber)
