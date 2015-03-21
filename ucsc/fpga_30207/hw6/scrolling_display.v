@@ -26,12 +26,10 @@ module scrolling_ascii_display(clk, reset,
     reg waitingForStart;
 
     reg [BUF_BITS-1:0] sb; // scroll buffer
-    reg [3:0] numShifts;
+    reg [4:0] numShifts;
     reg savedNeedToScroll;
 
     always @(posedge clk) begin
-        numShifts = 4'h0;
-
         if (reset || latchNewString) begin
             // Do nothing until the next clock cycle:
             waitingForStart = 1'b1;
@@ -49,8 +47,9 @@ module scrolling_ascii_display(clk, reset,
             end
 
             waitingForStart = 1'b0;
+            numShifts = 5'h0;
         end
-        else if (doneWithDigit && savedNeedToScroll && (numShifts < 9)) begin
+        else if (doneWithDigit && savedNeedToScroll && (numShifts < 20)) begin
             // Shift (rotate) left by one ASCII digit:
             // TODO: this can be done in just a couple lines, no need to do it
             // 8 bits at a time.

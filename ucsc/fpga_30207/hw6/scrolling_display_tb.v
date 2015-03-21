@@ -24,7 +24,6 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
     reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
     wire displayTimeDone;
     wire [C-1:0]displayTickCount;
-    reg pendingNewNumber, startDisplayingNewNumber;
 
     // Any of these buttons will reset everything:
     assign reset = btnU || btnD || btnC || displayTimeDone;
@@ -35,11 +34,9 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
                                                       displayTimeDone);
     scrolling_numeric_display DUT(clk, reset,
                                   numberToDisplay,
-                                  startDisplayingNewNumber,
+                                  displayTimeDone,
                                   seg, an);
-
-    // Note the negedge, to help let the data settle:
-    always @(negedge clk) begin
+    always @(posedge clk) begin
 
         // Start from different numbers, depending on which button is pressed:
         if (btnU)
@@ -54,12 +51,7 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
 
                 if (numberToDisplay > 'd9999_9999_99)
                     numberToDisplay <= 'd1;
-
-                startDisplayingNewNumber = 1'b1;
             end
-            else if (startDisplayingNewNumber)
-                startDisplayingNewNumber = 1'b0;
-
         end
     end
 endmodule
