@@ -26,7 +26,7 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
     wire [C-1:0]displayTickCount;
 
     // Any of these buttons will reset everything:
-    assign reset = btnU || btnD || btnC || displayTimeDone;
+    assign reset = btnU || btnD || btnC;
 
     // Timer for how long to display each complete number:
     mod_counter #(C, CYCLES_TO_DISPLAY) DISPLAY_TIMER(clk, reset,
