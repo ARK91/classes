@@ -11,7 +11,6 @@ module scrolling_ascii_display(clk, reset,
                                asciiStringToDisplay,
                                needToScroll,
                                latchNewString,
-                               startDisplayingNewString,
                                seg, an);
     parameter NUM_DIGITS = 10;
     parameter BITS_PER_ASCII_DIGIT = 8;
@@ -19,7 +18,7 @@ module scrolling_ascii_display(clk, reset,
 
     input clk, reset;
     input [BUF_BITS-1:0] asciiStringToDisplay;
-    input needToScroll, latchNewString, startDisplayingNewString;
+    input needToScroll, latchNewString;
     output [0:7-1] seg;
     output [4-1:0] an;
 
@@ -34,25 +33,22 @@ module scrolling_ascii_display(clk, reset,
         numShifts = 4'h0;
 
         if (reset || latchNewString) begin
-            // Do nothing until we get the signal to start displaying:
+            // Do nothing until the next clock cycle:
             waitingForStart = 1'b1;
         end
         else if (waitingForStart) begin
-            if (startDisplayingNewString) begin
-                // Latch in everything
-                savedNeedToScroll = needToScroll;
-                waitingForStart = 1'b1;
+            // Latch in everything
+            savedNeedToScroll = needToScroll;
+            waitingForStart = 1'b1;
 
-                if (savedNeedToScroll)
-                    sb[BUF_BITS-1:0] = asciiStringToDisplay[BUF_BITS-1:0];
-                else
-                    // Non-scrolling case:
-                    // Just shift the bottom 4 digits to the top 4 position:
-                    sb[(80-1)-:32] = asciiStringToDisplay[(32-1)-:32];
+            if (savedNeedToScroll)
+                sb[BUF_BITS-1:0] = asciiStringToDisplay[BUF_BITS-1:0];
+            else
+                // Non-scrolling case:
+                // Just shift the bottom 4 digits to the top 4 position:
+                sb[(80-1)-:32] = asciiStringToDisplay[(32-1)-:32];
 
-                waitingForStart = 1'b0;
-            end
-            // else: do nothing for this clock cycle
+            waitingForStart = 1'b0;
         end
         else if (doneWithDigit && savedNeedToScroll && (numShifts < 9)) begin
             // Shift (rotate) left by one ASCII digit:
@@ -86,7 +82,6 @@ endmodule
 module scrolling_numeric_display(clk, reset,
                                  numberToDisplay,
                                  latchNewNumber,
-                                 startDisplayingNewNumber,
                                  seg, an);
     parameter NUM_DIGITS = 10;
     parameter BCD_BITS = NUM_DIGITS * 'd4;
@@ -98,7 +93,7 @@ module scrolling_numeric_display(clk, reset,
     input [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay;
     output [0:7-1] seg;
     output [4-1:0] an;
-    input latchNewNumber, startDisplayingNewNumber;
+    input latchNewNumber;
 
     wire [BCD_BITS-1:0] numberInBcdFormat;
     wire [BUF_BITS-1:0] asciiStringToDisplay;
@@ -116,7 +111,6 @@ module scrolling_numeric_display(clk, reset,
                                 asciiStringToDisplay,
                                 needToScroll,
                                 latchNewNumber,
-                                startDisplayingNewNumber,
                                 seg, an);
 endmodule
 

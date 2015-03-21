@@ -16,31 +16,26 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
     parameter W = 4;
     parameter CRYSTAL = 100; // 100 MHZ
     parameter [C-1:0] CYCLES_TO_DISPLAY = (CRYSTAL * 1_000_000 * NUM_SEC)- 1;
-    parameter [4:0] CYCLES_TO_LATCH = 5;
 
     input clk, btnU, btnD, btnC;
     output [0:7-1] seg;
     output [4-1:0] an;
 
     reg [BITS_FOR_NUMBER_TO_DISPLAY-1:0] numberToDisplay, countedNumber;
-    wire displayTimeDone, latchTimeDone;
-    reg pendingNewNumber, startDisplayingNewNumber, latchCounterReset;
+    wire displayTimeDone;
+    wire [C-1:0]displayTickCount;
+    reg pendingNewNumber, startDisplayingNewNumber;
 
     // Any of these buttons will reset everything:
     assign reset = btnU || btnD || btnC;
 
-    // Timer (7 seconds) for how long to display each complete number:
-    mod_counter #(C, CYCLES_TO_DISPLAY) DISPLAY_TIMER(clk, reset, clock,
+    // Timer for how long to display each complete number:
+    mod_counter #(C, CYCLES_TO_DISPLAY) DISPLAY_TIMER(clk, reset,
+                                                      displayTickCount,
                                                       displayTimeDone);
-
-    // Timer for how long to pause after latching in a new number, before
-    // displaying it:
-    mod_counter #(C, CYCLES_TO_LATCH) LATCH_TIMER(clk, latchCounterReset,
-                                                  clock, latchTimeDone);
     scrolling_numeric_display DUT(clk, reset,
                                   numberToDisplay,
-                                  displayTimeDone,
-                                  latchTimeDone,
+                                  startDisplayingNewNumber,
                                   seg, an);
 
     // Note the negedge, to help let the data settle:
@@ -61,17 +56,11 @@ module numeric_scrolling_display_tb(clk, btnU, btnD, btnC, seg, an);
                     countedNumber <= 'd1;
 
                 numberToDisplay = countedNumber;
+                startDisplayingNewNumber = 1'b1;
+            end
+            else if (startDisplayingNewNumber)
+                startDisplayingNewNumber = 1'b0;
 
-                // Pull the short latch counter OUT of reset, so it can run:
-                latchCounterReset = 1'b0;
-            end
-            else begin
-                // Normally the short latch counter is held in a reset state, so
-                // put it back to a reset state, after the latch countdown is done:
-                if (latchTimeDone) begin
-                    latchCounterReset = 1'b1;
-                end
-            end
         end
     end
 endmodule
