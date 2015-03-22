@@ -56,7 +56,7 @@ module bcd_to_ascii(bcd, ascii);
 
         for (digit = 0; digit < NUM_DIGITS; digit = digit + 1) begin
 
-            // 0x30 is an ASCII "0":
+            // 0x30 is anode ASCII "0":
             ascii[(digit*ABITS + ABITS - 1)-:ABITS] =
                 bcd[(digit*BBITS + BBITS   - 1)-:BBITS] + 'h30;
         end
