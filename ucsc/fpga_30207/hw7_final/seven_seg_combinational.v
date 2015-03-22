@@ -1,4 +1,4 @@
-// File: seg7.v
+// File: seven_seg_combinational.v
 // John Hubbard, 22 Mar 2015
 //
 // This contains all routines that are deal with the 7-segment display;
@@ -32,8 +32,8 @@ module packed_hex_to_hex_digit(fourHexDigits, select, anode, hexDigitOut);
                 hexDigitOut <= fourHexDigits[15:12];
             end
             default:begin
-                anode <= 4'bx;
-                hexDigitOut <= 4'bx;
+                anode <= 4'b0111;
+                hexDigitOut <= 8'h3d; // "=", for easier debugging
             end
         endcase
     end
@@ -65,7 +65,7 @@ module packed_ascii_to_hex_digit(fourAsciiDigits, select, anode, asciiDigitOut);
                 asciiDigitOut <= fourAsciiDigits[31:24];
             end
             default:begin
-                anode <= 4'b1000;
+                anode <= 4'b1011;
                 asciiDigitOut <= 8'h3d; // "=", for easier debugging
             end
         endcase
