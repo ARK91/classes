@@ -29,7 +29,7 @@ module mux_tb();
     integer vec;
     reg a, b, c, d, e;
     reg [3-1:0] s;
-    reg [3-1:0] sLoop;
+    reg [4-1:0] sLoop;
     wire f;
 
     five_to_one_mux_using_case DUT(a, b, c, d, e, s, f);
