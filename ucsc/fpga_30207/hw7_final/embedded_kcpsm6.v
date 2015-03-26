@@ -33,9 +33,9 @@ module embedded_kcpsm6(
     wire [11:0]     address;
     wire [17:0] instruction;
     wire kcpsm6_sleep;
-    wire interrupt ;
 
-// copied from /cygdrive/c/work/fpga/course/v/picoblaze/KCPSM6_Release9_30Sept14/extract/Verilog/kcpsm6_design_template.v
+    // copied from /cygdrive/c/work/fpga/course/v/picoblaze/
+    //      KCPSM6_Release9_30Sept14/extract/Verilog/kcpsm6_design_template.v
     kcpsm6 #(
 	.interrupt_vector	(12'h3FF),
 	.scratch_pad_memory_size(64),
@@ -55,21 +55,22 @@ module embedded_kcpsm6(
 		.sleep(sleep), 
 		.reset(reset), 
 		.clk(clk)
-	) ;
+    );
 
- //
-  // In many designs (especially your first) interrupt and sleep are not used.
-  // Tie these inputs Low until you need them. 
-  // 
+    //
+    // In many designs (especially your first) interrupt and sleep are not used.
+    // Tie these inputs Low until you need them.
+    //
 
-  assign kcpsm6_sleep = 1'b0;
-  assign interrupt = 1'b0;
+    assign kcpsm6_sleep = 1'b0;
+    assign interrupt = 1'b0;
 
-  prog_rom program(
- 	.rdl 			(rdl),
-	.enable 		(bram_enable),
-	.address 		(address),
-	.instruction 	(instruction),
-	.clk 			(clk));
+    prog_rom program(
+        .rdl            (rdl),
+        .enable         (bram_enable),
+        .address        (address),
+        .instruction    (instruction),
+        .clk            (clk)
+    );
 endmodule
 
