@@ -43,8 +43,8 @@ module test_equal_on_board(clk, btnU, seg, an, led);
 
     //o1(4), o2(4), o3(4), first(4)
     //0 or 1 0 or 1 <3 to 0> <2 to 0>
-    assign text = btnU ? 0 : ((inputs % 10) == 0) ? ~(0) :
-                    {{3'b0, o1}, {3'b0,o2},{3'b0,o3}, error};
+    assign packedHex = btnU ? 0 : ((inputs % 10) == 0) ? ~(0) :
+                          {{3'b0, o1}, {3'b0,o2},{3'b0,o3}, error};
     //a,b,c,d,e
     //0 1 2 3 4
     andn_rtl U1(inputs, o1); //behaviour

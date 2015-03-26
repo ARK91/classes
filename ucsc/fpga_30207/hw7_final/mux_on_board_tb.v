@@ -1,5 +1,4 @@
 // File: test_mux_on_board.v
-//
 // John F. Hubbard, 26 Mar 2015
 //
 // MODULE: test_mux_on_board
@@ -7,6 +6,7 @@
 //     This module tests different MUX modules, using the BASYS3 board as the
 //     test bench, as recommended in Jag's (instructor's) course outline for
 //     UCSC 30207: Digital Design with FPGA.
+//     (Derived from Jag's (instructor's) equal_on_board.v module.)
 //
 // MODULE: mux_tb
 //
@@ -66,6 +66,8 @@ module test_mux_on_board(clk, btnU, sw, seg, an, led);
     wire o1, o2, o3;
     wire [15:0] packedHex;
     reg [3:0] error;
+    wire a,b,c,d,e;
+    wire [2:0] s;
 
     always @(posedge clk or posedge btnU) begin
         if (btnU) begin
@@ -91,10 +93,12 @@ module test_mux_on_board(clk, btnU, sw, seg, an, led);
 
     //o1(4), o2(4), o3(4), first(4)
     //0 or 1 0 or 1 <3 to 0> <2 to 0>
-    assign text = btnU ? 0 : ((inputs % 10) == 0) ? ~(0) :
-                    {{3'b0, o1}, {3'b0,o2},{3'b0,o3}, error};
+    assign packedHex = btnU ? 0 : ((inputs % 10) == 0) ? ~(0) :
+                          {{3'b0, o1}, {3'b0,o2},{3'b0,o3}, error};
     //a,b,c,d,e
     //0 1 2 3 4
+    assign {a,b,c,d,e,s[2:0]} = inputs[7:0];
+
     five_to_one_mux_using_case DUT1(a, b, c, d, e, s, o1);
     five_to_one_mux_using_if   DUT2(a, b, c, d, e, s, o2);
 
@@ -104,6 +108,6 @@ module test_mux_on_board(clk, btnU, sw, seg, an, led);
 
     // Provide error injection: if sw0 is on, then tie o3 to 1'b1. That will
     // generate errors. Otherwise, o2 tracks o2, avoiding any errors:
-    assign o3 = (sw[0] ? 1'b1 : o2);
+    assign o3 = (sw[0] ? sw[0] : o2);
 endmodule
 
