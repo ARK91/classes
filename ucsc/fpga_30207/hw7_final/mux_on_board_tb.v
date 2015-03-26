@@ -19,10 +19,12 @@ module mux_tb();
     reg a, b, c, d, e;
     reg [3-1:0] s;
     reg [4-1:0] sLoop;
-    wire f1, f2;
+    wire f1, f2, f3;
 
     five_to_one_mux_using_case DUT1(a, b, c, d, e, s, f1);
     five_to_one_mux_using_if   DUT2(a, b, c, d, e, s, f2);
+//  five_to_one_mux_using_lut4 DUT3(a, b, c, d, e, s, f3);
+    five_to_one_mux_using_lut4_one_level_logic DUT3(a, b, c, d, e, s, f3);
 
     initial begin
 
@@ -39,12 +41,18 @@ module mux_tb();
                 if (f1 != f2) begin
                     $display("ERROR: f1 != f2 *******************************");
                     $display("ERROR case: ",
-                             "{e,d,c,b,a}: %b, s: %b, f1: %b, f2: %b",
-                             vec[5-1:0], s, f1, f2);
+                             "{e,d,c,b,a}: %b, s: %b, f1: %b, f2: %b, f3: %b",
+                             vec[5-1:0], s, f1, f2, f3);
                 end
-//              else
-//                  $display("{e,d,c,b,a}: %b, s: %b, f1: %b, f2: %b",
-//                           vec[5-1:0], s, f1, f2);
+                else if (f1 != f3) begin
+                    $display("ERROR: f1 != f3 *******************************");
+                    $display("ERROR case: ",
+                             "{e,d,c,b,a}: %b, s: %b, f1: %b, f2: %b, f2: %b",
+                             vec[5-1:0], s, f1, f2, f3);
+                end
+                else
+                    $display("{e,d,c,b,a}: %b, s: %b, f1: %b, f2: %b, f3: %b",
+                             vec[5-1:0], s, f1, f2, f3);
             end
         end
     end
@@ -101,13 +109,11 @@ module test_mux_on_board(clk, btnU, sw, seg, an, led);
 
     five_to_one_mux_using_case DUT1(a, b, c, d, e, s, o1);
     five_to_one_mux_using_if   DUT2(a, b, c, d, e, s, o2);
+    five_to_one_mux_using_lut4 DUT3(a, b, c, d, e, s, o3);
 
     display_packed_hex_for_n_seconds #(0.5) D(clk, btnU, seg, an,
                                               packedHex, done);
-    assign led = inputs;
-
-    // Provide error injection: if sw0 is on, then tie o3 to 1'b1. That will
-    // generate errors. Otherwise, o2 tracks o2, avoiding any errors:
-    assign o3 = (sw[0] ? sw[0] : o2);
+    assign led[7:0] = inputs[7:0];
+    assign led[15:8] = 8'h00;
 endmodule
 

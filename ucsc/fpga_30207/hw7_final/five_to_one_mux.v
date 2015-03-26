@@ -46,3 +46,34 @@ module five_to_one_mux_using_if(a, b, c, d, e, s, f);
     end
 endmodule
 
+module five_to_one_mux_using_lut4(a, b, c, d, e, s, f);
+    input a, b, c, d, e; // a is MSB (most significant bit)
+    input [3-1:0] s; // select line
+
+    output f;
+
+    wire f0, f1, f2;
+
+    LUT4 #(16'hCACA) DUT0(f0, a, b,   s[0], 1'bx);
+    LUT4 #(16'hCACA) DUT1(f1, c,  d,  s[0], 1'bx);
+    LUT4 #(16'hCACA) DUT2(f2, f0, f1, s[1], 1'bx);
+    MUXF5 DUT3(f,  f2, e,  s[2]);
+
+endmodule
+
+module five_to_one_mux_using_lut4_one_level_logic(a, b, c, d, e, s, f);
+    input a, b, c, d, e; // a is MSB (most significant bit)
+    input [3-1:0] s; // select line
+
+    output f;
+
+    wire f0, f1, f2;
+
+    LUT4 #(16'hCACA) DUT0(f0, a, b,   s[0], 1'bx);
+    LUT4 #(16'hCACA) DUT1(f1, c,  d,  s[0], 1'bx);
+    MUXF5            DUT2(f2, f0, f1, s[1]);
+    MUXF6            DUT3(f,  f2, e,  s[2]);
+
+endmodule
+
+
