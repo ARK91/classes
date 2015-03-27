@@ -15,6 +15,13 @@
 ;  handle 16 bits.
 ;
 ; Derived from course manual (Copyright: Jagadeesh Vasudevamurthy)
+;
+; Compile:
+; Download: http://www.xilinx.com/ipcenter/processor_central/picoblaze/member/
+; Extract, and use:
+;   ROM_form_JTAGLoader_Vivado_2June14.v
+;   kcpsm6.exe
+;   prog_rom.psm (this file)
 
 ;======================================================
 ; input and output port
