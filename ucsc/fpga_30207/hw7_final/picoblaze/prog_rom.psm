@@ -1,0 +1,55 @@
+; prog_rom.psm
+; John F. Hubbard, 26 Mar 2015
+;
+; For problem 3 on page 389 of UCSC 20307: Digital Design with FPGA:
+; Problem statement:
+;
+;  1. Start with a number,start, say 4.
+;  2. Increment the number by a number, incr, say 20
+;  3. Addition is done using microblaze
+;  4. Display the number on the board at a time interval of 'n' second
+;  Example 4,24,44,64 etc
+;  5. Output the above results on LED's also
+;  6. What happens after the sum > 255
+;  7. Modify the code, both hardware and software code, to
+;  handle 16 bits.
+;
+; Derived from course manual (Copyright: Jagadeesh Vasudevamurthy)
+
+;======================================================
+; input and output port
+constant INPUTPORT, 00
+constant OUTPUTPORT, 02
+;======================================================
+
+;======================================================
+; register alias
+namereg s0, indata ;//s0 reg has indata, switch contents (0 to 255)
+namereg s1, scratch ; //Use s1 reg as a scratch
+namereg s2, ans; //Use s2 for final answer
+;======================================================
+; Main Program
+loop:
+    call read_switch
+    call compute_sum
+    call display
+    jump loop
+
+read_switch:
+    input indata, INPUTPORT ; Read INPUTPORT to indata reg
+    return
+
+display:
+    output ans, OUTPUTPORT ; Output ans reg value to OUTPUTPORT
+    return
+
+compute_sum:
+    load ans, indata        ; Copy indata to ans
+    load scratch, indata    ; Copy indata to scratch
+    compare indata, 00      ; is indata == 0
+    jump nz, start1         ; Goto start1 if indata != 0 ;
+    return                  ; Return if indata == 0
+
+start1:
+    compare indata, 01   ; is indata == 1
+    jump nz, start1      ; Goto start1 if indata != 1 ;
