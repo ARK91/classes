@@ -13,7 +13,7 @@ module binary2bcd(number, bcd);
     input  [N-1:0] number;
     output [NBCD-1:0] bcd;
 
-    reg [N-1:0] workingNumber;
+    integer workingNumber;
     reg [NBCD-1:0] bcd;
 
     reg [3:0] digit;
