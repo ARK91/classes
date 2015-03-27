@@ -19,9 +19,9 @@
 ; Compile:
 ; Download: http://www.xilinx.com/ipcenter/processor_central/picoblaze/member/
 ; Extract, and use:
-;   ROM_form_JTAGLoader_Vivado_2June14.v
-;   kcpsm6.exe
 ;   prog_rom.psm (this file)
+;   cp ROM_form_JTAGLoader_Vivado_2June14.v ROM_form.v
+;   RUN: kcpsm6.exe
 
 ;======================================================
 ; Main Program
