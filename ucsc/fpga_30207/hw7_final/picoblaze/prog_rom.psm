@@ -60,3 +60,4 @@ compute_sum:
 start1:
     compare indata, 01   ; is indata == 1
     jump nz, start1      ; Goto start1 if indata != 1 ;
+    return
