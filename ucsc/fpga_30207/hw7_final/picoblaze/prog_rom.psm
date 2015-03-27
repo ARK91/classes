@@ -24,6 +24,9 @@
 ;   prog_rom.psm (this file)
 
 ;======================================================
+; Main Program
+
+;======================================================
 ; input and output port
 constant INPUTPORT, 00
 constant OUTPUTPORT, 02
@@ -43,21 +46,28 @@ loop:
     jump loop
 
 read_switch:
-    input indata, INPUTPORT ; Read INPUTPORT to indata reg
+    input indata,INPUTPORT ; //Read INPUTPORT to indata reg
     return
 
 display:
-    output ans, OUTPUTPORT ; Output ans reg value to OUTPUTPORT
+    output ans,OUTPUTPORT ; //Output ans reg value to OUTPUTPORT
     return
 
 compute_sum:
-    load ans, indata        ; Copy indata to ans
-    load scratch, indata    ; Copy indata to scratch
-    compare indata, 00      ; is indata == 0
-    jump nz, start1         ; Goto start1 if indata != 0 ;
-    return                  ; Return if indata == 0
+    load ans, indata ;//Copy indata to ans
+    load scratch, indata ;//Copy indata to scratch
+    compare indata, 00; //is indata == 0
+    jump nz, start1 ; //Goto start1 if indata != 0 ;
+    return ; //Return if indata == 0
 
-start1:
-    compare indata, 01   ; is indata == 1
-    jump nz, start1      ; Goto start1 if indata != 1 ;
-    return
+start1: compare indata, 01; //is indata == 1
+    jump nz, start ; //Goto start if indata != 1 ;
+    return ; //Return if indata = 1
+
+start: load ans, 00 ;//ans = 0 ;
+until:
+    add ans, scratch; //ans = ans + scratch
+    sub scratch, 01 ;//scratch = scratch - 1;
+    jump nz, until ; //repeat until scratch = 0 ;
+    return ;
+
