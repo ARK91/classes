@@ -37,23 +37,23 @@ module embedded_kcpsm6(
     // copied from /cygdrive/c/work/fpga/course/v/picoblaze/
     //      KCPSM6_Release9_30Sept14/extract/Verilog/kcpsm6_design_template.v
     kcpsm6 #(
-	.interrupt_vector	(12'h3FF),
-	.scratch_pad_memory_size(64),
-	.hwbuild		(8'h00))
+        .interrupt_vector   (12'h3FF),
+        .scratch_pad_memory_size(64),
+        .hwbuild        (8'h00))
     processor (
-		.address(address), 
-		.instruction(instruction), 
-		.bram_enable(bram_enable), 
-		.in_port(in_port), 
-		.out_port(out_port), 
-		.port_id(port_id), 
-		.write_strobe(write_strobe), 
-		.k_write_strobe(k_write_strobe), 
-		.read_strobe(read_strobe), 
-		.interrupt(interrupt), 
-		.interrupt_ack(interrupt_ack), 
-		.sleep(sleep), 
-		.reset(reset), 
+		.address(address),
+		.instruction(instruction),
+        .bram_enable(bram_enable),
+		.in_port(in_port),
+		.out_port(out_port),
+		.port_id(port_id),
+		.write_strobe(write_strobe),
+		.k_write_strobe(k_write_strobe),
+		.read_strobe(read_strobe),
+		.interrupt(interrupt),
+		.interrupt_ack(interrupt_ack),
+        .sleep(kcpsm6_sleep),
+		.reset(reset),
 		.clk(clk)
     );
 
@@ -63,14 +63,15 @@ module embedded_kcpsm6(
     //
 
     assign kcpsm6_sleep = 1'b0;
-    assign interrupt = 1'b0;
+
+    // The calling module needs to assign this, because it is an interrupt.
+//  assign interrupt = 1'b0;
 
     prog_rom program(
         .rdl            (rdl),
         .enable         (bram_enable),
         .address        (address),
         .instruction    (instruction),
-        .clk            (clk)
-    );
+        .clk            (clk));
 endmodule
 

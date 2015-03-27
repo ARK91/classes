@@ -9,11 +9,12 @@
 
 module binary2bcd(number, bcd);
     parameter N = 16;
+    parameter NBCD = 16;
     input  [N-1:0] number;
-    output [N-1:0] bcd;
+    output [NBCD-1:0] bcd;
 
     reg [N-1:0] workingNumber;
-    reg [N-1:0] bcd;
+    reg [NBCD-1:0] bcd;
 
     reg [3:0] digit;
     integer digitEnd;
