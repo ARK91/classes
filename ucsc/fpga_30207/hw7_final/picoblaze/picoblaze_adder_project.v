@@ -40,6 +40,7 @@ module sum(clk, sw, btnU, seg, an, led);
     wire write_strobe;
     wire interrupt_ack;
     wire read_strobe;
+    reg doneReg;
     wire [6:0] seg_out;
     reg [7:0] outForDisplay;
     wire [15:0] num;
@@ -64,13 +65,16 @@ module sum(clk, sw, btnU, seg, an, led);
     // Interrupts are not used on the processor, so tie this to zero:
     assign interrupt = 1'b0;
 
+    //donereg is 0 for 1 sec, then 1 for 1 sec, 0 for 1 sec , 1 for one sec
+    always @(posedge clk)
+        if (done)
+            doneReg <= !doneReg ;
+
     always @(posedge clk) begin
         if (write_strobe) begin
-            //Seg shows sum of 1+2+3+ ..+in_port
             outForDisplay = out_port;
         end
     end
 
-    assign in_port = sw; //Read from sw
-    assign led = in_port; //leds shows input value
+    assign in_port = doneReg;
 endmodule

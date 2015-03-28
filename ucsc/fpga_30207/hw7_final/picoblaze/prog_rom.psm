@@ -32,19 +32,29 @@ constant OUTPUTPORT, 02
 ;======================================================
 ; register aliases:
 namereg s0, displayDone ; s0 reg has "display done" signal
-namereg s1, scratch     ; s1 reg is not used this time, but leave it alone.
+namereg s1, flag        ; Do not add until indata differs from flag
 namereg s2, answer      ; Use s2 for final answer
 ;======================================================
 ; Main Program
-main:
-    load answer, 04             ; Initialize with answer = 4
+init:
+    load answer, 04              ; Initialize with answer = 4
+    output answer, OUTPUTPORT    ; Send initial answer to OUTPUTPORT
+    load flag, 00
+
+; displayDone is a 1Hz signal, so this code is essentially looking for
+; edges: it does an addition only when there is a zero-to-one, or one-to-zero
+; transition in displayDone.
+
 loop:
     input displayDone, INPUTPORT ; Read displayDone from the INPUTPORT
-    compare displayDone, 01      ; is displayDone == 1?
-    jump nz, display             ; if displayDone != 1, goto display
-    add answer, 20               ; otherwise, answer += 20
+    compare displayDone, flag    ; Is displayDone == flag?
+    jump z, loop                 ; if so, just loop and do nothing
 
-display:
-    output answer, OUTPUTPORT    ; Output answer to OUTPUTPORT
+; displayDone is different, so do the addition, display it, and set
+; displayDone = flag so it sits still.
+
+    add answer, 14               ; else, answer += 20 (0x14)
+    load flag, displayDone       ; Ensure that displayDone == flag
+    output answer, OUTPUTPORT    ; Send the answer to OUTPUTPORT
     jump loop
 
