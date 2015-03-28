@@ -42,8 +42,7 @@ module sum(clk, sw, btnU, seg, an, led);
     wire read_strobe;
     reg doneReg;
     wire [6:0] seg_out;
-    reg [7:0] outForDisplay;
-    wire [15:0] num;
+    reg [15:0] outForDisplay;
     wire [15:0] packedHex;
     wire done;
 
@@ -57,8 +56,7 @@ module sum(clk, sw, btnU, seg, an, led);
                       btnU,
                       clk);
 
-    in_to_out #(8,16) I(outForDisplay, num);
-    binary2bcd #(16,16) M(num, packedHex);
+    binary2bcd #(16,16) M(outForDisplay, packedHex);
     display_packed_hex_for_n_seconds #(1) D(clk, btnU, seg, an,
                                             packedHex, done);
 
@@ -72,9 +70,18 @@ module sum(clk, sw, btnU, seg, an, led);
 
     always @(posedge clk) begin
         if (write_strobe) begin
-            outForDisplay = out_port;
+            if ((port_id[1] == 1'b1) && (port_id[0] == 1'b0)) begin
+                // Low byte is sent on port 0x2, which is here.
+                // Keep the high byte, and use out_port for the low byte:
+                outForDisplay = (outForDisplay & 16'hFF00) | out_port;
+            end
+            if ((port_id[1] == 1'b1) && (port_id[0] == 1'b1)) begin
+                // high byte is sent on port 0x3, which has arrived.
+                // Keep the low byte, and use out_port for the high byte:
+                outForDisplay = (outForDisplay & 16'h00FF)| (out_port << 8);
+            end
         end
     end
 
-    assign in_port = doneReg;
+    assign in_port = doneReg; // Send a 1Hz signal to in_port.
 endmodule

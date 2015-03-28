@@ -26,19 +26,22 @@
 ;======================================================
 ; input and output ports:
 constant INPUTPORT,  00
-constant OUTPUTPORT, 02
+constant OUTPUTPORT_LOWBYTE,  02
+constant OUTPUTPORT_HIGHBYTE, 03
 ;======================================================
 
 ;======================================================
 ; register aliases:
-namereg s0, displayDone ; s0 reg has "display done" signal
-namereg s1, flag        ; Do not add until indata differs from flag
-namereg s2, answer      ; Use s2 for final answer
+namereg s0, displayDone ; s0 reg has "display done" signal.
+namereg s1, flag        ; Do not add until indata differs from flag.
+namereg s2, answerLow   ; Use s2 for the low byte of the answer.
+namereg s3, answerHigh  ; Use s3 for the high byte of the answer.
 ;======================================================
 ; Main Program
 init:
-    load answer, 04              ; Initialize with answer = 4
-    output answer, OUTPUTPORT    ; Send initial answer to OUTPUTPORT
+    load answerLow, 04                    ; Initialize with answerLow = 4
+    load answerHigh, 00                    ; Initialize high byte to zero
+    output answerLow, OUTPUTPORT_LOWBYTE  ; Send initial answerLow to OUTPUTPORT
     load flag, 00
 
 ; displayDone is a 1Hz signal, so this code is essentially looking for
@@ -53,8 +56,11 @@ loop:
 ; displayDone is different, so do the addition, display it, and set
 ; displayDone = flag so it sits still.
 
-    add answer, 14               ; else, answer += 20 (0x14)
+    add answerLow,   14        ; else, answerLow += 20 (0x14)
+    addcy answerHigh, 00       ; Add with carry for 16-bit math
+
     load flag, displayDone       ; Ensure that displayDone == flag
-    output answer, OUTPUTPORT    ; Send the answer to OUTPUTPORT
+    output answerLow, OUTPUTPORT_LOWBYTE   ; Send low byte to _LOWBYTE
+    output answerHigh, OUTPUTPORT_HIGHBYTE ; Send high byte to _HIGHBYTE
     jump loop
 
