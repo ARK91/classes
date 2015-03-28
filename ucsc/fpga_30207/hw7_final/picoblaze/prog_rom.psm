@@ -24,50 +24,27 @@
 ;   RUN: kcpsm6.exe
 
 ;======================================================
-; Main Program
-
-;======================================================
-; input and output port
-constant INPUTPORT, 00
+; input and output ports:
+constant INPUTPORT,  00
 constant OUTPUTPORT, 02
 ;======================================================
 
 ;======================================================
-; register alias
-namereg s0, indata ;//s0 reg has indata, switch contents (0 to 255)
-namereg s1, scratch ; //Use s1 reg as a scratch
-namereg s2, ans; //Use s2 for final answer
+; register aliases:
+namereg s0, displayDone ; s0 reg has "display done" signal
+namereg s1, scratch     ; s1 reg is not used this time, but leave it alone.
+namereg s2, answer      ; Use s2 for final answer
 ;======================================================
 ; Main Program
+main:
+    load answer, 04             ; Initialize with answer = 4
 loop:
-    call read_switch
-    call compute_sum
-    call display
-    jump loop
-
-read_switch:
-    input indata,INPUTPORT ; //Read INPUTPORT to indata reg
-    return
+    input displayDone, INPUTPORT ; Read displayDone from the INPUTPORT
+    compare displayDone, 01      ; is displayDone == 1?
+    jump nz, display             ; if displayDone != 1, goto display
+    add answer, 20               ; otherwise, answer += 20
 
 display:
-    output ans,OUTPUTPORT ; //Output ans reg value to OUTPUTPORT
-    return
-
-compute_sum:
-    load ans, indata ;//Copy indata to ans
-    load scratch, indata ;//Copy indata to scratch
-    compare indata, 00; //is indata == 0
-    jump nz, start1 ; //Goto start1 if indata != 0 ;
-    return ; //Return if indata == 0
-
-start1: compare indata, 01; //is indata == 1
-    jump nz, start ; //Goto start if indata != 1 ;
-    return ; //Return if indata = 1
-
-start: load ans, 00 ;//ans = 0 ;
-until:
-    add ans, scratch; //ans = ans + scratch
-    sub scratch, 01 ;//scratch = scratch - 1;
-    jump nz, until ; //repeat until scratch = 0 ;
-    return ;
+    output answer, OUTPUTPORT    ; Output answer to OUTPUTPORT
+    jump loop
 
