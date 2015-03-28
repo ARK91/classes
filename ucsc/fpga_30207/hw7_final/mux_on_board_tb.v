@@ -12,6 +12,7 @@
 //
 //     This module tests different MUX modules, using Modelsim simulation.
 //
+`timescale 1ns/1ns
 
 module mux_tb();
     parameter MAX_VEC = 32;
