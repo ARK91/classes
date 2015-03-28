@@ -41,7 +41,7 @@ module sum(clk, sw, btnU, seg, an, led);
     wire interrupt_ack;
     wire read_strobe;
     wire [6:0] seg_out;
-    reg [7:0] out_port_reg;
+    reg [7:0] outForDisplay;
     wire [15:0] num;
     wire [15:0] packedHex;
     wire done;
@@ -56,25 +56,20 @@ module sum(clk, sw, btnU, seg, an, led);
                       btnU,
                       clk);
 
-    in_to_out #(8,16) I(out_port_reg, num);
+    in_to_out #(8,16) I(outForDisplay, num);
     binary2bcd #(16,16) M(num, packedHex);
     display_packed_hex_for_n_seconds #(1) D(clk, btnU, seg, an,
                                             packedHex, done);
 
+    // Interrupts are not used on the processor, so tie this to zero:
     assign interrupt = 1'b0;
 
     always @(posedge clk) begin
         if (write_strobe) begin
-            out_port_reg = out_port; //Seg shows sum of 1+2+3+ ..+in_port
+            //Seg shows sum of 1+2+3+ ..+in_port
+            outForDisplay = out_port;
         end
     end
-
-    //Although we have 16 switches, picoblaze is reading only 8 switches
-    //So max input is : 11111111 = 255
-    //So max output is (n *(n+1))/2 = (255*256)/2 == 32640
-    //32640 is 111111110000000
-    //As it is 8 bit 10000000 = 128
-    //When 8 switches are ON, you see 128
 
     assign in_port = sw; //Read from sw
     assign led = in_port; //leds shows input value
