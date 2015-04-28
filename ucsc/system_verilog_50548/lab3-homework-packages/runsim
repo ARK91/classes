@@ -1,0 +1,1 @@
+vcs -full64 -R -l vcs.log -debug_pp alu_tb.sv alu.sv -sverilog +v2k +define+ENABLE_DUMP 

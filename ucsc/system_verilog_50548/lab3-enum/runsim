@@ -1,0 +1,1 @@
+vcs -full64 -sverilog -R -l vcs.log enum_data.sv

@@ -1,0 +1,2 @@
+#vcs -full64 -sverilog -R -l vcs.log test.sv +define+ENABLE_MESSAGE +plusarg_save +ntb_random_seed=88266328311
+vcs -full64 -sverilog -R -l vcs.log test.sv +define+ENABLE_MESSAGE +plusarg_save +ntb_random_seed=884784772536174
