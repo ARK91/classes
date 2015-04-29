@@ -4,52 +4,56 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 module fifo (clk, rstp, src_in, dst_in, data_in, writep, readp, 
-	src_out, dst_out, data_out, emptyp, fullp);
-input		clk;
-input		rstp;
-input [7:0]	src_in;
-input [7:0]	dst_in;
-input [31:0]	data_in;
-input		readp;
-input		writep;
-output [7:0]	src_out;
-output [7:0]	dst_out;
-output [31:0]	data_out;
-output		emptyp;
-output		fullp;
+    src_out, dst_out, data_out, emptyp, fullp);
+input       clk;
+input       rstp;
+input [7:0] src_in;
+input [7:0] dst_in;
+input [31:0]    data_in;
+input       readp;
+input       writep;
+output [7:0]    src_out;
+output [7:0]    dst_out;
+output [31:0]   data_out;
+output      emptyp;
+output      fullp;
 
 // Defines sizes in terms of bits.
 //
-parameter	DEPTH = 2,		// 2 bits, e.g. 4 words in the FIFO.
-		MAX_COUNT = (1<<DEPTH);	// topmost address in FIFO.
+parameter   DEPTH = 2,      // 2 bits, e.g. 4 words in the FIFO.
+        MAX_COUNT = (1<<DEPTH); // topmost address in FIFO.
 
-reg 		emptyp;
-reg		fullp;
+logic         emptyp;
+logic     fullp;
+
+`begin_keywords "1364-2001"
+reg [5:0]int;
+`end_keywords
 
 // Registered output.
-reg [7:0]	src_out;
-reg [7:0]	dst_out;
-reg [31:0]	data_out;
+logic [7:0]   src_out;
+logic [7:0]   dst_out;
+logic [31:0]  data_out;
 
 // Define the FIFO pointers.  A FIFO is essentially a circular queue.
 //
-reg [(DEPTH-1):0]	tail;
-reg [(DEPTH-1):0]	head;
+logic [(DEPTH-1):0]   tail;
+logic [(DEPTH-1):0]   head;
 
 // Define the FIFO counter.  Counts the number of entries in the FIFO which
 // is how we figure out things like Empty and Full.
 //
-reg [DEPTH:0]	count;
+logic [DEPTH:0]   count;
 
 // Define our regsiter bank.  This is actually synthesizable!
 
 
-reg [47:0] fifomem[0:MAX_COUNT];
+logic [47:0] fifomem[0:MAX_COUNT];
 
 // Dout is registered and gets the value that tail points to RIGHT NOW.
 //
 integer i;
-always @(posedge clk or posedge rstp) begin
+always_ff @(posedge clk or posedge rstp) begin
    if (rstp == 1) begin
       src_out <= 8'b0;
       dst_out <= 8'b0;
@@ -61,7 +65,7 @@ always @(posedge clk or posedge rstp) begin
 end 
      
 // Update FIFO memory.
-always @(posedge clk)
+always_ff @(posedge clk)
    if (rstp == 1'b0) begin
      if (writep == 1'b1 && fullp == 1'b0)
       fifomem[head] <= {src_in,dst_in,data_in};
@@ -69,7 +73,7 @@ always @(posedge clk)
 
 // Update the head register.
 //
-always @(posedge clk) begin
+always_ff @(posedge clk) begin
    if (rstp == 1'b1) begin
       head <= 0;
    end
@@ -83,7 +87,7 @@ end
 
 // Update the tail register.
 //
-always @(posedge clk) begin
+always_ff @(posedge clk) begin
    if (rstp == 1'b1) begin
       tail <= 0;
    end
@@ -97,7 +101,7 @@ end
 
 // Update the count regsiter.
 //
-always @(posedge clk) begin
+always_ff @(posedge clk) begin
    if (rstp == 1'b1) begin
       count <= 0;
    end
@@ -124,7 +128,7 @@ end
 //
 // First, update the empty flag.
 //
-always @(count) begin
+always_comb begin
    if (count == 0)
      emptyp = 1'b1;
    else
@@ -134,7 +138,7 @@ end
 
 // Update the full flag
 //
-always @(count) begin
+always_comb begin
    if (count < MAX_COUNT)
       fullp = 1'b0;
    else

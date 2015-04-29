@@ -1,34 +1,34 @@
 module fifo_tb;
 
-reg		clk;
-reg		rstp;
-reg [7:0]	src_in;
-reg [7:0]	dst_in;
-reg [31:0]	data_in;
-reg		readp;
-reg		writep;
-wire [7:0]	src_out;
-wire [7:0]	dst_out;
-wire [31:0]	data_out;
-wire		emptyp;
-wire		fullp;
+reg     clk;
+reg     rstp;
+reg [7:0]   src_in;
+reg [7:0]   dst_in;
+reg [31:0]  data_in;
+reg     readp;
+reg     writep;
+wire [7:0]  src_out;
+wire [7:0]  dst_out;
+wire [31:0] data_out;
+wire        emptyp;
+wire        fullp;
 
 
 parameter    depth = 2;
 
 fifo #(depth+1) U1 (
-   .clk		(clk),
-   .rstp	(rstp),
-   .src_in	(src_in),
-   .dst_in	(dst_in),
-   .data_in	(data_in),
-   .readp	(readp),
-   .writep	(writep),
-   .src_out	(src_out),
-   .dst_out	(dst_out),
-   .data_out	(data_out),
-   .emptyp	(emptyp),
-   .fullp	(fullp)
+   .clk     (clk),
+   .rstp    (rstp),
+   .src_in  (src_in),
+   .dst_in  (dst_in),
+   .data_in (data_in),
+   .readp   (readp),
+   .writep  (writep),
+   .src_out (src_out),
+   .dst_out (dst_out),
+   .data_out    (data_out),
+   .emptyp  (emptyp),
+   .fullp   (fullp)
 );
 
 // Write and Read to/from FIFO 
@@ -42,10 +42,8 @@ begin
 end
 endtask
    
-task automatic write_word;
-input [7:0]	src;
-input [7:0]	dst;
-input [31:0]	data;
+task automatic write_word(input [7:0]src=0, input [7:0]dst=1,
+                          input [31:0]data=16'h1111);
 begin
    @(negedge clk);
    src_in = src;
@@ -94,7 +92,8 @@ begin
    #50;
    
   // ** Write 3 values.
-   write_word (0,1,16'h1111);
+   //write_word (0,1,16'h1111);
+   write_word ();
    write_word (1,2,16'h2222);
    write_word (3,4,16'h3333);
    
