@@ -8,10 +8,11 @@ module alu_tb;
    //clk, rst_n;       
 
 // Place instance of the ALU here and use:
-   //<insert code here>
+  alu DUT(alu_out, clk, rst_n, data_1, data_2, opcode);
 
 // Generate 10ns clock
-   //<insert code here>
+    always_comb
+        #5 clk = ~clk;
 
 // Apply Stimulus
   initial
