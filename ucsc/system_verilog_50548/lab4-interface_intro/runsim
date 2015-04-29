@@ -1,0 +1,2 @@
+vcs -full64 -sverilog -R -l vcs.log memory.sv memory_interfaces.sv memory_tb.sv
+
