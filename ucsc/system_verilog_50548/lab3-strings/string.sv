@@ -7,17 +7,23 @@ initial begin
   $display ("Sentence = %s",sentence);
 
   // Assign new string of different size
-  sentence = "This is new string of different length";
+  sentence = "This is a new string of different length";
   $display ("Sentence = %s",sentence);
 
   // Change to uppercase and assign to new string
-  // <insert code here>
+  statement = sentence.toupper();
   $display ("Statement = %s",statement);
 
   // Get the length of string
-  // <insert code here>
+  $display("Length of statement string: %d", statement.len());
 
-  //try other string methods here...
+  if(statement.tolower() == sentence.toupper()) begin
+     $display("Lower case and upper case match (unusual!)");
+  end
+
+  if(statement.tolower() == sentence.tolower()) begin
+     $display("Case insensitive comparison matches");
+  end
 
   #1 $finish;
 end
