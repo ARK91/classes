@@ -15,10 +15,13 @@ module test();
       $display("protocol=%s", protocol.name());
       $display("mynumber=%d", mynumber.first()); 
 
-      mynumber = 3;
-      $display("mynumber=%d", mynumber); 
+      mynumber = THREE;
+      $display("mynumber=%d", mynumber);
+      $display("mynumber.name() =%d", mynumber.name());
+      $display("mynumber.first() =%d", mynumber.first());
+      $display("mynumber.last() =%d", mynumber.last());
 
-      mynumber = 4;
-      $display("mynumber=%d", mynumber); 
+      mynumber = FIVE;
+      $display("mynumber=%d", mynumber);
    end
 endmodule
