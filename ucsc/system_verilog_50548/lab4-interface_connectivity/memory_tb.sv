@@ -7,6 +7,7 @@ int         numAccess;
 logic clk = 0;
 always #10 clk = ~clk;
 
+memory DUT(clk, reset, we, ce, datai, datao, addr);
 
 //=================================================
 // Instianciate Interface and DUT 
