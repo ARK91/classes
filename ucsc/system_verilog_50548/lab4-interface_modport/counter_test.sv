@@ -1,40 +1,40 @@
+`timescale 1ns/1ns
+
 module counter_test(input clk,
-                    input logic reset,
-                    input logic enable,
-                    input logic [3:0] count
-                   );
+                    counter_interface cif);
 
-  int count_delay;  
+    int count_delay;
 
-  //=================================================
-  // Generate the test vector
-  //=================================================
-  initial begin
-    // Fork of the monitor
-    fork
-      monitor();
-    join_none
+    //=================================================
+    // Generate the test vector
+    //=================================================
+    initial begin
+        // Fork of the monitor
+        fork
+            monitor();
+            join_none
 
-    reset = 1;
-    enable = 0;
-    #10 reset = 0;
-    #1 enable = 1;
+        cif.reset = 1;
+        cif.enable = 0;
+        #10 cif.reset = 0;
+        #1 cif.enable = 1;
 
-    //Disable counter
-    count_delay = $urandom_range(150, 250);
-    #count_delay enable = 0;
+        //Disable counter
+        count_delay = $urandom_range(150, 350);
+        #count_delay cif.enable = 0;
 
-    #5 $finish;
-  end
+        #5 $finish;
+    end
 
 
-  task monitor();
-     while(1) begin
-        @(posedge top_tb.clk);
-          if(enable) begin
-             $display("%0dns: reset %b enable %b count %b", $time, reset, enable, count);
-          end
-     end
-  endtask
+    task monitor();
+        while(1) begin
+            @(posedge top_tb.clk);
+            if(cif.enable) begin
+                $display("%0dns: reset %b enable %b count %b",
+                         $time, cif.reset, cif.enable, cif.count);
+            end
+        end
+    endtask
 
 endmodule

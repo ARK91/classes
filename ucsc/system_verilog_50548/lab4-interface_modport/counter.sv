@@ -1,14 +1,13 @@
-module counter(input clk,
-               input logic reset,
-               input logic enable,
-               output logic [3:0] count
-               );
+`timescale 1ns/1ns
 
-  always @ (posedge clk)
-    if (reset) begin
-       count <= {4{1'b0}};
-    end else if (enable) begin
-       count ++;
-    end
+module counter(input clk,
+               counter_interface cif);
+
+    always @ (posedge clk)
+        if (cif.reset) begin
+            cif.count <= {4{1'b0}};
+        end else if (cif.enable) begin
+            cif.count ++;
+        end
 endmodule
 
