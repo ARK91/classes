@@ -3,11 +3,11 @@
 module testcase(output bit clk,
                 memory_interface mif);
 
-    bit         debug = 1;
+    bit         debug = 0;
     logic [7:0] rdata;
 
     initial begin
-        #4000ns $display ( "MEMORY TEST TIMEOUT" );
+        #6000ns $display ( "MEMORY TEST TIMEOUT" );
         $finish;
     end
 
@@ -67,17 +67,21 @@ module testcase(output bit clk,
 
     task write_mem(input logic [4:0] addr, input logic [7:0] data, input debug);
         //implement write logic here
-        mif.write <= 1'b1;
-        mif.read  <= 1'b0;
-        mif.addr[4:0] <= addr[4:0];
-        mif.datain[7:0] <= data[7:0];
+        mif.write = 1'b0;
+        mif.read  = 1'b0;
+        mif.addr = addr;
+        mif.data_in = data;
+        #10;
+        mif.write = 1'b1;
+        #10;
     endtask
 
     task read_mem(input logic [4:0] addr, output logic [7:0] data, input debug);
         //implement read logic here
-        mif.write <= 1'b0;
-        mif.read  <= 1'b1;
-        mif.addr[4:0] <= addr[4:0];
-        data[7:0] <= mif.dataout[7:0];
+        mif.write = 1'b0;
+        mif.read  = 1'b1;
+        mif.addr = addr;
+        #10;
+        data = mif.data_out;
     endtask
 endmodule
