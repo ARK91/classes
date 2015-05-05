@@ -11,7 +11,7 @@ module counter_test(input clk,
     initial begin
         // Fork of the monitor
         fork
-            monitor();
+            cif.monitor();
             join_none
 
         cif.reset = 1;
@@ -25,16 +25,5 @@ module counter_test(input clk,
 
         #5 $finish;
     end
-
-
-    task monitor();
-        while(1) begin
-            @(posedge top_tb.clk);
-            if(cif.enable) begin
-                $display("%0dns: reset %b enable %b count %b",
-                         $time, cif.reset, cif.enable, cif.count);
-            end
-        end
-    endtask
 
 endmodule
