@@ -1,64 +1,56 @@
+`timescale 1ns/1ns
+
 module memory_tb();
-logic       reset,ce,we;
-logic [7:0] datai,addr;
-wire  [7:0] datao;
-int         numAccess;
+    int         numAccess;
 
-logic clk = 0;
-always #10 clk = ~clk;
+    // Free-running clock
+    logic clk = 0;
+    always #10 clk = ~clk;
 
+    mem_if mif();
+    // Instantiate Interface and DUT
+    memory mem0(.clk     (clk),
+                .bus_mem (mif));
 
-//=================================================
-// Instianciate Interface and DUT 
-//=================================================
-memory mem0(.clk     (clk),
-            .reset   (reset),
-            .ce      (ce),
-            .we      (we),
-            .datai   (datai),
-            .datao   (datao),
-            .addr    (addr)
-           );
+    //=================================================
+    // Test Vector generation
+    //=================================================
+    initial begin
+        mif.reset = 1;
+        mif.ce = 1'b0;
+        mif.we = 1'b0;
+        mif.addr = 0;
+        mif.datai = 0;
+        repeat (10) @ (posedge clk);
+        mif.reset = 0;
 
+        //Specify number of Write and Read operations
+        numAccess = $urandom_range(4, 8);
 
+        //Write Access
+        $display ("========== Writing to Memory==========");
+        for (int i = 0; i < numAccess; i ++ ) begin
+            @ (posedge clk) mif.ce = 1'b1;
+            mif.we = 1'b1;
+            mif.addr = i;
+            mif.datai = $urandom_range(8'h00, 8'hff);
+            @ (posedge clk) mif.ce = 1'b0;
+            $display ("%0dns: Write access address %0h, data %0h",
+                      $time, mif.addr, mif.datai);
+        end
 
-//=================================================
-// Test Vector generation
-//=================================================
-initial begin
-  reset = 1;
-  ce = 1'b0;
-  we = 1'b0;
-  addr = 0;
-  datai = 0;
-  repeat (10) @ (posedge clk);
-  reset = 0;
-
-  //Specify number of Write and Read operations
-  numAccess = $urandom_range(4, 8);
-
-  //Write Access
-  $display ("========== Writing to Memory==========");
-  for (int i = 0; i < numAccess; i ++ ) begin
-    @ (posedge clk) ce = 1'b1;
-    we = 1'b1;
-    addr = i;
-    datai = $urandom_range(8'h00, 8'hff);
-    @ (posedge clk) ce = 1'b0;
-    $display ("%0dns: Write access address %0h, data %0h", $time,addr, datai);
-  end
-
-  //Read Access
-  $display ("========== Reading from Memory==========");
-  for (int i = 0; i < numAccess; i ++ ) begin
-    @ (posedge clk) ce = 1'b1;
-    we = 1'b0;
-    addr = i;
-    repeat (2) @ (posedge clk);
-    ce = 1'b0;
-    $display ("%0dns: Read access address %0h, data %0h", $time,addr, datao);
-  end
-  #10 $finish;
-end
+        //Read Access
+        $display ("========== Reading from Memory==========");
+        for (int i = 0; i < numAccess; i ++ ) begin
+            @ (posedge clk) mif.ce = 1'b1;
+            mif.we = 1'b0;
+            mif.addr = i;
+            repeat (2) @ (posedge clk);
+            mif.ce = 1'b0;
+            $display ("%0dns: Read access address %0h, data %0h",
+                      $time, mif.addr, mif.datao);
+        end
+        #10 $finish;
+    end
 
 endmodule
