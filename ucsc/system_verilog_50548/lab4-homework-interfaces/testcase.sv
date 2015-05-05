@@ -20,13 +20,13 @@ module testcase(output bit clk,
 
         for (int i = 0; i< 32; i++)
         begin
-            write_mem (i, 0, debug);
+            mif.write_mem (i, 0, debug);
             $display("waddr=%h, wdata=%h", i, 0);
         end
 
         for (int i = 0; i<32; i++)
         begin
-            read_mem (i, rdata, debug);
+            mif.read_mem (i, rdata, debug);
             $display("raddr=%h, rdata=%h", i, rdata);
             if (rdata != 0)
                 error_status++;
@@ -39,13 +39,13 @@ module testcase(output bit clk,
 
         for (int i = 0; i< 32; i++)
         begin
-        write_mem (i, i, debug);
-        $display("waddr=%h, wdata=%h", i, i);
+            mif.write_mem (i, i, debug);
+            $display("waddr=%h, wdata=%h", i, i);
         end
 
         for (int i = 0; i<32; i++)
         begin
-            read_mem (i, rdata, debug);
+            mif.read_mem (i, rdata, debug);
             $display("raddr=%h, rdata=%h", i, rdata);
         if (rdata != i)
             error_status++;
@@ -65,23 +65,4 @@ module testcase(output bit clk,
     end
     endfunction
 
-    task write_mem(input logic [4:0] addr, input logic [7:0] data, input debug);
-        //implement write logic here
-        mif.write = 1'b0;
-        mif.read  = 1'b0;
-        mif.addr = addr;
-        mif.data_in = data;
-        #10;
-        mif.write = 1'b1;
-        #10;
-    endtask
-
-    task read_mem(input logic [4:0] addr, output logic [7:0] data, input debug);
-        //implement read logic here
-        mif.write = 1'b0;
-        mif.read  = 1'b1;
-        mif.addr = addr;
-        #10;
-        data = mif.data_out;
-    endtask
 endmodule
