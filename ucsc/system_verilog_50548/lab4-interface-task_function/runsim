@@ -1,0 +1,1 @@
+vcs -full64 -sverilog -R -l vcs.log counter_interface.sv counter.sv counter_test.sv top_tb.sv
