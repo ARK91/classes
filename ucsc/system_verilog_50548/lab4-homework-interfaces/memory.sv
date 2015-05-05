@@ -1,19 +1,15 @@
-module mem(input        clk,
-	   input        read,
-	   input        write, 
-	   input  [4:0] addr  ,
-	   input  [7:0] data_in  ,
-           output [7:0] data_out
-	   );
+`timescale 1ns/1ns
 
-logic [7:0] memory [0:31] ;
-logic [7:0] data_out;
+module mem(input bit clk,
+           memory_interface mif);
+
+    logic [7:0] memory [0:31] ;
   
-  always @(posedge clk)
-    if (write && !read)
-      #1 memory[addr] <= data_in;
+    always @(posedge clk)
+    if (mif.write && !mif.read)
+        #1 memory[mif.addr] <= mif.data_in;
 
-  always_ff @(posedge clk iff (read == 1'b1) )
-       data_out <= memory[addr];
+    always_ff @(posedge clk iff (mif.read == 1'b1))
+        mif.data_out <= memory[mif.addr];
 
 endmodule
