@@ -1,0 +1,1 @@
+vcs -full64 -sverilog -R -l vcs.log -debug_pp -timescale=1ns/1ns alu_package.sv alu.sv alu_tb.sv

@@ -1,0 +1,2 @@
+vcs -full64 -sverilog -R -l vcs.log test.sv +ntb_random_seed=88154321800
+
