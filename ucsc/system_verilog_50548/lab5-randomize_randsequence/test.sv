@@ -4,10 +4,10 @@ module test();
     task gen_packet();
     // insert you randsequence code here
         randsequence()
-            TRAFFIC:            PACKET_TYPE PACKET_GAP PACKET_PRIORITY;
-            PACKET_TYPE:        ETHERNET IPV4 IPV6;
-            PACKET_GAP:         LARGE_GAP NORMAL_GAP SMALL_GAP;
-            PACKET_PRIORITY:    PREMIUM ELITE PLATINUM;
+            TRAFFIC:            PACKET_TYPE | PACKET_GAP | PACKET_PRIORITY;
+            PACKET_TYPE:        ETHERNET:=15 | IPV4:=35 | IPV6:=50;
+            PACKET_GAP:         LARGE_GAP:=5 | NORMAL_GAP:=60 | SMALL_GAP:=35;
+            PACKET_PRIORITY:    PREMIUM:=25 | ELITE:=25 | PLATINUM:=50;
 
             ETHERNET:   { $display("ETHERNET"); };
             IPV4:       { $display("IPV4"); };
