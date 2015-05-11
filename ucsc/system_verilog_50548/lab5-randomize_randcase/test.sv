@@ -1,6 +1,19 @@
 module test();
     int numPackets;
 
+    task gen_error_packets();
+        randsequence()
+            CATEGORY:       OVERSIZE | UNDERSIZE;
+            UNDERSIZE:      LESSTHAN_64BYTES:=4382 | ZERO_BYTES:=5618;
+            OVERSIZE:       OVER_1500BYTES:=329 | OVER_10KBYTES:=671;
+
+            OVER_1500BYTES:     { $display("OVER_1500BYTES"); };
+            OVER_10KBYTES:      { $display("OVER_10KBYTES"); };
+            LESSTHAN_64BYTES:   { $display("LESSTHAN_64BYTES"); };
+            ZERO_BYTES:         { $display("ZERO_BYTES"); };
+        endsequence
+    endtask
+
     task gen_packet();
     // insert you randsequence code here
         randsequence()
@@ -27,7 +40,12 @@ module test();
         #10 numPackets = $urandom_range(16, 32);
         for(int i=0; i< numPackets ; i++) begin
             $write("Packet ID %0d : ", i);
-            gen_packet();
+
+            randcase
+                1: gen_error_packets();
+                1: gen_packet();
+            endcase
+
             $display("\n");
         end
     end
