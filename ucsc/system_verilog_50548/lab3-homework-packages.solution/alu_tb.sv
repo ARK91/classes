@@ -39,15 +39,16 @@ import alu_package::*;
 
         op_A = $urandom_range(8'h00, 8'hFF);
         op_B = $urandom_range(8'h00, 8'hFF);
-	@(posedge clk) show(); verify();
+        @(posedge clk) show(); verify();
     endtask
 
     task gen_special_instructions();
 
         gen_instructions_common();
 
-        {op_A , op_B} = 16'h00ff; @(posedge clk) show(); verify();
-        {op_A , op_B} = 16'hff00; @(posedge clk) show(); verify();
+        {op_A , op_B} = 16'h00ef; @(posedge clk) show(); verify();
+        {op_A , op_B} = 16'h0075; @(posedge clk) show(); verify();
+        {op_A , op_B} = 16'h3301; @(posedge clk) show(); verify();
         {op_A , op_B} = 16'h7720; @(posedge clk) show(); verify();
     endtask
 
@@ -55,15 +56,15 @@ import alu_package::*;
     initial
     begin
 	opcode = RST;
-        { op_B, op_A } = 16'h0000;
-        @(posedge clk)
-            rst_n = 1'b1;
+    { op_B, op_A } = 16'h0000;
+    @(posedge clk)
+        rst_n = 1'b1;
 	
 	@(negedge clk) begin
-            randcase
-                1: repeat(4) gen_instructions();
-                1: repeat(3) gen_special_instructions();
-            endcase
+        randcase
+            1: repeat(4) gen_instructions();
+            2: gen_special_instructions();
+        endcase
 	end
 
         $finish;
@@ -71,7 +72,7 @@ import alu_package::*;
 
     // Display results
     task show();
-        $display("opcode = %s operand_1 = %d operand_2 = %h result = %h" ,
+        $display("opcode = %s operand_1 = %d operand_2 = %d result = %d" ,
                  opcode.name(), op_A, op_B, result);
     endtask
  
