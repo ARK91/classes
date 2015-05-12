@@ -94,8 +94,8 @@ import alu_package::*;
 	
 	@(negedge clk) begin
         randcase
-//          1: repeat(3) gen_instructions();
-//          2: repeat(4) gen_special_instructions();
+            1: repeat(3) gen_instructions();
+            2: repeat(4) gen_special_instructions();
             1: repeat(5) gen_other_random_instructions();
         endcase
 	end
