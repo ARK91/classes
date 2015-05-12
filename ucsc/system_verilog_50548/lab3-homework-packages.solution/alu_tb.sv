@@ -19,26 +19,31 @@ import alu_package::*;
 
     task gen_instructions_common();
         randsequence()
-            opcode:     RST | MOV | NOT | ADD | AND | XOR | LSH | RSH;
-            RST:        {};
-            MOV:        {};
-            NOT:        {};
-            ADD:        {};
-            AND:        {};
-            XOR:        {};
-            LSH:        {};
-            RSH:        {};
+            OPCODE:     OP_RST | OP_MOV | OP_NOT | OP_ADD | OP_AND | OP_XOR | 
+                        OP_LSH | OP_RSH;
+            OP_RST:        { opcode = RST; };
+            OP_MOV:        { opcode = MOV; };
+            OP_NOT:        { opcode = NOT; };
+            OP_ADD:        { opcode = ADD; };
+            OP_AND:        { opcode = AND; };
+            OP_XOR:        { opcode = XOR; };
+            OP_LSH:        { opcode = LSH; };
+            OP_RSH:        { opcode = RSH; };
         endsequence
     endtask
 
     task gen_instructions();
+
         gen_instructions_common();
+
 
         op_A = $urandom_range(8'h00, 8'hFF);
         op_B = $urandom_range(8'h00, 8'hFF);
+	@(posedge clk) show(); verify();
     endtask
 
     task gen_special_instructions();
+
         gen_instructions_common();
 
         {op_A , op_B} = 16'h00ff; @(posedge clk) show(); verify();
@@ -49,27 +54,25 @@ import alu_package::*;
 // Apply Stimulus
     initial
     begin
-        { opcode, op_B, op_A } = 19'h0_00_00;
+	opcode = RST;
+        { op_B, op_A } = 16'h0000;
         @(posedge clk)
             rst_n = 1'b1;
-        @(negedge clk)
+	
+	@(negedge clk) begin
             randcase
-                2: gen_instructions();
-                1: gen_special_instructions();
+                1: repeat(4) gen_instructions();
+                1: repeat(3) gen_special_instructions();
             endcase
+	end
 
-        for(int i=0; i<4; i++) begin
-            { opcode, op_B, op_A } = $urandom_range(19'h00000, 19'h7FFFF);
-            @(posedge clk) show(); verify();
-        end
         $finish;
     end
 
     // Display results
     task show();
-        $display(" time = %4t ns opcode = %s operand_1 = %d ",
-                 "operand_2 = %h result = %h" ,
-                 $time, opcode.name(), op_A, op_B, result);
+        $display("opcode = %s operand_1 = %d operand_2 = %h result = %h" ,
+                 opcode.name(), op_A, op_B, result);
     endtask
  
     // Verify Response
