@@ -4,7 +4,7 @@ import alu_package::*;
     logic   [7:0]   op_A, op_B;
     myopcode_t      opcode;
     logic   [7:0]   result;
-    bit         clk, rst_n;
+    bit         clk, rst_n, success;
 
     // Place instance of the ALU here and use:
     alu alu1 (.data_1   (op_A   ),
@@ -46,10 +46,42 @@ import alu_package::*;
 
         gen_instructions_common();
 
-        {op_A , op_B} = 16'h00ef; @(posedge clk) show(); verify();
-        {op_A , op_B} = 16'h0075; @(posedge clk) show(); verify();
-        {op_A , op_B} = 16'h3301; @(posedge clk) show(); verify();
-        {op_A , op_B} = 16'h7720; @(posedge clk) show(); verify();
+        randsequence()
+            OPERANDS:   A | B | C | D | E;
+            A: {{op_A , op_B} = 16'h00ef; @(posedge clk) show(); verify();};
+            B: {{op_A , op_B} = 16'h0075; @(posedge clk) show(); verify();};
+            C: {{op_A , op_B} = 16'h3301; @(posedge clk) show(); verify();};
+            D: {{op_A , op_B} = 16'h7720; @(posedge clk) show(); verify();};
+            E: {{op_A , op_B} = 16'h1052; @(posedge clk) show(); verify();};
+        endsequence
+    endtask
+
+    task gen_other_random_instructions();
+
+        gen_instructions_common();
+
+        success = randomize(opcode, op_A, op_B);
+            @(posedge clk) show(); verify();
+        success = randomize(opcode, op_A, op_B) with {op_A > 3;};
+            @(posedge clk) show(); verify();
+        success = randomize(opcode, op_A, op_B) with {op_A inside {1, 2};};
+            @(posedge clk) show(); verify();
+        success = randomize(opcode, op_A, op_B) with
+            {op_A dist{[50:100]:=4, [7:8]:=5}; };
+            @(posedge clk) show(); verify();
+        success = randomize(opcode, op_A, op_B)
+            with {
+                if(op_A == 0)
+                    op_B == 17;
+                else
+                    op_B > 18;
+                };
+            @(posedge clk) show(); verify();
+        success = randomize(opcode, op_A, op_B)
+            with { (op_A == 0)  -> op_B == 21;
+                   (op_A == 10) -> op_B > 22;
+                };
+            @(posedge clk) show(); verify();
     endtask
 
 // Apply Stimulus
@@ -62,8 +94,9 @@ import alu_package::*;
 	
 	@(negedge clk) begin
         randcase
-            1: repeat(4) gen_instructions();
-            2: gen_special_instructions();
+//          1: repeat(3) gen_instructions();
+//          2: repeat(4) gen_special_instructions();
+            1: repeat(5) gen_other_random_instructions();
         endcase
 	end
 
