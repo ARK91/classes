@@ -19,15 +19,14 @@ module packet_tb();
     endclass
 
     initial begin
-        packet onePacket;
-        randomize();
+        packet p1;
 
         $display("Hello world 1");
 
         for (int i = 0; i < 8; ++i) begin
             #1;
-             onePacket = new();
-             onePacket.print();
+             p1 = new();
+             p1.randomize();
         end
     end
 
