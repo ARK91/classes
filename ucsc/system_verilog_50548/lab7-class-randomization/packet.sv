@@ -2,31 +2,63 @@
 
 module packet_tb();
     class packet;
-        rand  bit [7:0] src;
-        rand  bit [7:0] dst;
-        rand  bit [15:0] pktid;
-        randc bit [1:0] pri;
+
+        typedef enum {
+            UNICAST = 11,
+            MULTICAST,
+            BROADCAST,
+            ETHERNET,
+            IPV4,
+            IPV6
+        }frame_type;
+
+        rand frame_type frameType;
+        rand  bit [5:0] length;
+        randc bit [3:0] ipg; // IPG: Inter-packet gap
+        rand  bit [7:0] payload[];
+
+        constraint length_rules {
+            length >= 16;
+            length <= 64;
+
+            payload.size() >= 8;
+            payload.size() <= 128;
+
+            payload.size() == length;
+        }
+
+        constraint ipg_rules {
+            ipg >= 4;
+            ipg <= 12;
+            ipg dist { 8:=80, [4:7]:/10, [9:12]:/10 };
+        }
+
+        function string get_frame_type();
+            case (frameType) inside
+                [UNICAST:IPV6]:
+                    get_frame_type = frameType.name();
+                default:
+                    get_frame_type = "UNKNOWN TYPE";
+            endcase
+
+        endfunction
 
         task print();
-            $display("src: %d, dst: %d, pktid: %d, pri: %d",
-                     src, dst, pktid, pri);
+            $display("length: %d, payload.size(): %d, ipg: %d, Frame type: %s, ",
+                     length, payload.size(), ipg, get_frame_type());
         endtask
-
-        function void post_randomize();
-            $display("post_randomize: src: %d, dst: %d, pktid: %d, pri: %d",
-                     src, dst, pktid, pri);
-        endfunction
     endclass
+    ////////////////////////////////////////////////////////////
 
     initial begin
-        packet p1;
+        packet ethernet;
+        int num_packets = $urandom_range(4, 16);
+        ethernet = new();
 
-        $display("Hello world 1");
-
-        for (int i = 0; i < 8; ++i) begin
+        for (int i = 0; i < num_packets; ++i) begin
             #1;
-             p1 = new();
-             p1.randomize();
+             assert(ethernet.randomize());
+             ethernet.print();
         end
     end
 
