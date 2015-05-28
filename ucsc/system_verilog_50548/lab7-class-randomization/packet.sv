@@ -19,13 +19,16 @@ module packet_tb();
         bit parity;
         rand frame_type frameType;
         rand  bit [5:0] length;
-        randc bit [3:0] ipg; // IPG: Inter-packet gap
+
+        // Synopsys VCS will not allow ipg to be declared as randc. Synopsys
+        // only allows "rand". However, Riviera PRO allows rand:
+        rand bit [3:0] ipg; // IPG: Inter-packet gap
+
         rand  bit [7:0] payload[];
 
         constraint length_rules {
-            // Cannot do this, because this.payload.size() is not a random
-            // variable (according to Riviera PRO):
-            //solve length before payload.size();
+            // This fails with Riviera PRO, but succeeds with Synopsys VCS:
+            solve length before payload.size();
 
             length >= 16;
             length <= 64;
