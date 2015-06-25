@@ -34,12 +34,12 @@ module testcase();
    end
 
      final begin
-           //$display("time=%2t: Right before finishing...\n", $time);
+           $display("time=%2t: Right before finishing...\n", $time);
            end
 
      final begin
-           $display("Inside the final block. Executing the print() task...\n");
-           print(5, 8);
+           //$display("Inside the final block. Executing the print() task...\n");
+           //print(5, 8);
      end
 
 endmodule
