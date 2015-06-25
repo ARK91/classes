@@ -1,4 +1,4 @@
-task show(input int   delay,
+task automatic show(input int   delay,
                     input [7:0] count
                    );
 
