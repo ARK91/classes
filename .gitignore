@@ -4,3 +4,9 @@ quartus/
 vivado/
 *.v.pdf
 *.o
+simv
+simv.daidir/
+csrc/
+vlog.log
+vc_hdrs.h
+ucli.key
