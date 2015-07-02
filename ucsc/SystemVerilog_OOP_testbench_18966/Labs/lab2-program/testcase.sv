@@ -5,7 +5,9 @@ program testcase #(parameter WIDTH=4)(clk,
                                       enable,
                                       preload,
                                       preload_data,
-                                      mode);
+                                      mode,
+                                      detect,
+                                      result);
 
     input                clk;
     output               reset;
@@ -13,6 +15,8 @@ program testcase #(parameter WIDTH=4)(clk,
     output               preload;
     output  [WIDTH-1:0]  preload_data;
     output               mode;
+    input               detect;
+    input [WIDTH-1:0]   result;
 
     logic                clk;
     logic                reset;
