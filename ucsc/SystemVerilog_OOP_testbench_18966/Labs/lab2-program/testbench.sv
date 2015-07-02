@@ -13,7 +13,7 @@ module testbench();
 
     counter #(WIDTH) DUT(.*);
 
-    testcase TEST_CASE_1(.*);
+    testcase #(WIDTH) TEST_CASE_1(.*);
 
 endmodule
 
