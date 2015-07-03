@@ -41,7 +41,7 @@ program testcase_counter_count2max #(parameter WIDTH=4)
         @(posedge clk);
         enable = 1;
 
-        repeat (50) @(posedge clk);
+        repeat (1 << WIDTH) @(posedge clk);
         enable = 0;
 
         repeat (10) @(posedge clk) $finish;

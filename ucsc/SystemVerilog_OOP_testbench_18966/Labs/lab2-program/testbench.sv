@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 
 module testbench();
-    parameter WIDTH = 32;
+    parameter WIDTH = 4;
     logic clk, reset, enable, preload, mode, detect;
     logic   [WIDTH-1:0]  preload_data;
     logic   [WIDTH-1:0]  result;
