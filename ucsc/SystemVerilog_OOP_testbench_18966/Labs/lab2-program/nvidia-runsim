@@ -1,0 +1,19 @@
+#!/bin/bash
+
+run-full-vcs ()
+{
+    echo "run-full-vcs: $@"
+    qsub -I -q o_pri_interactive_vcs_.4G $VCS/bin/vcs \
+         -R -l vlog.log \
+         -debug_pp \
+         -sverilog \
+         $@
+}
+
+
+run-full-vcs \
+    testbench.sv \
+    counter.v \
+    scenarios/counter_count2max/testcase.sv \
+    scenarios/counter_sanity_check/testcase.sv
+
