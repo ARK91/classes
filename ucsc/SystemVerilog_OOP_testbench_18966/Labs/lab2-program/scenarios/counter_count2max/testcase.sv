@@ -1,13 +1,14 @@
 `timescale 1ns/1ns
 
-program testcase #(parameter WIDTH=4)(clk,
-                                      reset,
-                                      enable,
-                                      preload,
-                                      preload_data,
-                                      mode,
-                                      detect,
-                                      result);
+program testcase_counter_count2max #(parameter WIDTH=4)
+    (clk,
+    reset,
+    enable,
+    preload,
+    preload_data,
+    mode,
+    detect,
+    result);
 
     input                clk;
     output               reset;
@@ -40,7 +41,7 @@ program testcase #(parameter WIDTH=4)(clk,
         @(posedge clk);
         enable = 1;
 
-        repeat (10) @(posedge clk);
+        repeat (1 << WIDTH) @(posedge clk);
         enable = 0;
 
         repeat (10) @(posedge clk) $finish;

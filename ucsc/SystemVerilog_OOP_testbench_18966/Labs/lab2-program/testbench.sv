@@ -13,7 +13,9 @@ module testbench();
 
     counter #(WIDTH) DUT(.*);
 
-    testcase #(WIDTH) TEST_CASE_1(.*);
+    //testcase_counter_sanity_check #(WIDTH) TEST_CASE_1(.*);
+
+    testcase_counter_count2max #(WIDTH) TEST_CASE_1(.*);
 
 endmodule
 
