@@ -10,6 +10,10 @@ module testbench();
 
     initial begin
         clk = 0;
+
+        // Enable Synopsys DVE (Discovery Visualization Environment):
+        $vcdpluson();
+
         forever #5 clk = ~clk;
     end
 
