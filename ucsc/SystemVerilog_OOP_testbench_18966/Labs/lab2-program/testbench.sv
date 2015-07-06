@@ -21,7 +21,8 @@ module testbench();
 
     //testcase_counter_sanity_check #(WIDTH) TEST_CASE_1(.*);
     //testcase_counter_count2max #(WIDTH) TEST_CASE_2(.*);
-    testcase_counter_count2max_bug #(WIDTH) TEST_CASE_3(.*);
+    //testcase_counter_count2max_bug #(WIDTH) TEST_CASE_3(.*);
+    testcase_counter_disable_count #(WIDTH) TEST_CASE_4(.*);
 
 endmodule
 
