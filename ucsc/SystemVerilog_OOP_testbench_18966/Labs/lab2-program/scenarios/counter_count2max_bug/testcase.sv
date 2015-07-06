@@ -16,8 +16,8 @@ program testcase_counter_count2max_bug #(parameter WIDTH=4)
     output               preload;
     output  [WIDTH-1:0]  preload_data;
     output               mode;
-    input               detect;
-    input [WIDTH-1:0]   result;
+    input                detect;
+    input [WIDTH-1:0]    result;
 
     logic                clk;
     logic                reset;
@@ -28,17 +28,13 @@ program testcase_counter_count2max_bug #(parameter WIDTH=4)
     bit                  failed = 0;
 
     initial forever @(detect)
-	if (result == (1 << WIDTH)-1)
-	    failed <= (detect == 1'b0);
-	else
-	    failed <= (detect == 1'b1);
+        failed <= failed || (detect != (result == (1 << WIDTH)-1));
 
     initial begin
         $monitor("t=%3t: result=%2d, detect=%b", $time, result, detect);
 
-
         reset = 1;
-	failed = 1;
+        failed = 0;
         enable = 0;
         preload = 0;
         mode = 0;
@@ -57,11 +53,12 @@ program testcase_counter_count2max_bug #(parameter WIDTH=4)
     end
 
     final begin
-	if (failed == 1)
-	    $display("testcase_counter_count2max_bug: FAIL");
-	else
-	    $display("testcase_counter_count2max_bug: PASS");
+        if (failed)
+            $display("testcase_counter_count2max_bug: FAIL");
+        else
+            $display("testcase_counter_count2max_bug: PASS");
     end
 
 endprogram
+
 
