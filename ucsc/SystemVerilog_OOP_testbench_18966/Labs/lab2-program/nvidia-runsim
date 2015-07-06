@@ -14,5 +14,5 @@ run-full-vcs ()
 run-full-vcs \
     testbench.sv \
     counter.v \
-    scenarios/counter_count2max/testcase.sv
+    scenarios/counter_count2max_bug/testcase.sv
 

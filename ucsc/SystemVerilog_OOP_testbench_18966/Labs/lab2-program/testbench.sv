@@ -20,8 +20,8 @@ module testbench();
     counter #(WIDTH) DUT(.*);
 
     //testcase_counter_sanity_check #(WIDTH) TEST_CASE_1(.*);
-
-    testcase_counter_count2max #(WIDTH) TEST_CASE_2(.*);
+    //testcase_counter_count2max #(WIDTH) TEST_CASE_2(.*);
+    testcase_counter_count2max_bug #(WIDTH) TEST_CASE_3(.*);
 
 endmodule
 
@@ -76,4 +76,5 @@ endmodule
 //  CPU Time:      0.040 seconds;       Data structure size:   0.0Mb
 //  Wed Jul  1 23:40:08 2015
 //  CPU time: .121 seconds to compile + .061 seconds to elab + .123 seconds to link + .108 seconds in simulation
+
 
