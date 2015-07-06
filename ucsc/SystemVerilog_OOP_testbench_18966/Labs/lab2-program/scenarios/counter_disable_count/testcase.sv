@@ -19,6 +19,8 @@ program testcase_counter_disable_count #(parameter WIDTH=4)
     input                detect;
     input [WIDTH-1:0]    result;
 
+    logic [WIDTH-1:0]    when_to_stop;
+
     logic                clk;
     logic                reset;
     logic                enable;
@@ -32,12 +34,15 @@ program testcase_counter_disable_count #(parameter WIDTH=4)
     end
 
     initial forever @(posedge clk) begin
-        if (result == 4)
+        if (result == when_to_stop)
                 enable = 0;
     end
 
     initial begin
         $monitor("t=%3t: result=%2d, detect=%b", $time, result, detect);
+
+        when_to_stop = $urandom_range(0, (1 << WIDTH)-1);
+        $display("when_to_stop: %d", when_to_stop);
 
         reset = 1;
         failed = 0;
@@ -59,6 +64,8 @@ program testcase_counter_disable_count #(parameter WIDTH=4)
     end
 
     final begin
+        failed = failed || (result != when_to_stop);
+
         if (failed)
             $display("testcase_counter_count2max_bug: FAIL");
         else

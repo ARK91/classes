@@ -14,5 +14,6 @@ run-full-vcs ()
 run-full-vcs \
     testbench.sv \
     counter.v \
-    scenarios/counter_disable_count/testcase.sv
+    scenarios/counter_disable_count/testcase.sv \
+    +plusarg_save +ntb_random_seed_automatic
 
