@@ -27,8 +27,14 @@ program testcase_counter_disable_count #(parameter WIDTH=4)
     logic                mode;
     bit                  failed = 0;
 
-    initial forever @(detect)
-        failed <= failed || (detect != (result == (1 << WIDTH)-1));
+    initial forever @(detect) begin
+        failed = failed || (detect != (result == (1 << WIDTH)-1));
+    end
+
+    initial forever @(posedge clk) begin
+        if (result == 4)
+                enable = 0;
+    end
 
     initial begin
         $monitor("t=%3t: result=%2d, detect=%b", $time, result, detect);
@@ -60,5 +66,6 @@ program testcase_counter_disable_count #(parameter WIDTH=4)
     end
 
 endprogram
+
 
 
