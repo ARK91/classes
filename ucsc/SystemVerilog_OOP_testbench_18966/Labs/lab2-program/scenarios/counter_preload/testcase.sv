@@ -33,12 +33,13 @@ program testcase #(parameter WIDTH=4)
     logic                mode;
     bit                  failed = 0;
     bit                  reset_at_right_time = 0;
+    bit                  saw_a_preload = 0;
 
     initial forever @(detect) begin
         failed = failed || (detect != (result == (1 << WIDTH)-1));
     end
 
-    initial forever @(negedge clk)
+    initial forever @(posedge clk)
         if (result == when_to_preload) begin
             preload_data = $urandom_range(0, (1 << WIDTH)-1);
 
@@ -47,8 +48,22 @@ program testcase #(parameter WIDTH=4)
             @(posedge clk);
                 preload = 0;
                  
-            $display("preloaded with: preload_data", preload_data);
+            $display("preloaded with: preload_data: %d", preload_data);
         end
+
+    initial forever @(preload) begin
+        if (result == when_to_preload) begin
+            $display("case 1: result, when_to_preload, saw_a_preload, failed: %d, %d, %b, %b",
+                              result, when_to_preload, saw_a_preload, failed);
+            saw_a_preload = 1;
+        end
+        else if (saw_a_preload) begin
+            failed = failed || (result != preload_data);
+            $display("case 2: result, when_to_preload, saw_a_preload, failed: %d, %d, %b, %b",
+                              result, when_to_preload, saw_a_preload, failed);
+            saw_a_preload = 0;
+        end
+    end
 
     initial begin
         $monitor("t=%3t: result=%2d, detect=%b", $time, result, detect);
@@ -74,8 +89,6 @@ program testcase #(parameter WIDTH=4)
     end
 
     final begin
-        failed = failed || (result != 0) || !reset_at_right_time;
-
         if (failed)
             $display("testcase_counter_disable_count: FAIL");
         else
