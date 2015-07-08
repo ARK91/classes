@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-program testcase_counter_sanity_check #(parameter WIDTH=4)
+program testcase #(parameter WIDTH=4)
         (clk,
         reset,
         enable,

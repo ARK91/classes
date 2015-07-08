@@ -19,12 +19,7 @@ module testbench();
 
     counter #(WIDTH) DUT(.*);
 
-    //testcase_counter_sanity_check #(WIDTH) TEST_CASE_1(.*);
-    //testcase_counter_count2max #(WIDTH) TEST_CASE_2(.*);
-    //testcase_counter_count2max_bug #(WIDTH) TEST_CASE_3(.*);
-    //testcase_counter_disable_count #(WIDTH) TEST_CASE_4(.*);
-    //testcase_counter_reset_count #(WIDTH) TEST_CASE_5(.*);
-    testcase_counter_reset_disable #(WIDTH) TEST_CASE_6(.*);
+    testcase #(WIDTH) TEST_CASE_6(.*);
 
 endmodule
 

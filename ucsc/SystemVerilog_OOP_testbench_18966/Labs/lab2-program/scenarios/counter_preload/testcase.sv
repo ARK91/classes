@@ -1,6 +1,8 @@
 `timescale 1ns/1ns
 
-program testcase_counter_preload #(parameter WIDTH=4)
+// Counter preload testcase.
+
+program testcase #(parameter WIDTH=4)
     (clk,
     reset,
     enable,
@@ -19,7 +21,7 @@ program testcase_counter_preload #(parameter WIDTH=4)
     input                detect;
     input [WIDTH-1:0]    result;
 
-    logic [WIDTH-1:0]    when_to_reset;
+    logic [WIDTH-1:0]    when_to_preload;
 
     logic                clk;
     logic                reset;
@@ -35,33 +37,23 @@ program testcase_counter_preload #(parameter WIDTH=4)
     end
 
     initial forever @(negedge clk)
-        if (result == when_to_reset) begin
-                reset = 1;
-                enable = 0;
+        if (result == when_to_preload) begin
+                preload_data = $urandom_range(0, (1 << WIDTH)-1);
+                $display("preloaded with: preload_data", preload_data);
         end
 
     initial forever @(result) begin
-	if (result == when_to_reset)
-	    reset_at_right_time = 1;
+        if (result == when_to_preload)
+            reset_at_right_time = 1;
     end
 
     initial begin
         $monitor("t=%3t: result=%2d, detect=%b", $time, result, detect);
 
-        when_to_reset = $urandom_range(0, (1 << WIDTH)-1);
-        $display("when_to_reset: %d", when_to_reset);
+        when_to_preload = $urandom_range(0, (1 << WIDTH)-1);
+        $display("when_to_preload: %d", when_to_preload);
 
-        reset = 1;
-        enable = 0;
-        preload = 0;
-        mode = 0;
-        preload_data = '0;
-
-        @(posedge clk)
-            reset = 0;
-
-        @(posedge clk);
-        enable = 1;
+        init(clk, reset, enable, preload, preload_data, mode, detect, result);
 
         repeat (1 << WIDTH) @(posedge clk);
         enable = 0;

@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-program testcase_counter_reset_disable #(parameter WIDTH=4)
+program testcase #(parameter WIDTH=4)
     (clk,
     reset,
     enable,
@@ -41,8 +41,8 @@ program testcase_counter_reset_disable #(parameter WIDTH=4)
         end
 
     initial forever @(result) begin
-	if (result == when_to_reset)
-	    reset_at_right_time = 1;
+        if (result == when_to_reset)
+            reset_at_right_time = 1;
     end
 
     initial begin

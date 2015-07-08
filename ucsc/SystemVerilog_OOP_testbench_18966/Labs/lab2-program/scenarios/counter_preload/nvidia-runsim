@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#run-full-vcs ()
+#{
+#    echo "run-full-vcs: $@"
+#    qsub -I -q o_pri_interactive_vcs_.4G $VCS/bin/vcs \
+#         -R -l vlog.log \
+#         -debug_pp \
+#         -sverilog \
+#         $@
+#}
+
+run-full-vcs()
+{
+    echo "Simulated: VCS run: $@"
+    echo "Files:"
+    ls -l $@
+}
+
+run-full-vcs \
+    ../../testbench.sv \
+    ../../counter.v \
+    ./testcase.sv \
+    ./tasks.sv \
+    +plusarg_save +ntb_random_seed_automatic
+
