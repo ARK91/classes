@@ -41,20 +41,23 @@ def extract_scores(log):
             info["pass_count"] += 1
         elif line.strip().startswith("TEST_RESULT: FAIL"):
             info["fail_count"] += 1
-        else:
-            info["no_report_count"] += 1
-    return info, output
 
-def print_final_scores(info):
+        if line.strip().startswith("NOTE: automatic random seed used: "):
+            seed = [int(word) for word in line.split() if word.isdigit()][0]
+
+    return info, output, seed
+
+def print_final_scores(info, seed):
     score = 0.0
     total = (info["pass_count"] + info["fail_count"] + info["no_report_count"])
     if total == 0:
         return result
     score = (float(info["pass_count"]) / float(total)) * 100.0
     print("Test result summary:")
-    print("Passes   : " + str(info["pass_count"]))
-    print("Failures : " + str(info["fail_count"]))
-    print("Score:     %.2f percent passed" % score)
+    print("Random seed: %d" % seed)
+    print("Passes     : " + str(info["pass_count"]))
+    print("Failures   : " + str(info["fail_count"]))
+    print("Score:       %.2f percent passed" % score)
 
 def run_all_tests():
     print("Running ALL testcases\n")
@@ -75,13 +78,13 @@ def run_one_test(testname):
             stderr = stderr.decode("utf-8")
 
 
-    info, stdout = extract_scores(stdout)
+    info, stdout, seed = extract_scores(stdout)
     for line in stdout.splitlines():
         print (line)
     for line in stderr.splitlines():
         print (line)
 
-    print_final_scores(info)
+    print_final_scores(info, seed)
     os.chdir(old_path)
 
 def run_commands():
@@ -98,4 +101,5 @@ if opt.verbose:
     debug_print_args()
 
 run_commands()
+
 
