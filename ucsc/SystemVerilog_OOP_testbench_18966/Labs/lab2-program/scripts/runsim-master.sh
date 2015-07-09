@@ -37,7 +37,7 @@ run-fake-vcs ()
 
 run-vcs()
 {
-    if [ `hostname` == "o-xterm-23" ];then
+    if [ `hostname` == "sc-xterm-23" ];then
         run-nvidia-vcs $@;
     elif [ `hostname` == "sandstorm" -o `hostname` == "blueforge" ];then
         run-fake-vcs $@;
