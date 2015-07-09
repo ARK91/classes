@@ -54,9 +54,9 @@ program testcase #(parameter WIDTH=4)
 
     final begin
         if (failed)
-            $display("testcase:counter_count2max_detect: FAIL");
+            $display("TEST_RESULT: FAIL");
         else
-            $display("testcase:counter_count2max_detect: PASS");
+            $display("TEST_RESULT: PASS");
     end
 
 endprogram

@@ -72,9 +72,9 @@ program testcase #(parameter WIDTH=4)
         failed = failed || (result != 0) || !reset_at_right_time;
 
         if (failed)
-            $display("testcase_counter_disable_count: FAIL");
+            $display("TEST_RESULT: FAIL");
         else
-            $display("testcase_counter_disable_count: PASS");
+            $display("TEST_RESULT: PASS");
     end
 
 endprogram

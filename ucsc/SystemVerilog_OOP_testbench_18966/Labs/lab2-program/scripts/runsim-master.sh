@@ -32,7 +32,7 @@ run-fake-vcs ()
 {
     echo "run-fake-vcs: $@"
     echo "Listing files to be sure they're real:"
-    ls -l $@
+    ls -l $@ 2>&1 | grep -v '+plusarg_save'|grep -v '+ntb_random_seed_automatic'
 }
 
 run-vcs()
