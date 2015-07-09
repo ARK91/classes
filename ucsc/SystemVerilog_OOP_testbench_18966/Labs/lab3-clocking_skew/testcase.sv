@@ -30,6 +30,8 @@ program testcase(input  wire        clk,
         for (int i = 0; i < 4; i++) begin
 
             repeat (2) @(posedge clk);
+            //repeat (2) @(ramcb);
+            //#2;
 
             ramcb.addr <= i;
             ramcb.din  <= $urandom_range(0, 255);
