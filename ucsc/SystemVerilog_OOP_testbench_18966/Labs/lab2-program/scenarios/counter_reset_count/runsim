@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# This is the runsim for leaf (testcase) directories.
+
+source ../../scripts/runsim-master.sh
+
+run-vcs \
+    ../../testbench/testbench.sv \
+    ../../rtl/counter.v \
+    ./testcase.sv
+
