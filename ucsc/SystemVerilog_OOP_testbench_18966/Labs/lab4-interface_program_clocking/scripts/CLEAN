@@ -1,1 +1,6 @@
+#!/bin/bash
+#
+# Cleans out VCS results
+#
+
 \rm -rf simv* csrc *.log vcdplus.vpd *DVE* *ucli* *.key
