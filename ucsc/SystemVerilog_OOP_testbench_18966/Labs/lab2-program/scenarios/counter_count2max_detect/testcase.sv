@@ -27,6 +27,27 @@ program testcase #(parameter WIDTH=4)
     logic                mode;
     bit                  failed = 0;
 
+    clocking cb @(posedge clk);
+        default input #1step;
+        default output #0;
+
+        input #0 enable;
+
+    endclocking
+
+    default clocking system_clk @(posedge clk);
+        default input #1step;
+        default output #0;
+
+        output  enable;
+        output  preload;
+        output  preload_data;
+        output  mode;
+        input   detect;
+        input   result;
+
+    endclocking
+
     initial forever @(detect)
         failed <= failed || (detect != (result == (1 << WIDTH)-1));
 
@@ -40,16 +61,15 @@ program testcase #(parameter WIDTH=4)
         mode = 0;
         preload_data = '0;
 
-        @(posedge clk)
+        @(system_clk)
             reset = 0;
 
-        @(posedge clk);
-        enable = 1;
+        ##1 enable = 1;
 
-        repeat (1 << WIDTH + 2) @(posedge clk);
+        repeat (1 << WIDTH + 2) @(system_clk);
         enable = 0;
 
-        repeat (10) @(posedge clk) $finish;
+        repeat (10) @(system_clk) $finish;
     end
 
     final begin
@@ -60,5 +80,6 @@ program testcase #(parameter WIDTH=4)
     end
 
 endprogram
+
 
 
