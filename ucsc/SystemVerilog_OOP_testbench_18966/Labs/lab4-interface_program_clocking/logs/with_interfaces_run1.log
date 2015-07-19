@@ -1,0 +1,68 @@
+<sc-xterm-23> scripts $ ./run-all-tests.sh 
+~/git_wa/classes/ucsc/SystemVerilog_OOP_testbench_18966/Labs/lab4-interface_program_clocking/testcases/basic_read_write ~/git_wa/classes/ucsc/SystemVerilog_OOP_testbench_18966/Labs/lab4-interface_program_clocking/scripts
+run-nvidia-vcs: ../../testbench/memory_tb.sv ../../testbench/memory_interface.sv ../../rtl/memory_core.sv ../../rtl/memory_ctrl.sv testcase.sv +plusarg_save +ntb_random_seed_automatic
+Job <286032574> is submitted to queue <o_pri_interactive>.
+<<Waiting for dispatch ...>>
+<<Starting on sc-sim-204-023>>
+                         Chronologic VCS (TM)
+         Version E-2011.03-SP1-2 -- Sun Jul 19 16:07:50 2015
+               Copyright (c) 1991-2011 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '../../testbench/memory_tb.sv'
+Parsing design file '../../testbench/memory_interface.sv'
+Parsing design file '../../rtl/memory_core.sv'
+Parsing design file '../../rtl/memory_ctrl.sv'
+Parsing design file 'testcase.sv'
+Top Level Modules:
+       memory_tb
+No TimeScale specified
+Starting vcs inline pass...
+Notice: Ports coerced to inout, use -notice for details
+3 modules and 0 UDP read.
+	However, due to incremental compilation, no re-compilation is necessary.
+ld -r -m elf_i386 -o pre_vcsobj_1_1.o --whole-archive pre_vcsobj_1_1.a --no-whole-archive
+ld -r -m elf_i386 -o pre_vcsobj_1_2.o --whole-archive pre_vcsobj_1_2.a --no-whole-archive
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv -melf_i386 -m32   -Wl,-whole-archive    -Wl,-no-whole-archive   SIM_l.o 5NrI_d.o 5NrIB_d.o    pre_vcsobj_1_1.o pre_vcsobj_1_2.o  rmapats_mop.o rmapats.o      /home/tools/vcs/2011.03-SP1-2/linux/lib/libvirsim.so /home/tools/vcs/2011.03-SP1-2/linux/lib/librterrorinf.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libsnpsmalloc.so     /home/tools/vcs/2011.03-SP1-2/linux/lib/libvcsnew.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libuclinative.so         /home/tools/vcs/2011.03-SP1-2/linux/lib/vcs_save_restore_new.o /home/tools/vcs/2011.03-SP1-2/linux/lib/ctype-stubs_32.a -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+Chronologic VCS simulator copyright 1991-2011
+Contains Synopsys proprietary information.
+Compiler version E-2011.03-SP1-2; Runtime version E-2011.03-SP1-2;  Jul 19 16:07 2015
+
+NOTE: automatic random seed used: 2985912834
+  125ns: Writing: address=0, tcif.data_sys (written)=8'h20
+  165ns: Writing: address=1, tcif.data_sys (written)=8'hc4
+  205ns: Writing: address=2, tcif.data_sys (written)=8'h8c
+  245ns: Writing: address=3, tcif.data_sys (written)=8'h0b
+
+
+  395ns: Reading: address=0, tcif.data_sys(read)=8'h20
+  435ns: Reading: address=1, tcif.data_sys(read)=8'hc4
+  475ns: Reading: address=2, tcif.data_sys(read)=8'h8c
+  515ns: Reading: address=3, tcif.data_sys(read)=8'h0b
+Waiting for 100 cycles of bus idleness...
+$finish called from file "testcase.sv", line 80.
+Number of reads:    4
+Number of writes:   4
+TEST RESULT: PASS
+$finish at simulation time                 1515
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1515
+CPU Time:      0.040 seconds;       Data structure size:   0.0Mb
+Sun Jul 19 16:07:52 2015
+CPU time: .122 seconds to compile + .017 seconds to elab + .113 seconds to link + .114 seconds in simulation
+~/git_wa/classes/ucsc/SystemVerilog_OOP_testbench_18966/Labs/lab4-interface_program_clocking/scripts
+<sc-xterm-23> scripts $ cat run-all-tests.sh 
+#!/bin/bash
+
+for f in ../testcases/*; do
+    pushd $f;
+    ./runsim
+    popd
+done
+
