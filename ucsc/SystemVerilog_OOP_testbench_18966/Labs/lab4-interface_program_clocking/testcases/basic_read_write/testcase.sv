@@ -9,6 +9,12 @@ program testcase(input bit clk,
                  input logic    ready_sys
                 );
 
+    // Simulation variables:
+    int nReads    = 0;
+    int nWrites   = 0;
+    bit done      = 0;
+    int idleCount = 0;
+
     initial begin
         // DUT variables:
         reset         = 1;
@@ -17,11 +23,6 @@ program testcase(input bit clk,
         addr_sys      = 0;
         data_sys      = 8'bz;
 
-        // Simulation variables:
-        int nReads    = 0;
-        int nWrites   = 0;
-        bit done      = 0;
-        int idleCount = 0;
 
         #100 reset = 0;
 
@@ -75,7 +76,7 @@ program testcase(input bit clk,
         while(!done) begin
             @(posedge clk);
 
-            if (addr_sys == 0 && data_sys == 8'bz)
+            if (addr_sys == 0)
                 idleCount++;
 
             done = (idleCount >= 100);
@@ -88,5 +89,6 @@ program testcase(input bit clk,
         $display("Number of reads:  %3d", nReads);
         $display("Number of writes: %3d", nWrites);
         $display("TEST RESULT: PASS");
+    end
 
 endprogram
