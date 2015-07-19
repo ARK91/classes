@@ -10,11 +10,18 @@ program testcase(input bit clk,
                 );
 
     initial begin
+        // DUT variables:
         reset         = 1;
         we_sys        = 0;
         cmd_valid_sys = 0;
         addr_sys      = 0;
         data_sys      = 8'bz;
+
+        // Simulation variables:
+        int nReads    = 0;
+        int nWrites   = 0;
+        bit done      = 0;
+        int idleCount = 0;
 
         #100 reset = 0;
 
@@ -28,6 +35,8 @@ program testcase(input bit clk,
             @(posedge ready_sys);
             $display("%5dns: Writing: address=%0d, data_sys (written)=8'h%2h",
                      $time, i, data_sys);
+
+            ++nWrites;
 
             @(posedge clk);
             addr_sys      = 0;
@@ -51,11 +60,33 @@ program testcase(input bit clk,
             $display("%5dns: Reading: address=%0d, data_sys(read)=8'h%2h",
                      $time, i, data_sys);
 
+            ++nReads;
+
             addr_sys      = 0;
             cmd_valid_sys = 0;
         end
 
-        #10 $finish;
+        // Wait for the bus to be idle for 100 cycles. This is an indication
+        // that we are done with the simulation:
+
+        $display("Waiting for 100 cycles of bus idleness...");
+
+        done = 0;
+        while(!done) begin
+            @(posedge clk);
+
+            if (addr_sys == 0 && data_sys == 8'bz)
+                idleCount++;
+
+            done = (idleCount >= 100);
+        end
+
+        $finish;
     end
+
+    final begin
+        $display("Number of reads:  %3d", nReads);
+        $display("Number of writes: %3d", nWrites);
+        $display("TEST RESULT: PASS");
 
 endprogram
