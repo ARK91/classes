@@ -2,7 +2,7 @@
 // For SystemVerilog OOP Testbench class, lab4 (Interface-program-clocking)
 // John Hubbard, 19 Jul 2015 (Sunday)
 
-program testcase(interface tcif)
+program testcase(interface tcif);
 
     // Simulation variables:
     int nReads    = 0;

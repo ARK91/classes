@@ -26,14 +26,14 @@ always @(posedge ctrlif.clk)
 
             IDLE :  begin
                 ctrlif.ready_sys <= 1'b0;
-                if (ctrlif.cmd_valid_sys && we_sys) begin
+                if (ctrlif.cmd_valid_sys && ctrlif.we_sys) begin
                     ctrlif.addr_mem   <= ctrlif.addr_sys;
                     ctrlif.datai_mem  <= ctrlif.data_sys;
                     ctrlif.we_mem     <= 1'b1;
                     ctrlif.ce_mem     <= 1'b1;
                     state      <= WRITE;
                 end
-                if (ctrlif.cmd_valid_sys && ~we_sys) begin
+                if (ctrlif.cmd_valid_sys && ~ctrlif.we_sys) begin
                     ctrlif.addr_mem   <= ctrlif.addr_sys;
                     ctrlif.datai_mem  <= ctrlif.data_sys;
                     ctrlif.we_mem     <= 1'b0;
@@ -55,7 +55,7 @@ always @(posedge ctrlif.clk)
 
             READ : begin
                 ctrlif.ready_sys  <= 1'b1;
-                ctrlif.data_sys   <= datao_mem;
+                ctrlif.data_sys   <= ctrlif.datao_mem;
                 if (~ctrlif.cmd_valid_sys) begin
                     ctrlif.addr_mem   <= 8'b0;
                     ctrlif.datai_mem  <= 8'b0;

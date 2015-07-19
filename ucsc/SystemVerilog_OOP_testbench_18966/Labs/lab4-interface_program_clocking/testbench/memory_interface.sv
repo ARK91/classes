@@ -28,7 +28,7 @@ interface memory_interface(input bit clk);
                       input we_sys,
                       input cmd_valid_sys,
                       input addr_sys,
-                      input data0_mem,
+                      input datao_mem,
 
                       output we_mem,
                       output ce_mem,
