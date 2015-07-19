@@ -1,3 +1,6 @@
+// For SystemVerilog OOP Testbench class, lab4 (Interface-program-clocking)
+// John Hubbard, 19 Jul 2015 (Sunday)
+
 module memory_tb();
 
     bit         clk;
@@ -20,46 +23,9 @@ module memory_tb();
     // Free running clock
     always #5 clk = !clk;
 
+    memory_interface miff(clk);
 
-    //DUT is instantiated here
-    memory_core          memcore         (//Inputs
-                                         .clk           (clk            ),
-                                         .reset         (reset          ),
-                                         .we_mem        (we_mem         ),
-                                         .ce_mem        (ce_mem         ),
-                                         .addr_mem      (addr_mem       ),
-                                         .datai_mem     (datai_mem      ),
-
-                                         //Output
-                                         .datao_mem     (datao_mem      )
-                                        );
-
-    memory_ctrl          memctrl         (//Inputs
-                                         .clk           (clk            ),
-                                         .reset         (reset          ),
-                                         .we_sys        (we_sys         ),
-                                         .cmd_valid_sys (cmd_valid_sys  ),
-                                         .addr_sys      (addr_sys       ),
-                                         .datao_mem     (datao_mem      ),
-
-                                         //Outputs
-                                         .we_mem        (we_mem         ),
-                                         .ce_mem        (ce_mem         ),
-                                         .addr_mem      (addr_mem       ),
-                                         .datai_mem     (datai_mem      ),
-                                         .ready_sys     (ready_sys      ),
-
-                                         //Inout
-                                         .data_sys      (data_sys       )
-                                        );
-
-    testcase             itestcase       (.clk           (clk            ),
-                                         .reset         (reset          ),
-                                         .we_sys        (we_sys         ),
-                                         .cmd_valid_sys (cmd_valid_sys  ),
-                                         .addr_sys      (addr_sys       ),
-                                         //Inout
-                                         .data_sys      (data_sys       ),
-                                         .ready_sys     (ready_sys      )
-                                        );
+    memory_core memcore   (miff.core_port);
+    memory_ctrl memctrl   (miff.ctrl_port);
+    testcase    itestcase (miff.testcase_port);
 endmodule

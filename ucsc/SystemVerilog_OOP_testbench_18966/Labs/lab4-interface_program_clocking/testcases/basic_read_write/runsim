@@ -6,6 +6,7 @@ source ../../scripts/runsim-master.sh
 
 run-vcs \
     ../../testbench/memory_tb.sv \
+    ../../testbench/memory_interface.sv \
     ../../rtl/memory_core.sv \
     ../../rtl/memory_ctrl.sv \
     testcase.sv \
