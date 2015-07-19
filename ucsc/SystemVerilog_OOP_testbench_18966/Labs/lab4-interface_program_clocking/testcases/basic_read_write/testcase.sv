@@ -5,7 +5,7 @@ program testcase(input bit clk,
                  output logic           we_sys,
                  output logic           cmd_valid_sys,
                  output logic [7:0]     addr_sys,
-                 ref    logic [7:0]     data_sys // VCS workaround. Can't use inout
+                 ref    logic [7:0]     data_sys,
                  input logic    ready_sys
                 );
 
@@ -55,7 +55,7 @@ program testcase(input bit clk,
             cmd_valid_sys = 0;
         end
 
-        #10 $finish
+        #10 $finish;
     end
 
 endprogram

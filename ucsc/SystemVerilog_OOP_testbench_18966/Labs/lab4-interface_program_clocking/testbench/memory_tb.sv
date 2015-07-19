@@ -59,7 +59,7 @@ module memory_tb();
                                          .cmd_valid_sys (cmd_valid_sys  ),
                                          .addr_sys      (addr_sys       ),
                                          //Inout
-                                         .data_sys      (data_sys       )
-                                         .ready_sys     (ready_sys      ),
+                                         .data_sys      (data_sys       ),
+                                         .ready_sys     (ready_sys      )
                                         );
 endmodule
