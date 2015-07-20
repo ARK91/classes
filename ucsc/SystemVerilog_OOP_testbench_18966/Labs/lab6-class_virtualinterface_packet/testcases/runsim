@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# This is the runsim for leaf (testcase) directories.
+
+source ../../scripts/runsim-master.sh
+
+run-vcs \
+    ../../testbench/testbench.sv \
+    ../../testbench/switch_interface.sv \
+    ../../rtl/switch.sv \
+    ../../rtl/memory_ctrl.sv \
+    testcase.sv \
+    +plusarg_save +ntb_random_seed_automatic
+
