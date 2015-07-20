@@ -62,6 +62,8 @@ program testcase(interface tcif);
             tcif.memcb.cmd_valid_sys <= 0;
         end
 
+        ##10 tcif.memcb.data_sys <= 0;
+
         // Wait for the bus to be idle for 100 cycles. This is an indication
         // that we are done with the simulation:
 
@@ -87,3 +89,4 @@ program testcase(interface tcif);
     end
 
 endprogram
+
