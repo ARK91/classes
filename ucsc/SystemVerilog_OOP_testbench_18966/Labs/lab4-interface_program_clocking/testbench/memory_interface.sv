@@ -45,7 +45,7 @@ interface memory_interface(input bit clk);
                           output cmd_valid_sys,
                           output addr_sys);
 
-    default clocking memcb(@posedge clk);
+    default clocking memcb @(posedge clk);
         default input #1ns
                 output #5ns;
 
