@@ -2,6 +2,8 @@
 // For SystemVerilog OOP Testbench class, lab4 (Interface-program-clocking)
 // John Hubbard, 19 Jul 2015 (Sunday)
 
+`timescale 1ns/1ns
+
 interface memory_interface(input bit clk);
     logic          reset;
     logic          we_sys;

@@ -2,6 +2,8 @@
 // For SystemVerilog OOP Testbench class, lab4 (Interface-program-clocking)
 // John Hubbard, 19 Jul 2015 (Sunday)
 
+`timescale 1ns/1ns
+
 program testcase(interface tcif);
 
     // Simulation variables:
@@ -22,7 +24,7 @@ program testcase(interface tcif);
         #100 tcif.memcb.reset <= 0;
 
         for (int i = 0; i < 4; i++) begin
-            @(posedge tcif.clk);
+            @(tcif.memcb);
             tcif.memcb.addr_sys      <= i;
             tcif.memcb.data_sys      <= $urandom_range(0, 255);
             tcif.memcb.cmd_valid_sys <= 1;
@@ -34,7 +36,7 @@ program testcase(interface tcif);
 
             ++nWrites;
 
-            @(posedge tcif.clk);
+            @(tcif.memcb);
             tcif.memcb.addr_sys      <= 0;
             tcif.memcb.data_sys      <= 8'bz;
             tcif.memcb.cmd_valid_sys <= 0;
@@ -43,16 +45,17 @@ program testcase(interface tcif);
 
         $display("\n");
 
-        repeat (10) @(posedge tcif.clk);
+        repeat (10) @(tcif.memcb);
+        //##10; // fails to compile
 
         for (int i = 0; i < 4; i++) begin
-            @(posedge tcif.clk);
+            @(tcif.memcb);
             tcif.memcb.addr_sys      <= i;
             tcif.memcb.cmd_valid_sys <= 1;
             tcif.memcb.we_sys        <= 0;
 
             @(posedge tcif.memcb.ready_sys);
-            @(posedge tcif.clk);
+            @(tcif.memcb);
             $display("%5dns: Reading: address=%0d, data_sys(read)=8'h%2h",
                      $time, i, tcif.memcb.data_sys);
 
@@ -71,7 +74,7 @@ program testcase(interface tcif);
 
         done = 0;
         while(!done) begin
-            @(posedge tcif.clk);
+            @(tcif.memcb);
 
             if (tcif.memcb.data_sys == 0)
                 idleCount++;
