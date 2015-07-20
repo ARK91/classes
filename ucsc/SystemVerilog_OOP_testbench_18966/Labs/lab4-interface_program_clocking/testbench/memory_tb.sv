@@ -28,4 +28,9 @@ module memory_tb();
     memory_core memcore   (miff.core_port);
     memory_ctrl memctrl   (miff.ctrl_port);
     testcase    itestcase (miff.testcase_port);
+
+    initial begin
+        // Ensure that we can always view waves, with DVE:
+        $vcdpluson();
+    end
 endmodule

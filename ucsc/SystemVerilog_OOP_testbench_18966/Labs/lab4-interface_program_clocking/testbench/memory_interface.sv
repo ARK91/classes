@@ -44,4 +44,17 @@ interface memory_interface(input bit clk);
                           output we_sys,
                           output cmd_valid_sys,
                           output addr_sys);
+
+    default clocking memcb(@posedge clk);
+        default input #1ns
+                output #5ns;
+
+            output reset;
+            output we_sys;
+            output cmd_valid_sys;
+            output addr_sys;
+
+            input ready_sys;
+            inout data_sys;
+    endclocking
 endinterface
