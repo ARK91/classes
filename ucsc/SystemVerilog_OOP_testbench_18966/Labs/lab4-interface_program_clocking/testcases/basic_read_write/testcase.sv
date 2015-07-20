@@ -12,21 +12,21 @@ program testcase(interface tcif);
 
     initial begin
         // DUT variables:
-        tcif.memcb.reset         = 1;
-        tcif.memcb.we_sys        = 0;
-        tcif.memcb.cmd_valid_sys = 0;
-        tcif.memcb.addr_sys      = 0;
-        tcif.memcb.data_sys      = 8'bz;
+        tcif.memcb.reset         <= 1;
+        tcif.memcb.we_sys        <= 0;
+        tcif.memcb.cmd_valid_sys <= 0;
+        tcif.memcb.addr_sys      <= 0;
+        tcif.memcb.data_sys      <= 8'bz;
 
 
-        #100 tcif.memcb.reset = 0;
+        #100 tcif.memcb.reset <= 0;
 
         for (int i = 0; i < 4; i++) begin
             @(posedge tcif.clk);
-            tcif.memcb.addr_sys      = i;
-            tcif.memcb.data_sys      = $urandom_range(0, 255);
-            tcif.memcb.cmd_valid_sys = 1;
-            tcif.memcb.we_sys        = 1;
+            tcif.memcb.addr_sys      <= i;
+            tcif.memcb.data_sys      <= $urandom_range(0, 255);
+            tcif.memcb.cmd_valid_sys <= 1;
+            tcif.memcb.we_sys        <= 1;
 
             @(posedge tcif.memcb.ready_sys);
             $display("%5dns: Writing: address=%0d, data_sys (written)=8'h%2h",
@@ -35,10 +35,10 @@ program testcase(interface tcif);
             ++nWrites;
 
             @(posedge tcif.clk);
-            tcif.memcb.addr_sys      = 0;
-            tcif.memcb.data_sys      = 8'bz;
-            tcif.memcb.cmd_valid_sys = 0;
-            tcif.memcb.we_sys        = 0;
+            tcif.memcb.addr_sys      <= 0;
+            tcif.memcb.data_sys      <= 8'bz;
+            tcif.memcb.cmd_valid_sys <= 0;
+            tcif.memcb.we_sys        <= 0;
         end
 
         $display("\n");
@@ -47,9 +47,9 @@ program testcase(interface tcif);
 
         for (int i = 0; i < 4; i++) begin
             @(posedge tcif.clk);
-            tcif.memcb.addr_sys      = i;
-            tcif.memcb.cmd_valid_sys = 1;
-            tcif.memcb.we_sys        = 0;
+            tcif.memcb.addr_sys      <= i;
+            tcif.memcb.cmd_valid_sys <= 1;
+            tcif.memcb.we_sys        <= 0;
 
             @(posedge tcif.memcb.ready_sys);
             @(posedge tcif.clk);
@@ -58,8 +58,8 @@ program testcase(interface tcif);
 
             ++nReads;
 
-            tcif.memcb.addr_sys      = 0;
-            tcif.memcb.cmd_valid_sys = 0;
+            tcif.memcb.addr_sys      <= 0;
+            tcif.memcb.cmd_valid_sys <= 0;
         end
 
         // Wait for the bus to be idle for 100 cycles. This is an indication
@@ -71,7 +71,7 @@ program testcase(interface tcif);
         while(!done) begin
             @(posedge tcif.clk);
 
-            if (tcif.memcb.addr_sys == 0)
+            if (tcif.memcb.data_sys == 0)
                 idleCount++;
 
             done = (idleCount >= 100);
