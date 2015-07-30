@@ -1,6 +1,6 @@
 interface switch_interface(input clk);
 
-   //your code here
-
+    logic [47:0] src_addr;
+    logic [31:0] src_data;
 
 endinterface
