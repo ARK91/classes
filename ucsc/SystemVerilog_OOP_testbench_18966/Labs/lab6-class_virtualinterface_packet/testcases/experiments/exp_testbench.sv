@@ -15,16 +15,12 @@ module testbench();
     switch_interface sif( .clk(clk) );
 
     initial begin
-        ethernet = new();
+        ethernet = new(sif);
 
         for (int i = 0; i < 4; i++) begin
             assert(ethernet.randomize());
 
-            // Assign the ethernet object to the switch interface:
-            sif.src_addr = ethernet.src_addr;
-            sif.src_data = ethernet.src_data;
-
-            $display("Packet #%2d: ethernet.src_addr=%h, .src_data=%h",
+            $display("Packet #%2d: ethernet.src_addr=%h, ethernet.src_data=%h",
                      i, ethernet.src_addr, ethernet.src_data);
         end
 
