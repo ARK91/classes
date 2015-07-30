@@ -26,6 +26,7 @@ module testbench();
 
             $display("Packet #%2d: ethernet.src_addr=%h, .src_data=%h",
                      i, ethernet.src_addr, ethernet.src_data);
+        end
 
         #100 $finish;
     end
