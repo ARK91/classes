@@ -23,8 +23,7 @@ module testbench();
         for (int i = 0; i < 4; i++) begin
             assert(ethernet.randomize());
 
-            $display("Packet #%2d: ethernet.src_addr=%h, ethernet.src_data=%h",
-                     i, ethernet.src_addr, ethernet.src_data);
+            ethernet.print();
         end
 
         #100 $finish;
