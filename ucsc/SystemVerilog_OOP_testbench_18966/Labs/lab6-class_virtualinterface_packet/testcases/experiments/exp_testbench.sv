@@ -15,6 +15,9 @@ module testbench();
     switch_interface sif( .clk(clk) );
 
     initial begin
+        // Enable waveform dumps for use by Synopsys DVE:
+        $vcdpluson();
+
         ethernet = new(sif);
 
         for (int i = 0; i < 4; i++) begin
