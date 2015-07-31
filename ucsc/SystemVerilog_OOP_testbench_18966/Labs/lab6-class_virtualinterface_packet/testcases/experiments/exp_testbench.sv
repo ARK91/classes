@@ -18,9 +18,8 @@ module testbench();
         // Enable waveform dumps for use by Synopsys DVE:
         $vcdpluson();
 
-        ethernet = new(sif);
-
         for (int i = 0; i < 4; i++) begin
+            ethernet = new(sif);
             assert(ethernet.randomize());
 
             ethernet.print();

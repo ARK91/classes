@@ -5,12 +5,13 @@ class packet;
     rand bit [31:0] src_data;
 
     // Signals that are just for the test framework (not for RTL):
-    rand bit [15:0] pktid;
+    static bit [15:0] pktid;
 
     virtual switch_interface vi;
 
     function new(input virtual switch_interface vif);
         this.vi = vif;
+        pktid++;
     endfunction
 
     function void print();
