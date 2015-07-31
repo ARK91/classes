@@ -22,6 +22,8 @@ module testbench();
             ethernet = new(sif);
             assert(ethernet.randomize());
 
+            ethernet.send_packet();
+
             ethernet.print();
         end
 

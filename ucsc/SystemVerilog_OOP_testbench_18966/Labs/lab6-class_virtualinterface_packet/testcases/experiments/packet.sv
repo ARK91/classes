@@ -18,4 +18,12 @@ class packet;
         $display("pktid=%0d, src_addr=%h, src_data=%h",
                  pktid, src_addr, src_data);
     endfunction
+
+    task send_packet();
+        @(posedge vi.clk)
+            vi.src_addr = this.src_addr;
+
+        repeat(6) @(posedge vi.clk);
+        vi.src_data = this.src_data;
+    endtask
 endclass
