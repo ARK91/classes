@@ -3,8 +3,8 @@ interface switch_interface(input clk);
     logic [47:0] src_addr;
     logic [31:0] src_data;
 
-    logic [47:0] dest_addr;
-    logic [31:0] dest_data;
+    logic [47:0] dst_addr;
+    logic [31:0] dst_data;
 
     modport switch_port( input clk,
                          input src_addr,

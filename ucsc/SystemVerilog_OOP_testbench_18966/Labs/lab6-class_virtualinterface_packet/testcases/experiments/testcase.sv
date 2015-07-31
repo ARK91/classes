@@ -3,6 +3,9 @@
 program testcase(interface tcif);
     packet ethernet;
 
+    // Enable waveform dumps for use by Synopsys DVE:
+    $vcdpluson();
+
     initial begin
 
         for (int i = 0; i < 4; i++) begin

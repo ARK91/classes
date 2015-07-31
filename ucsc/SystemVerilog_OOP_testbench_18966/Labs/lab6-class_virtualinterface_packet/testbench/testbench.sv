@@ -6,9 +6,6 @@ module testbench();
     logic [47:0] dst_addr;
     logic [31:0] dst_data;
 
-    // Enable waveform dumps for use by Synopsys DVE:
-    $vcdpluson();
-
     always #10 clk = ~clk;
 
     switch_interface sif( .clk(clk) );
