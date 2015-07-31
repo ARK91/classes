@@ -10,7 +10,7 @@ program testcase(interface tcif);
 
         for (int i = 0; i < 4; i++) begin
             ethernet = new(tcif);
-            assert(ethernet.randomize());
+            assert(ethernet.randomize() with {src_data == 32'hDEADBEEF;} );
             ethernet.send_packet();
             ethernet.print();
         end
