@@ -7,6 +7,7 @@ source ../../scripts/runsim-master.sh
 run-vcs \
     ../../rtl/switch.sv \
     ../../rtl/switch_interface.sv \
-    exp_testbench.sv \
+    ../../testbench/testbench.sv \
+    testcase.sv \
     +plusarg_save +ntb_random_seed_automatic
 
