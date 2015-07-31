@@ -3,13 +3,13 @@
 program testcase(interface tcif);
     packet ethernet;
 
-    // Enable waveform dumps for use by Synopsys DVE:
-    $vcdpluson();
-
     initial begin
 
+        // Enable waveform dumps for use by Synopsys DVE:
+        $vcdpluson();
+
         for (int i = 0; i < 4; i++) begin
-            ethernet = new(sif);
+            ethernet = new(tcif);
             assert(ethernet.randomize());
             ethernet.send_packet();
             ethernet.print();
