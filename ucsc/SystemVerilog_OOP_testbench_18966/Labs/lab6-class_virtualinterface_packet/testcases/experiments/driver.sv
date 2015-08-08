@@ -13,10 +13,10 @@ class driver;
         assert(ethernet.randomize());
 
         @(vi.cb)
-            vi.cb.src_addr <= this.src_addr;
+            vi.cb.src_addr <= ethernet.src_addr;
 
         repeat(6) @(vi.cb);
-        vi.cb.src_data <= this.src_data;
+        vi.cb.src_data <= ethernet.src_data;
 
         ethernet.print();
     endtask
