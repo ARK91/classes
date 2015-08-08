@@ -21,9 +21,9 @@ class packet;
 
     task send_packet();
         @(vi.cb)
-            vi.cb.src_addr = this.src_addr;
+            vi.cb.src_addr <= this.src_addr;
 
         repeat(6) @(vi.cb);
-        vi.cb.src_data = this.cb.src_data;
+        vi.cb.src_data <= this.src_data;
     endtask
 endclass
