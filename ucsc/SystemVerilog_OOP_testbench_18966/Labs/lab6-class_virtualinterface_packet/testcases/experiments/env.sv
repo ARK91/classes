@@ -9,7 +9,7 @@ class env;
 
     task run(int num_packets = 5);
         for (int i = 0; i < num_packets; i++) begin
-            $display("Sending packet #%0d...\n", i + 1);
+            $display("Sending packet #%0d...", i + 1);
             drv.send_packet();
         end
     endtask

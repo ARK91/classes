@@ -10,7 +10,8 @@ class driver;
 
     task send_packet();
         packet local_packet;
-        local_packet = new();
+        // Make a local copy of the member variable:
+        local_packet = new ethernet;
 
         assert(local_packet.randomize());
 
@@ -20,6 +21,6 @@ class driver;
         repeat(6) @(vi.cb);
         vi.cb.src_data <= local_packet.src_data;
 
-        ethernet.print();
+        local_packet.print();
     endtask
 endclass
