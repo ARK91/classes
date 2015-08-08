@@ -11,9 +11,13 @@ interface switch_interface(input clk);
                          input src_data);
 
     modport testcase_port(input clk,
-                          output src_addr,
-                          output src_data,
+                          clocking cb);
 
-                          input dst_addr,
-                          input dst_data);
+    default clocking cb @(posedge clk);
+        output #1  src_addr,
+                   src_data;
+
+        input #2   dst_addr,
+                   dst_data;
+    endclocking
 endinterface
