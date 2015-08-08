@@ -7,10 +7,7 @@ class packet;
     // Signals that are just for the test framework (not for RTL):
     static bit [15:0] pktid;
 
-    virtual switch_interface vi;
-
-    function new(input virtual switch_interface vif);
-        this.vi = vif;
+    function new();
         pktid++;
     endfunction
 
@@ -19,11 +16,4 @@ class packet;
                  pktid, src_addr, src_data);
     endfunction
 
-    task send_packet();
-        @(vi.cb)
-            vi.cb.src_addr <= this.src_addr;
-
-        repeat(6) @(vi.cb);
-        vi.cb.src_data <= this.src_data;
-    endtask
 endclass

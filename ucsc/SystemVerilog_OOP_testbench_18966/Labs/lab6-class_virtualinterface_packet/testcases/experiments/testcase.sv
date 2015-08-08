@@ -1,26 +1,22 @@
 `include "packet.sv"
+`include "driver.sv"
+`include "env.sv"
 
 program testcase(interface tcif);
-    packet ethernet;
+
+    env env0;
+    int num_packets;
 
     initial begin
 
         // Enable waveform dumps for use by Synopsys DVE:
         $vcdpluson();
 
-        for (int i = 0; i < 4; i++) begin
-            ethernet = new(tcif);
-            assert(ethernet.randomize() with {src_data == 32'hDEADBEEF;} );
-            ethernet.send_packet();
-            ethernet.print();
-        end
+        env0 = new(tcif);
+        num_packets = $urandom_range(4, 32);
+        env0.run(num_packets);
 
         #100 $finish;
-    end
-
-    final begin
-        $display("-------------------- End of Simulation (JH) --------------");
-        $display("# of packets sent is: ???");
     end
 
 endprogram
