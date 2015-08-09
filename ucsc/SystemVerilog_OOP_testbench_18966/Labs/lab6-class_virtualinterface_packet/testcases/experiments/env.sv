@@ -17,7 +17,7 @@ class env;
         m_mon2sb = new();
         m_sb = new(m_drv2sb, m_mon2sb);
         m_drv = new(vif, m_drv2sb);
-        m_mon = new(mif, m_drv2sb);
+        m_mon = new(mif, m_mon2sb);
     endfunction
 
     task run(int num_packets = 5);
