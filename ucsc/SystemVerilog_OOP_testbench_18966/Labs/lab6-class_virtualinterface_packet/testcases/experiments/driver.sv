@@ -1,9 +1,12 @@
 class driver;
 
-    virtual switch_interface vi;
+    mailbox                  m_drv2sb;
+    virtual switch_interface m_vi;
 
-    function new(input virtual switch_interface vif);
-        this.vi = vif;
+    function new(input virtual switch_interface vif,
+                 input mailbox drv2sb);
+        m_vi = vif;
+        m_drv2sb = drv2sb;
     endfunction
 
     task send_packet();
@@ -12,12 +15,13 @@ class driver;
 
         assert(ethernet.randomize());
 
-        @(vi.cb)
-            vi.cb.src_addr <= ethernet.src_addr;
+        @(m_vi.cb)
+            m_vi.cb.src_addr <= ethernet.src_addr;
 
-        repeat(6) @(vi.cb);
-        vi.cb.src_data <= ethernet.src_data;
+        repeat(6) @(m_vi.cb);
+        m_vi.cb.src_data <= ethernet.src_data;
 
         ethernet.print();
+        m_drv2sb.put(ethernet);
     endtask
 endclass

@@ -1,6 +1,7 @@
 `include "packet.sv"
 `include "driver.sv"
 `include "monitor.sv"
+`include "scoreboard.sv"
 `include "env.sv"
 
 program testcase(interface tcif_driver,

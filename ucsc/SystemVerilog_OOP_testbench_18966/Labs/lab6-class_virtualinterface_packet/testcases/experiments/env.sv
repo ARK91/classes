@@ -1,28 +1,39 @@
 class env;
-    driver drv;
-    monitor mon;
+    scoreboard m_sb;
+    mailbox    m_drv2sb;
+    mailbox    m_mon2sb;
+    driver     m_drv;
+    monitor    m_mon;
 
-    virtual switch_interface vi;
-    virtual switch_interface mi;
+    virtual switch_interface m_vi;
+    virtual switch_interface m_mi;
 
     function new(input virtual switch_interface vif,
                  input virtual switch_interface mif);
-        this.vi = vif;
-        this.mi = mif;
+        m_vi = vif;
+        m_mi = mif;
 
-        drv = new(vif);
-        mon = new(mif);
+        m_drv2sb = new();
+        m_mon2sb = new();
+        m_sb = new(m_drv2sb, m_mon2sb);
+        m_drv = new(vif, m_drv2sb);
+        m_mon = new(mif, m_drv2sb);
     endfunction
 
     task run(int num_packets = 5);
         for (int i = 0; i < num_packets; i++) begin
-            $display("Sending packet #%0d...", i + 1);
-            drv.send_packet();
+            $display("======================== time=%0t: Sending packet #%0d ===========================",
+                     $time, i + 1);
+            m_drv.send_packet();
 
-            @(posedge mi.clk)
-                $display("Collecting packet #%0d...", i+1);
+            $display("======================== time=%0t: Collecting packet #%0d ===========================",
+                     $time, i + 1);
 
             mon.collect_packet();
+
+            $display("======================== time=%0t: Comparing packet #%0d ===========================",
+                     $time, i + 1);
+            sb.compare();
         end
     endtask
 endclass
