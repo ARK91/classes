@@ -29,11 +29,11 @@ class env;
             $display("======================== time=%0t: Collecting packet #%0d ===========================",
                      $time, i + 1);
 
-            mon.collect_packet();
+            m_mon.collect_packet();
 
             $display("======================== time=%0t: Comparing packet #%0d ===========================",
                      $time, i + 1);
-            sb.compare();
+            m_sb.compare();
         end
     endtask
 endclass
