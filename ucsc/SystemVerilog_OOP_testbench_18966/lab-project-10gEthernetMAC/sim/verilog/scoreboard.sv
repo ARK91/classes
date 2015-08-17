@@ -10,6 +10,7 @@ class scoreboard;
 
     task compare();
         bit error;
+        integer i;
         packet pkt_from_drv;
         packet pkt_from_mon;
 
@@ -25,10 +26,13 @@ class scoreboard;
         $write("pkt_from_mon:");
         pkt_from_mon.print();
 
-        // TODO: Fix: need to check each byte
-        if (pkt_from_mon.tx_buffer[0] != pkt_from_drv.tx_buffer[0]) begin
+        for (i = 0; i < pkt_from_mon.pkt_length; i++) begin
+            if (pkt_from_mon.tx_buffer[i] != pkt_from_drv.tx_buffer[i]) begin
                 $display("time: %0t ERROR: Packet mismatch!", $time);
+                $display("pkt_from_mon.tx_buffer[i]: %h, pkt_from_drv.tx_buffer[i]: %h",
+                         pkt_from_mon.tx_buffer[i], pkt_from_drv.tx_buffer[i]);
                 error++;
+            end
         end
 
         if (error == 0)

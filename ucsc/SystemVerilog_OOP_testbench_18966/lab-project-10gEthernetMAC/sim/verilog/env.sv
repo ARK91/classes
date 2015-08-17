@@ -23,16 +23,16 @@ class env;
     task run(int num_packets = 5);
         for (int i = 0; i < num_packets; i++) begin
             $display("======================== time=%0t: Sending packet #%0d ===========================",
-                     $time, i + 1);
-            m_drv.send_packet();
+                     $time, i);
+            m_drv.send_packet(i);
 
             $display("======================== time=%0t: Collecting packet #%0d ===========================",
-                     $time, i + 1);
+                     $time, i);
 
-            m_mon.collect_packet();
+            m_mon.collect_packet(i);
 
             $display("======================== time=%0t: Comparing packet #%0d ===========================",
-                     $time, i + 1);
+                     $time, i);
             m_sb.compare();
         end
     endtask

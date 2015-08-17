@@ -9,11 +9,11 @@ class monitor;
         m_mon2sb = mon2sb;
     endfunction
 
-    task collect_packet();
+    task collect_packet(integer expected_packet_id);
         bit done;
         integer byte_index;
         packet rcv_packet;
-        rcv_packet = new();
+        rcv_packet = new(expected_packet_id);
 
         done = 0;
         byte_index = 0;
@@ -26,7 +26,6 @@ class monitor;
 
                 rcv_packet.tx_buffer[byte_index] <= m_mi.cb.pkt_rx_data;
                 byte_index++;
-
 
                 if (m_mi.cb.pkt_rx_eop) begin
                     done = 1'b1;
@@ -42,7 +41,7 @@ class monitor;
 
         // Send the packet to the scoreboard, and also print it:
         m_mon2sb.put(rcv_packet);
-        rcv_packet.print();
+        rcv_packet.print("Received");
 
     endtask
 endclass

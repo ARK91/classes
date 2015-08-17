@@ -16,10 +16,10 @@ class driver;
         end
     endtask
 
-    task send_packet();
+    task send_packet(integer packet_id);
         integer i;
         packet local_pkt;
-        local_pkt = new();
+        local_pkt = new(packet_id);
 
         assert(local_pkt.randomize());
 
@@ -64,7 +64,7 @@ class driver;
         m_vi.cb.pkt_tx_eop <= 1'b0;
         m_vi.cb.pkt_tx_mod <= 3'b0;
 
-        local_pkt.print();
+        local_pkt.print("Sent");
         m_drv2sb.put(local_pkt);
     endtask
 endclass
