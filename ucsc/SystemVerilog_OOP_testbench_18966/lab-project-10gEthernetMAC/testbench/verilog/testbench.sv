@@ -16,6 +16,11 @@ module testbench();
     wire                    wb_int_o;
     wire [7:0]              xgmii_txc;
     wire [63:0]             xgmii_txd;
+    wire          wb_clk_i;
+    wire          wb_cyc_i;
+    wire          wb_rst_i;
+    wire          wb_stb_i;
+    wire          wb_we_i;
 
     wire  [7:0]   wb_adr_i;
     wire  [31:0]  wb_dat_i;

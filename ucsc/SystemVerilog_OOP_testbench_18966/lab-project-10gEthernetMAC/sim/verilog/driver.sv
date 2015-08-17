@@ -27,16 +27,16 @@ class driver;
         local_wait_ns(1);
         m_vi.cb.pkt_tx_val <= 1'b1;
 
-        for (i = 0; i < local_pkt.tx_length; i = i + 8) begin
+        for (i = 0; i < local_pkt.pkt_length; i = i + 8) begin
 
             if (i == 0)
                 m_vi.cb.pkt_tx_sop <= 1'b1;
             else
                 m_vi.cb.pkt_tx_sop <= 1'b0;
 
-            if (i + 8 >= tx_length) begin
+            if (i + 8 >= local_pkt.pkt_length) begin
                 m_vi.cb.pkt_tx_eop <= 1'b1;
-                m_vi.cb.pkt_tx_mod <= tx_length % 8;
+                m_vi.cb.pkt_tx_mod <= local_pkt.pkt_length % 8;
             end
             else begin
                 m_vi.cb.pkt_tx_eop <= 1'b0;
@@ -52,7 +52,7 @@ class driver;
             m_vi.cb.pkt_tx_data[`LANE1] = local_pkt.tx_buffer[i+6];
             m_vi.cb.pkt_tx_data[`LANE0] = local_pkt.tx_buffer[i+7];
 
-            @(posedge m_vi.cb);
+            @(posedge m_vi.clk);
             local_wait_ns(1);
         end
 
