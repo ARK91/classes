@@ -36,6 +36,7 @@ run-vcs \
     -v2k_generate +warn=noOBSV2G \
     -override_timescale=1ps/1ps \
     +incdir+../../rtl/include \
+    +incdir+../../sim/verilog \
     +plusarg_save +ntb_random_seed_automatic
 
 
