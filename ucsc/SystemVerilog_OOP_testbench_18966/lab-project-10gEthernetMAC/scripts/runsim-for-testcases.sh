@@ -32,6 +32,7 @@ run-vcs \
     ../../sim/verilog/monitor.sv \
     ../../sim/verilog/scoreboard.sv \
     ../../sim/verilog/env.sv \
+    ../../sim/verilog/tasks.sv \
     testcase.sv \
     -v2k_generate +warn=noOBSV2G \
     -override_timescale=1ps/1ps \

@@ -12,19 +12,19 @@ class scoreboard;
         m_mbx_from_mon = mon2sb;
     endfunction
 
-    task compare(input bit verbose);
+    task compare(input bit verbosity_level);
         bit error;
         integer i;
         packet pkt_from_drv;
         packet pkt_from_mon;
 
-        if (verbose)
+        if (verbosity_level > 1)
             $display("time %0t: About to get a packet from DRIVER mailbox. Number of mailbox entries: %0d",
                      $time, m_mbx_from_drv.num());
 
         m_mbx_from_drv.get(pkt_from_drv);
 
-        if (verbose)
+        if (verbosity_level > 1)
             $display("time %0t: About to get a packet from MONITOR mailbox. Number of mailbox entries: %0d",
                      $time, m_mbx_from_mon.num());
 

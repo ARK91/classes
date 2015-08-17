@@ -3,7 +3,6 @@
 // 17 Aug 2015
 
 `include "sim_types.sv"
-`include "tasks.sv"
 
 class env;
     scoreboard m_sb;
@@ -48,17 +47,23 @@ class env;
         initialize_dut();
 
         for (int i = 0; i < num_packets; i++) begin
-            $display("==== time=%0t: Sending packet #%0d =====================",
-                     $time, i);
+
+            if (verbosity_level > 0)
+                $display("==== time=%0t: Sending packet #%0d =================",
+                         $time, i);
+
             m_drv.send_packet(i, debug_flags);
 
-            $display("==== time=%0t: Collecting packet #%0d ==================",
-                     $time, i);
+            if (verbosity_level > 0)
+                $display("==== time=%0t: Collecting packet #%0d ==============",
+                         $time, i);
 
             m_mon.collect_packet(i);
 
-            $display("==== time=%0t: Comparing packet #%0d ===================",
-                     $time, i);
+            if (verbosity_level > 0)
+                $display("==== time=%0t: Comparing packet #%0d ===============",
+                         $time, i);
+
             m_sb.compare(verbosity_level);
         end
     endtask

@@ -4,7 +4,6 @@
 
 `include "timescale.v"
 `include "defines.v"
-`include "tasks.sv"
 
 module testbench();
 

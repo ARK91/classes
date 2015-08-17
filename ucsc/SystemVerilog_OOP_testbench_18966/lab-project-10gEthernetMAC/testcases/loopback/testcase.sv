@@ -19,8 +19,8 @@ program testcase(interface tcif_driver,
 
         num_packets = $urandom_range(4, 10);
         env0.run(num_packets,
-                 VERBOSITY_STANDARD,
-                 DEBUG_FLAGS_SIMPLE_LOOPBACK);
+                 `VERBOSITY_STANDARD,
+                 `DEBUG_FLAGS_SIMPLE_LOOPBACK);
 
         #100 $finish;
     end
