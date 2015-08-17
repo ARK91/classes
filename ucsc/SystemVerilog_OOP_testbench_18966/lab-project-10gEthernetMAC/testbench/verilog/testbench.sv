@@ -1,6 +1,12 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
+`include "timescale.v"
+`include "defines.v"
+`include "tasks.sv"
+
 module testbench();
-    `include "timescale.v"
-    `include "defines.v"
 
     bit           clk_156m25;
     bit           clk_312m50;
@@ -11,47 +17,33 @@ module testbench();
     reg           reset_xgmii_rx_n;
     reg           reset_xgmii_tx_n;
 
-    wire                    wb_ack_o;
-    wire [31:0]             wb_dat_o;
-    wire                    wb_int_o;
-    wire [7:0]              xgmii_txc;
-    wire [63:0]             xgmii_txd;
-    wire          wb_clk_i;
-    wire          wb_cyc_i;
-    wire          wb_rst_i;
-    wire          wb_stb_i;
-    wire          wb_we_i;
+    wire           wb_ack_o;
+    wire [31:0]    wb_dat_o;
+    wire           wb_int_o;
+    wire [7:0]     xgmii_txc;
+    wire [63:0]    xgmii_txd;
+    wire           wb_clk_i;
+    wire           wb_cyc_i;
+    wire           wb_rst_i;
+    wire           wb_stb_i;
+    wire           wb_we_i;
 
-    wire  [7:0]   wb_adr_i;
-    wire  [31:0]  wb_dat_i;
+    wire  [7:0]    wb_adr_i;
+    wire  [31:0]   wb_dat_i;
 
-    wire [7:0]              xgmii_rxc;
-    wire [63:0]             xgmii_rxd;
+    wire [7:0]     xgmii_rxc;
+    wire [63:0]    xgmii_rxd;
 
-    wire [3:0]              tx_dataout;
+    wire [3:0]     tx_dataout;
 
-    wire                    xaui_tx_l0_n;
-    wire                    xaui_tx_l0_p;
-    wire                    xaui_tx_l1_n;
-    wire                    xaui_tx_l1_p;
-    wire                    xaui_tx_l2_n;
-    wire                    xaui_tx_l2_p;
-    wire                    xaui_tx_l3_n;
-    wire                    xaui_tx_l3_p;
-
-    task WaitPS;
-      input [31:0] delay;
-        begin
-            #(delay);
-        end
-    endtask
-
-task WaitNS;
-  input [31:0] delay;
-    begin
-        #(1000*delay);
-    end
-endtask
+    wire           xaui_tx_l0_n;
+    wire           xaui_tx_l0_p;
+    wire           xaui_tx_l1_n;
+    wire           xaui_tx_l1_p;
+    wire           xaui_tx_l2_n;
+    wire           xaui_tx_l2_p;
+    wire           xaui_tx_l3_n;
+    wire           xaui_tx_l3_p;
 
     // Start up the clocks
     initial begin
@@ -70,31 +62,18 @@ endtask
         end
     end
 
-    // Reset the device under test:
+    // Tie off unused Wishbone interface ports:
+    assign wb_adr_i = 8'b0;
+    assign wb_clk_i = 1'b0;
+    assign wb_cyc_i = 1'b0;
+    assign wb_dat_i = 32'b0;
+    assign wb_rst_i = 1'b1;
+    assign wb_stb_i = 1'b0;
+    assign wb_we_i = 1'b0;
 
-initial begin
-    reset_156m25_n = 1'b0;
-    reset_xgmii_rx_n = 1'b0;
-    reset_xgmii_tx_n = 1'b0;
-    WaitNS(20);
-    reset_156m25_n = 1'b1;
-    reset_xgmii_rx_n = 1'b1;
-    reset_xgmii_tx_n = 1'b1;
-end
-// Unused for this testbench
-
-assign wb_adr_i = 8'b0;
-assign wb_clk_i = 1'b0;
-assign wb_cyc_i = 1'b0;
-assign wb_dat_i = 32'b0;
-assign wb_rst_i = 1'b1;
-assign wb_stb_i = 1'b0;
-assign wb_we_i = 1'b0;
-
-// Loopback test requires connecting it like this:
+    // This testbench runs in loopback mode:
     assign xgmii_rxc = xgmii_txc;
     assign xgmii_rxd = xgmii_txd;
-
 
     // Instantiate the testcase:
     switch_interface sif( .clk(clk_156m25) );

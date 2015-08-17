@@ -11,7 +11,7 @@ A. Running all tests:
 
 B. Running just one test:
 
-    cd testcases/your-favorite-testcase
+    cd testcases/loopback # for example
     ./runsim
 
 

@@ -1,3 +1,10 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
+`include "sim_types.sv"
+`include "tasks.sv"
+
 class env;
     scoreboard m_sb;
     mailbox    m_drv2sb;
@@ -20,30 +27,39 @@ class env;
         m_mon    = new(mif, m_mon2sb);
     endfunction
 
-task WaitNS;
-  input [31:0] delay;
-    begin
-        #(1000*delay);
-    end
-endtask
 
-    task run(int num_packets = 5);
-        // From the original testbench, delay before starting the tests:
+    task initialize_dut();
+
+        // Reset the device under test:
+        reset_156m25_n = 1'b0;
+        reset_xgmii_rx_n = 1'b0;
+        reset_xgmii_tx_n = 1'b0;
+        WaitNS(20);
+        reset_156m25_n = 1'b1;
+        reset_xgmii_rx_n = 1'b1;
+        reset_xgmii_tx_n = 1'b1;
+
+        // Wait this long for the device to come out of reset and become usable:
         WaitNS(5000);
+    endtask
+
+    task run(int num_packets, verbosity_t verbosity_level, int debug_flags);
+
+        initialize_dut();
 
         for (int i = 0; i < num_packets; i++) begin
-            $display("======================== time=%0t: Sending packet #%0d ===========================",
+            $display("==== time=%0t: Sending packet #%0d =====================",
                      $time, i);
-            m_drv.send_packet(i);
+            m_drv.send_packet(i, debug_flags);
 
-            $display("======================== time=%0t: Collecting packet #%0d ===========================",
+            $display("==== time=%0t: Collecting packet #%0d ==================",
                      $time, i);
 
             m_mon.collect_packet(i);
 
-            $display("======================== time=%0t: Comparing packet #%0d ===========================",
+            $display("==== time=%0t: Comparing packet #%0d ===================",
                      $time, i);
-            m_sb.compare();
+            m_sb.compare(verbosity_level);
         end
     endtask
 endclass

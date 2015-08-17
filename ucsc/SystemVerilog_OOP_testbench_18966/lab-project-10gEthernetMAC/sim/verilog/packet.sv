@@ -1,3 +1,7 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
 class packet;
 
     `define TX_BUFFER_LEN 128

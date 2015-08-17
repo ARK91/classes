@@ -1,3 +1,9 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
+`include "sim_types.sv"
+
 class driver;
 
     mailbox                  m_drv2sb;
@@ -16,13 +22,13 @@ class driver;
         end
     endtask
 
-    task send_packet(integer packet_id);
+    task send_packet(integer packet_id, integer debug_flags);
         integer i;
         packet local_pkt;
         local_pkt = new(packet_id);
 
         assert(local_pkt.randomize());
-	local_pkt.zero_out_trailing_bytes();
+        local_pkt.zero_out_trailing_bytes();
 
         @(m_vi.cb);
         m_vi.cb.pkt_tx_sop <= 1'b0;
@@ -34,13 +40,16 @@ class driver;
 
         for (i = 0; i < local_pkt.pkt_length; i = i + 8) begin
 
-            if (i == 0)
+            if (i == 0) // TODO: && ~(debug_flags & DEBUG_FLAG_SKIP_SOP_ON_TX))
                 m_vi.cb.pkt_tx_sop <= 1'b1;
             else
                 m_vi.cb.pkt_tx_sop <= 1'b0;
 
             if (i + 8 >= local_pkt.pkt_length) begin
+
+                // TODO: if (~(debug_flags & DEBUG_FLAG_SKIP_EOP_ON_TX)
                 m_vi.cb.pkt_tx_eop <= 1'b1;
+
                 m_vi.cb.pkt_tx_mod <= local_pkt.pkt_length % 8;
             end
             else begin

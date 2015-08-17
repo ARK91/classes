@@ -1,3 +1,7 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
 class scoreboard;
 
     mailbox m_mbx_from_drv;
@@ -8,23 +12,23 @@ class scoreboard;
         m_mbx_from_mon = mon2sb;
     endfunction
 
-    task compare();
+    task compare(input bit verbose);
         bit error;
         integer i;
         packet pkt_from_drv;
         packet pkt_from_mon;
 
-        //$display("time %0t: About to get a packet from DRIVER mailbox. Number of mailbox entries: %0d",
-        //         $time, m_mbx_from_drv.num());
-        m_mbx_from_drv.get(pkt_from_drv);
-        //$write("pkt_from_drv:");
-        //pkt_from_drv.print();
+        if (verbose)
+            $display("time %0t: About to get a packet from DRIVER mailbox. Number of mailbox entries: %0d",
+                     $time, m_mbx_from_drv.num());
 
-        //$display("time %0t: About to get a packet from MONITOR mailbox. Number of mailbox entries: %0d",
-        //         $time, m_mbx_from_mon.num());
+        m_mbx_from_drv.get(pkt_from_drv);
+
+        if (verbose)
+            $display("time %0t: About to get a packet from MONITOR mailbox. Number of mailbox entries: %0d",
+                     $time, m_mbx_from_mon.num());
+
         m_mbx_from_mon.get(pkt_from_mon);
-        //$write("pkt_from_mon:");
-        //pkt_from_mon.print();
 
         for (i = 0; i < pkt_from_mon.pkt_length; i++) begin
             if (pkt_from_mon.tx_buffer[i] != pkt_from_drv.tx_buffer[i]) begin

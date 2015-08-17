@@ -1,3 +1,7 @@
+// John Hubbard
+// UCSC 18966: SystemVerilog OOP Testbench
+// 17 Aug 2015
+
 interface switch_interface(input clk);
 
     // TX path DUT inputs
