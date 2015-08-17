@@ -10,18 +10,18 @@ class driver;
     endfunction
 
     task send_packet();
-        packet ethernet;
-        ethernet = new();
+        packet local_pkt;
+        local_pkt = new();
 
-        assert(ethernet.randomize());
+        assert(local_pkt.randomize());
 
         @(m_vi.cb)
-            m_vi.cb.src_addr <= ethernet.src_addr;
+            m_vi.cb.src_addr <= local_pkt.src_addr;
 
         repeat(6) @(m_vi.cb);
-        m_vi.cb.src_data <= ethernet.src_data;
+        m_vi.cb.src_data <= local_pkt.src_data;
 
-        ethernet.print();
-        m_drv2sb.put(ethernet);
+        local_pkt.print();
+        m_drv2sb.put(local_pkt);
     endtask
 endclass
