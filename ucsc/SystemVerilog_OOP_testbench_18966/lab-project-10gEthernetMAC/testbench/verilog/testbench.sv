@@ -12,10 +12,6 @@ module testbench();
     bit           clk_xgmii_rx;
     bit           clk_xgmii_tx;
 
-    reg           reset_156m25_n;
-    reg           reset_xgmii_rx_n;
-    reg           reset_xgmii_tx_n;
-
     wire           wb_ack_o;
     wire [31:0]    wb_dat_o;
     wire           wb_int_o;
@@ -103,9 +99,9 @@ module testbench();
                 .pkt_tx_mod                 (sif.pkt_tx_mod[2:0]),
                 .pkt_tx_sop                 (sif.pkt_tx_sop),
                 .pkt_tx_val                 (sif.pkt_tx_val),
-                .reset_156m25_n             (reset_156m25_n),
-                .reset_xgmii_rx_n           (reset_xgmii_rx_n),
-                .reset_xgmii_tx_n           (reset_xgmii_tx_n),
+                .reset_156m25_n             (sif.reset_156m25_n),
+                .reset_xgmii_rx_n           (sif.reset_xgmii_rx_n),
+                .reset_xgmii_tx_n           (sif.reset_xgmii_tx_n),
                 .wb_adr_i                   (wb_adr_i[7:0]),
                 .wb_clk_i                   (wb_clk_i),
                 .wb_cyc_i                   (wb_cyc_i),
