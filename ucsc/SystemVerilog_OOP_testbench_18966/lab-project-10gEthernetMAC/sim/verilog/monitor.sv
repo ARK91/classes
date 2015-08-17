@@ -57,10 +57,10 @@ class monitor;
         end
 
         // Send the packet to the scoreboard, and also print it:
+        rcv_packet.zero_out_trailing_bytes();
         m_mon2sb.put(rcv_packet);
         rcv_packet.print("Received");
 
     endtask
 endclass
-
 

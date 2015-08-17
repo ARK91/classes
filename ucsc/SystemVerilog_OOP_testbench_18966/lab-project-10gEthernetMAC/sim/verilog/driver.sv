@@ -22,6 +22,7 @@ class driver;
         local_pkt = new(packet_id);
 
         assert(local_pkt.randomize());
+	local_pkt.zero_out_trailing_bytes();
 
         @(m_vi.cb);
         m_vi.cb.pkt_tx_sop <= 1'b0;
@@ -68,4 +69,5 @@ class driver;
         m_drv2sb.put(local_pkt);
     endtask
 endclass
+
 

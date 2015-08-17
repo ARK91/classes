@@ -1,7 +1,9 @@
 class packet;
 
+    `define TX_BUFFER_LEN 128
+
     // Signals that will be sent to RTL:
-    rand bit [7:0]  tx_buffer[128];
+    rand bit [7:0]  tx_buffer[`TX_BUFFER_LEN];
     rand integer    pkt_length;
 
     // Signals that are just for the test framework (not for RTL):
@@ -13,6 +15,14 @@ class packet;
 
     function new(integer requested_packet_id);
         m_packet_id = requested_packet_id;
+    endfunction
+
+    function zero_out_trailing_bytes();
+        integer i;
+
+        for (i = pkt_length; i < `TX_BUFFER_LEN; i++) begin
+            tx_buffer[i] = 0;
+        end
     endfunction
 
     function void print(string extra_notes);
@@ -46,5 +56,4 @@ class packet;
         $display("------------------------------------------");
     endfunction
 endclass
-
 
