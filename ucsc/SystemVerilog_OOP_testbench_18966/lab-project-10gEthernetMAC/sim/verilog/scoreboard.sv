@@ -25,8 +25,7 @@ class scoreboard;
         $write("pkt_from_mon:");
         pkt_from_mon.print();
 
-        if ((pkt_from_mon.src_addr != pkt_from_drv.src_addr + 1) ||
-            (pkt_from_mon.src_data != pkt_from_drv.src_data + 1)) begin
+        if ((pkt_from_mon.pkt_data != pkt_from_drv.pkt_data)) begin
                 $display("time: %0t ERROR: Packet mismatch!", $time);
                 error++;
         end

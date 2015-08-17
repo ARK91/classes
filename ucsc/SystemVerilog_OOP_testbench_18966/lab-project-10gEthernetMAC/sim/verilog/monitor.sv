@@ -16,7 +16,7 @@ class monitor;
 
         done <= 0;
 
-        pkt_rx_ren <= 1'b1;
+        m_mi.cb.pkt_rx_ren <= 1'b1;
         @(posedge m_mi.cb);
 
         while (!done) begin
