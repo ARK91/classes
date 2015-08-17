@@ -1,0 +1,325 @@
+<sc-xterm-23> loopback $ ./runsim
+run-nvidia-vcs: ../../rtl/verilog/fault_sm.v ../../rtl/verilog/generic_fifo_ctrl.v ../../rtl/verilog/generic_fifo.v ../../rtl/verilog/generic_mem_medium.v ../../rtl/verilog/generic_mem_small.v ../../rtl/verilog/meta_sync_single.v ../../rtl/verilog/meta_sync.v ../../rtl/verilog/rx_data_fifo.v ../../rtl/verilog/rx_dequeue.v ../../rtl/verilog/rx_enqueue.v ../../rtl/verilog/rx_hold_fifo.v ../../rtl/verilog/sync_clk_core.v ../../rtl/verilog/sync_clk_wb.v ../../rtl/verilog/sync_clk_xgmii_tx.v ../../rtl/verilog/tx_data_fifo.v ../../rtl/verilog/tx_dequeue.v ../../rtl/verilog/tx_enqueue.v ../../rtl/verilog/tx_hold_fifo.v ../../rtl/verilog/wishbone_if.v ../../rtl/verilog/xge_mac.v ../../testbench/verilog/switch_interface.sv ../../testbench/verilog/testbench.sv ../../sim/verilog/packet.sv ../../sim/verilog/driver.sv ../../sim/verilog/monitor.sv ../../sim/verilog/scoreboard.sv ../../sim/verilog/env.sv testcase.sv -v2k_generate +warn=noOBSV2G -override_timescale=1ps/1ps +incdir+../../rtl/include +plusarg_save +ntb_random_seed_automatic
+Job <341565937> is submitted to queue <o_pri_interactive>.
+<<Waiting for dispatch ...>>
+<<Starting on sc-sim-204-021>>
+                         Chronologic VCS (TM)
+         Version E-2011.03-SP1-2 -- Mon Aug 17 00:41:34 2015
+               Copyright (c) 1991-2011 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '../../rtl/verilog/fault_sm.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/fault_sm.v'.
+Parsing design file '../../rtl/verilog/generic_fifo_ctrl.v'
+Parsing design file '../../rtl/verilog/generic_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/generic_fifo.v'.
+Parsing design file '../../rtl/verilog/generic_mem_medium.v'
+Parsing design file '../../rtl/verilog/generic_mem_small.v'
+Parsing design file '../../rtl/verilog/meta_sync_single.v'
+Parsing design file '../../rtl/verilog/meta_sync.v'
+Parsing design file '../../rtl/verilog/rx_data_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_data_fifo.v'.
+Parsing design file '../../rtl/verilog/rx_dequeue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_dequeue.v'.
+Parsing design file '../../rtl/verilog/rx_enqueue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing design file '../../rtl/verilog/rx_hold_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_hold_fifo.v'.
+Parsing design file '../../rtl/verilog/sync_clk_core.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_core.v'.
+Parsing design file '../../rtl/verilog/sync_clk_wb.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_wb.v'.
+Parsing design file '../../rtl/verilog/sync_clk_xgmii_tx.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_xgmii_tx.v'.
+Parsing design file '../../rtl/verilog/tx_data_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_data_fifo.v'.
+Parsing design file '../../rtl/verilog/tx_dequeue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing design file '../../rtl/verilog/tx_enqueue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing design file '../../rtl/verilog/tx_hold_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_hold_fifo.v'.
+Parsing design file '../../rtl/verilog/wishbone_if.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/wishbone_if.v'.
+Parsing design file '../../rtl/verilog/xge_mac.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/xge_mac.v'.
+Parsing design file '../../testbench/verilog/switch_interface.sv'
+Parsing design file '../../testbench/verilog/testbench.sv'
+Parsing included file '../../rtl/include/timescale.v'.
+Back to file '../../testbench/verilog/testbench.sv'.
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../testbench/verilog/testbench.sv'.
+Parsing design file '../../sim/verilog/packet.sv'
+Parsing design file '../../sim/verilog/driver.sv'
+Parsing design file '../../sim/verilog/monitor.sv'
+Parsing design file '../../sim/verilog/scoreboard.sv'
+Parsing design file '../../sim/verilog/env.sv'
+Parsing design file 'testcase.sv'
+Top Level Modules:
+       testbench
+TimeScale is 1 ps / 1 ps
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+11 modules and 0 UDP read.
+        However, due to incremental compilation, only 1 module needs to be compiled.
+recompiling module testcase because:
+        Cross module references have been changed, added or deleted.
+Both modules done.
+ld -r -m elf_i386 -o pre_vcsobj_0_1.o --whole-archive pre_vcsobj_0_1.a --no-whole-archive
+ld -r -m elf_i386 -o pre_vcsobj_1_1.o --whole-archive pre_vcsobj_1_1.a --no-whole-archive
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv -melf_i386 -m32   -Wl,-whole-archive    -Wl,-no-whole-archive  _vcsobj_1_1.o  5NrI_d.o 5NrIB_d.o SIM_l.o    pre_vcsobj_0_1.o pre_vcsobj_1_1.o  rmapats_mop.o rmapats.o      /home/tools/vcs/2011.03-SP1-2/linux/lib/libvirsim.so /home/tools/vcs/2011.03-SP1-2/linux/lib/librterrorinf.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libsnpsmalloc.so     /home/tools/vcs/2011.03-SP1-2/linux/lib/libvcsnew.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libuclinative.so         /home/tools/vcs/2011.03-SP1-2/linux/lib/vcs_save_restore_new.o /home/tools/vcs/2011.03-SP1-2/linux/lib/ctype-stubs_32.a -ldl -lm  -lc -lpthread -ldl
+../simv up to date
+Chronologic VCS simulator copyright 1991-2011
+Contains Synopsys proprietary information.
+Compiler version E-2011.03-SP1-2; Runtime version E-2011.03-SP1-2;  Aug 17 00:41 2015
+
+NOTE: automatic random seed used: 3417584402
+VCD+ Writer E-2011.03-SP1-2 Copyright (c) 1991-2011 by Synopsys Inc.
+======================== time=5000000: Sending packet #0 ===========================
+------------------- Packet ID: 0 (Sent) -----------------------
+Length:   83
+
+4b 57 f5 79 df b6 26 31  |  e4 82 1f f2 bf ea cc 4a
+5b d2 0e b6 f1 54 f2 fb  |  2c 07 b2 08 13 6e 07 21
+09 a9 47 88 b4 6a ff fa  |  ff 6b 89 eb f5 2a ad 4f
+ad 07 87 e5 68 0f f1 fc  |  41 fd 0d 6f af 04 4d 75
+d2 e8 70 b9 24 dc 13 fc  |  88 78 77 d2 bc dd 1a 85
+87 bd 44 00 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=5073000: Collecting packet #0 ===========================
+------------------- Packet ID: 0 (Received) -----------------------
+Length:   83
+
+4b 57 f5 79 df b6 26 31  |  e4 82 1f f2 bf ea cc 4a
+5b d2 0e b6 f1 54 f2 fb  |  2c 07 b2 08 13 6e 07 21
+09 a9 47 88 b4 6a ff fa  |  ff 6b 89 eb f5 2a ad 4f
+ad 07 87 e5 68 0f f1 fc  |  41 fd 0d 6f af 04 4d 75
+d2 e8 70 b9 24 dc 13 fc  |  88 78 77 d2 bc dd 1a 85
+87 bd 44 00 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=5353600: Comparing packet #0 ===========================
+time: 5353600 PASS: All packets passed
+======================== time=5353600: Sending packet #1 ===========================
+------------------- Packet ID: 1 (Sent) -----------------------
+Length:   85
+
+dd de 00 0b 59 f2 cb 72  |  21 f8 31 5b 8f b5 ce ad
+25 b8 e5 6f 1a 2b 4e 3f  |  30 df 77 df 49 a8 55 15
+de 7c 9d a0 46 2d cf 81  |  95 5b 09 87 a0 25 3e 53
+7e 54 83 47 ac 5c 8f bb  |  c9 59 4d 4a 21 10 53 2a
+83 f6 56 67 08 dc 7f a6  |  f2 31 0d 55 a6 db 06 47
+23 0d e1 69 64 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=5431400: Collecting packet #1 ===========================
+------------------- Packet ID: 1 (Received) -----------------------
+Length:   85
+
+dd de 00 0b 59 f2 cb 72  |  21 f8 31 5b 8f b5 ce ad
+25 b8 e5 6f 1a 2b 4e 3f  |  30 df 77 df 49 a8 55 15
+de 7c 9d a0 46 2d cf 81  |  95 5b 09 87 a0 25 3e 53
+7e 54 83 47 ac 5c 8f bb  |  c9 59 4d 4a 21 10 53 2a
+83 f6 56 67 08 dc 7f a6  |  f2 31 0d 55 a6 db 06 47
+23 0d e1 69 64 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=5712000: Comparing packet #1 ===========================
+time: 5712000 PASS: All packets passed
+======================== time=5712000: Sending packet #2 ===========================
+------------------- Packet ID: 2 (Sent) -----------------------
+Length:   68
+
+4d f7 39 b9 79 7d 34 f2  |  21 6a 53 21 0b 0a 7b 2e
+cd 6d c8 1e aa f3 f8 1c  |  ab 86 7b 2d 39 7b c0 2b
+2d be 5b 3e 33 2c 69 72  |  8d f5 9c c5 f9 1a 9c 00
+11 9f 57 cc 59 2c 69 e6  |  4a 11 5e fc 6d 66 8d d1
+17 0b 8b e0 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=5777000: Collecting packet #2 ===========================
+------------------- Packet ID: 2 (Received) -----------------------
+Length:   68
+
+4d f7 39 b9 79 7d 34 f2  |  21 6a 53 21 0b 0a 7b 2e
+cd 6d c8 1e aa f3 f8 1c  |  ab 86 7b 2d 39 7b c0 2b
+2d be 5b 3e 33 2c 69 72  |  8d f5 9c c5 f9 1a 9c 00
+11 9f 57 cc 59 2c 69 e6  |  4a 11 5e fc 6d 66 8d d1
+17 0b 8b e0 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=6057600: Comparing packet #2 ===========================
+time: 6057600 PASS: All packets passed
+======================== time=6057600: Sending packet #3 ===========================
+------------------- Packet ID: 3 (Sent) -----------------------
+Length:   69
+
+1a 6a 21 12 c9 7e 3c f0  |  29 a3 3f 38 fe 84 e5 af
+6c a4 8d b6 19 de 23 54  |  5e 4e 5e 75 40 df 07 67
+3f 49 72 76 69 9c 98 7d  |  c4 d4 29 0e 82 b5 b0 75
+4e 5c 37 5d 5f f5 31 0a  |  a9 79 3c d4 84 08 db f9
+1c 8f 95 7a cf 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=6122600: Collecting packet #3 ===========================
+------------------- Packet ID: 3 (Received) -----------------------
+Length:   69
+
+1a 6a 21 12 c9 7e 3c f0  |  29 a3 3f 38 fe 84 e5 af
+6c a4 8d b6 19 de 23 54  |  5e 4e 5e 75 40 df 07 67
+3f 49 72 76 69 9c 98 7d  |  c4 d4 29 0e 82 b5 b0 75
+4e 5c 37 5d 5f f5 31 0a  |  a9 79 3c d4 84 08 db f9
+1c 8f 95 7a cf 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=6403200: Comparing packet #3 ===========================
+time: 6403200 PASS: All packets passed
+======================== time=6403200: Sending packet #4 ===========================
+------------------- Packet ID: 4 (Sent) -----------------------
+Length:   74
+
+7b 64 ed f8 c9 65 70 2c  |  8a d4 fb bb e5 b3 cc 97
+6f d7 b0 fb e1 9d 0f 91  |  7c 95 bf 1a 1f 27 c3 0a
+dd d0 0c 28 ff 73 4b f7  |  8c 4a eb 9d d2 7d 8b c6
+06 4e 4f be 43 2c 9f c1  |  89 d4 fb c6 9b e8 3d b8
+03 21 14 cf 77 58 f7 3c  |  fd 97 00 00 00 00 00 00
+------------------------------------------
+======================== time=6474600: Collecting packet #4 ===========================
+------------------- Packet ID: 4 (Received) -----------------------
+Length:   74
+
+7b 64 ed f8 c9 65 70 2c  |  8a d4 fb bb e5 b3 cc 97
+6f d7 b0 fb e1 9d 0f 91  |  7c 95 bf 1a 1f 27 c3 0a
+dd d0 0c 28 ff 73 4b f7  |  8c 4a eb 9d d2 7d 8b c6
+06 4e 4f be 43 2c 9f c1  |  89 d4 fb c6 9b e8 3d b8
+03 21 14 cf 77 58 f7 3c  |  fd 97 00 00 00 00 00 00
+------------------------------------------
+======================== time=6755200: Comparing packet #4 ===========================
+time: 6755200 PASS: All packets passed
+======================== time=6755200: Sending packet #5 ===========================
+------------------- Packet ID: 5 (Sent) -----------------------
+Length:   62
+
+ac ce 44 dd 32 5a b6 ef  |  6a 4d 99 5f b5 c5 d2 7e
+44 34 bb c7 c4 0b 9f 21  |  67 5b b6 7f e9 93 35 58
+c9 ae 02 04 55 e1 d7 a7  |  d3 77 5d a9 56 14 5b 04
+e0 a0 1e b8 a2 56 76 86  |  64 03 d8 43 ff aa 00 00
+------------------------------------------
+======================== time=6813800: Collecting packet #5 ===========================
+------------------- Packet ID: 5 (Received) -----------------------
+Length:   62
+
+ac ce 44 dd 32 5a b6 ef  |  6a 4d 99 5f b5 c5 d2 7e
+44 34 bb c7 c4 0b 9f 21  |  67 5b b6 7f e9 93 35 58
+c9 ae 02 04 55 e1 d7 a7  |  d3 77 5d a9 56 14 5b 04
+e0 a0 1e b8 a2 56 76 86  |  64 03 d8 43 ff aa 00 00
+------------------------------------------
+======================== time=7094400: Comparing packet #5 ===========================
+time: 7094400 PASS: All packets passed
+======================== time=7094400: Sending packet #6 ===========================
+------------------- Packet ID: 6 (Sent) -----------------------
+Length:   80
+
+5a c5 b2 ae b8 0b 53 44  |  45 87 27 01 f8 95 e5 94
+2c ae 58 a4 18 a2 59 47  |  32 76 33 e6 ac 2a 4c 80
+a3 fd 80 eb 1a 4d 97 57  |  46 6b 59 1a 2e 43 7c c9
+ab 4b b7 b0 cc 28 be 97  |  d3 6f 4c ad 91 cc 4e 8b
+46 03 cb 7e ed 47 40 21  |  a4 a4 d7 91 91 71 37 fe
+------------------------------------------
+======================== time=7165800: Collecting packet #6 ===========================
+------------------- Packet ID: 6 (Received) -----------------------
+Length:   80
+
+5a c5 b2 ae b8 0b 53 44  |  45 87 27 01 f8 95 e5 94
+2c ae 58 a4 18 a2 59 47  |  32 76 33 e6 ac 2a 4c 80
+a3 fd 80 eb 1a 4d 97 57  |  46 6b 59 1a 2e 43 7c c9
+ab 4b b7 b0 cc 28 be 97  |  d3 6f 4c ad 91 cc 4e 8b
+46 03 cb 7e ed 47 40 21  |  a4 a4 d7 91 91 71 37 fe
+------------------------------------------
+======================== time=7446400: Comparing packet #6 ===========================
+time: 7446400 PASS: All packets passed
+======================== time=7446400: Sending packet #7 ===========================
+------------------- Packet ID: 7 (Sent) -----------------------
+Length:   83
+
+8e 93 56 48 4e 48 89 09  |  b6 6d 34 98 a5 95 7c 1e
+09 05 5c e0 3c 4b 7d e8  |  d9 ff 4d 7d 3b bd 36 f6
+a3 5a ba 93 ea 7b 2e ed  |  eb 9c 68 e7 ed ab 04 af
+da 85 1c 51 8f c4 c3 fa  |  70 0b f1 dc 82 2e 40 a2
+ce 60 9e 17 60 58 c4 d1  |  1c d2 b0 10 79 42 3b dd
+9b 4b bd 00 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=7524200: Collecting packet #7 ===========================
+------------------- Packet ID: 7 (Received) -----------------------
+Length:   83
+
+8e 93 56 48 4e 48 89 09  |  b6 6d 34 98 a5 95 7c 1e
+09 05 5c e0 3c 4b 7d e8  |  d9 ff 4d 7d 3b bd 36 f6
+a3 5a ba 93 ea 7b 2e ed  |  eb 9c 68 e7 ed ab 04 af
+da 85 1c 51 8f c4 c3 fa  |  70 0b f1 dc 82 2e 40 a2
+ce 60 9e 17 60 58 c4 d1  |  1c d2 b0 10 79 42 3b dd
+9b 4b bd 00 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=7804800: Comparing packet #7 ===========================
+time: 7804800 PASS: All packets passed
+======================== time=7804800: Sending packet #8 ===========================
+------------------- Packet ID: 8 (Sent) -----------------------
+Length:   68
+
+a9 40 2c b0 29 09 51 79  |  e9 81 23 89 f1 9d ff 42
+e6 95 15 f2 b4 09 fb c7  |  4f 34 47 ef b4 4c 1f 85
+72 52 3e 75 82 a3 d0 a6  |  0e 55 34 75 cd 16 77 26
+10 bb 25 4d 5f 89 d0 a9  |  7a ba 0b 98 ec ec 37 36
+9c f3 41 6e 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=7869800: Collecting packet #8 ===========================
+------------------- Packet ID: 8 (Received) -----------------------
+Length:   68
+
+a9 40 2c b0 29 09 51 79  |  e9 81 23 89 f1 9d ff 42
+e6 95 15 f2 b4 09 fb c7  |  4f 34 47 ef b4 4c 1f 85
+72 52 3e 75 82 a3 d0 a6  |  0e 55 34 75 cd 16 77 26
+10 bb 25 4d 5f 89 d0 a9  |  7a ba 0b 98 ec ec 37 36
+9c f3 41 6e 00 00 00 00  |  00 00 00 00 00 00 00 00
+------------------------------------------
+======================== time=8150400: Comparing packet #8 ===========================
+time: 8150400 PASS: All packets passed
+$finish called from file "testcase.sv", line 19.
+$finish at simulation time              8150500
+           V C S   S i m u l a t i o n   R e p o r t
+Time: 8150500 ps
+CPU Time:      0.070 seconds;       Data structure size:   0.0Mb
+Mon Aug 17 00:41:36 2015
+CPU time: .463 seconds to compile + .014 seconds to elab + .085 seconds to link + .132 seconds in simulation
+
