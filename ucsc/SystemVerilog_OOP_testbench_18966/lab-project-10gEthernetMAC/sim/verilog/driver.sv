@@ -9,12 +9,12 @@ class driver;
         m_drv2sb = drv2sb;
     endfunction
 
-task local_wait_ns;
-  input [31:0] delay;
-    begin
-        #(1000*delay);
-    end
-endtask
+    task local_wait_ns;
+      input [31:0] delay;
+        begin
+            #(1000*delay);
+        end
+    endtask
 
     task send_packet(integer tx_length, logic [7:0] tx_buffer);
         integer i;

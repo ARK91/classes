@@ -11,11 +11,11 @@ module testbench();
     reg           reset_xgmii_rx_n;
     reg           reset_xgmii_tx_n;
 
-    wire                    wb_ack_o;               // From dut of xge_mac.v
-    wire [31:0]             wb_dat_o;               // From dut of xge_mac.v
-    wire                    wb_int_o;               // From dut of xge_mac.v
-    wire [7:0]              xgmii_txc;              // From dut of xge_mac.v
-    wire [63:0]             xgmii_txd;              // From dut of xge_mac.v
+    wire                    wb_ack_o;
+    wire [31:0]             wb_dat_o;
+    wire                    wb_int_o;
+    wire [7:0]              xgmii_txc;
+    wire [63:0]             xgmii_txd;
 
     wire  [7:0]   wb_adr_i;
     wire  [31:0]  wb_dat_i;
@@ -33,6 +33,13 @@ module testbench();
     wire                    xaui_tx_l2_p;
     wire                    xaui_tx_l3_n;
     wire                    xaui_tx_l3_p;
+
+    task WaitPS;
+      input [31:0] delay;
+        begin
+            #(delay);
+        end
+    endtask
 
     // Start up the clocks
     initial begin
@@ -92,18 +99,4 @@ module testbench();
                 .wb_we_i                    (wb_we_i),
                 .xgmii_rxc                  (xgmii_rxc[7:0]),
                 .xgmii_rxd                  (xgmii_rxd[63:0]));
-
-    task WaitNS;
-      input [31:0] delay;
-        begin
-            #(1000*delay);
-        end
-    endtask
-
-    task WaitPS;
-      input [31:0] delay;
-        begin
-            #(delay);
-        end
-    endtask
 endmodule

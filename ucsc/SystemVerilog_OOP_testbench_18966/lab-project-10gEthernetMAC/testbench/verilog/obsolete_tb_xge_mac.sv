@@ -250,9 +250,6 @@ assign wb_we_i = 1'b0;
 initial begin
     // Enable waveform viewing via DVE:
     $vcdpluson();
-
-    tx_count = 0;
-    rx_count = 0;
 end
 
 //---
