@@ -81,6 +81,19 @@ initial begin
     reset_xgmii_rx_n = 1'b1;
     reset_xgmii_tx_n = 1'b1;
 end
+// Unused for this testbench
+
+assign wb_adr_i = 8'b0;
+assign wb_clk_i = 1'b0;
+assign wb_cyc_i = 1'b0;
+assign wb_dat_i = 32'b0;
+assign wb_rst_i = 1'b1;
+assign wb_stb_i = 1'b0;
+assign wb_we_i = 1'b0;
+
+// Loopback test requires connecting it like this:
+    assign xgmii_rxc = xgmii_txc;
+    assign xgmii_rxd = xgmii_txd;
 
 
     // Instantiate the testcase:

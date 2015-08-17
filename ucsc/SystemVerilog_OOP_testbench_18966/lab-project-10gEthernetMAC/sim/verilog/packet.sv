@@ -8,12 +8,13 @@ class packet;
     static bit [15:0] m_packet_id;
 
     constraint legal_payload {
-        pkt_length inside {[46:128]};
+        pkt_length inside {[60:65]};
     }
 
     function new(integer requested_packet_id);
         m_packet_id = requested_packet_id;
     endfunction
+
     function void print(string extra_notes);
         integer i;
 

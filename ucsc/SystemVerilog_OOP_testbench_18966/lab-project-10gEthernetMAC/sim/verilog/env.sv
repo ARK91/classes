@@ -20,7 +20,17 @@ class env;
         m_mon    = new(mif, m_mon2sb);
     endfunction
 
+task WaitNS;
+  input [31:0] delay;
+    begin
+        #(1000*delay);
+    end
+endtask
+
     task run(int num_packets = 5);
+        // From the original testbench, delay before starting the tests:
+        WaitNS(5000);
+
         for (int i = 0; i < num_packets; i++) begin
             $display("======================== time=%0t: Sending packet #%0d ===========================",
                      $time, i);
