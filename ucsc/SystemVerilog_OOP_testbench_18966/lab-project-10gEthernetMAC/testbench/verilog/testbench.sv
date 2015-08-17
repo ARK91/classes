@@ -93,23 +93,6 @@ module testbench();
                 .xgmii_rxc                  (xgmii_rxc[7:0]),
                 .xgmii_rxd                  (xgmii_rxd[63:0]));
 
-    // Initialize the signals
-    initial begin
-
-        for (tx_length = 0; tx_length <= 1000; tx_length = tx_length + 1) begin
-            tx_buffer[tx_length] = 0;
-        end
-
-        pkt_rx_ren = 1'b0;
-
-        pkt_tx_data = 64'b0;
-        pkt_tx_val = 1'b0;
-        pkt_tx_sop = 1'b0;
-        pkt_tx_eop = 1'b0;
-        pkt_tx_mod = 3'b0;
-
-    end
-
     task WaitNS;
       input [31:0] delay;
         begin

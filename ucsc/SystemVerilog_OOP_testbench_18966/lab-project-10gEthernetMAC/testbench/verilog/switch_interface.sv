@@ -31,8 +31,8 @@ interface switch_interface(input clk);
                    pkt_rx_ren;
 
         input #2  pkt_tx_full,
-                  pkt_tx_avail
-                  pkt_rx_valid,
+                  pkt_rx_avail,
+                  pkt_rx_val,
                   pkt_rx_sop,
                   pkt_rx_eop,
                   pkt_rx_mod,

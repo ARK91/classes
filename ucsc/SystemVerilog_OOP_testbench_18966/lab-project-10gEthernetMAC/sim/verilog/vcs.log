@@ -1,0 +1,306 @@
+Command: vcs -sverilog -R -l vcs.log -override_timescale=1ps/1ps ../../rtl/verilog/fault_sm.v \
+../../rtl/verilog/generic_fifo_ctrl.v ../../rtl/verilog/generic_fifo.v ../../rtl/verilog/generic_mem_medium.v \
+../../rtl/verilog/generic_mem_small.v ../../rtl/verilog/meta_sync_single.v ../../rtl/verilog/meta_sync.v \
+../../rtl/verilog/rx_data_fifo.v ../../rtl/verilog/rx_dequeue.v ../../rtl/verilog/rx_enqueue.v \
+../../rtl/verilog/rx_hold_fifo.v ../../rtl/verilog/sync_clk_core.v ../../rtl/verilog/sync_clk_wb.v \
+../../rtl/verilog/sync_clk_xgmii_tx.v ../../rtl/verilog/tx_data_fifo.v ../../rtl/verilog/tx_dequeue.v \
+../../rtl/verilog/tx_enqueue.v ../../rtl/verilog/tx_hold_fifo.v ../../rtl/verilog/wishbone_if.v \
+../../rtl/verilog/xge_mac.v +incdir+../../rtl/include ../../testbench/verilog/tb_xge_mac.sv \
+
+                         Chronologic VCS (TM)
+         Version E-2011.03-SP1-2 -- Sat Aug 15 20:46:45 2015
+               Copyright (c) 1991-2011 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '../../rtl/verilog/fault_sm.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/fault_sm.v'.
+Parsing design file '../../rtl/verilog/generic_fifo_ctrl.v'
+Parsing design file '../../rtl/verilog/generic_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/generic_fifo.v'.
+Parsing design file '../../rtl/verilog/generic_mem_medium.v'
+Parsing design file '../../rtl/verilog/generic_mem_small.v'
+Parsing design file '../../rtl/verilog/meta_sync_single.v'
+Parsing design file '../../rtl/verilog/meta_sync.v'
+Parsing design file '../../rtl/verilog/rx_data_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_data_fifo.v'.
+Parsing design file '../../rtl/verilog/rx_dequeue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_dequeue.v'.
+Parsing design file '../../rtl/verilog/rx_enqueue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/rx_enqueue.v'.
+Parsing design file '../../rtl/verilog/rx_hold_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/rx_hold_fifo.v'.
+Parsing design file '../../rtl/verilog/sync_clk_core.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_core.v'.
+Parsing design file '../../rtl/verilog/sync_clk_wb.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_wb.v'.
+Parsing design file '../../rtl/verilog/sync_clk_xgmii_tx.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/sync_clk_xgmii_tx.v'.
+Parsing design file '../../rtl/verilog/tx_data_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_data_fifo.v'.
+Parsing design file '../../rtl/verilog/tx_dequeue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/tx_dequeue.v'.
+Parsing design file '../../rtl/verilog/tx_enqueue.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D64.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/CRC32_D8.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing included file '../../rtl/include/utils.v'.
+Back to file '../../rtl/verilog/tx_enqueue.v'.
+Parsing design file '../../rtl/verilog/tx_hold_fifo.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/tx_hold_fifo.v'.
+Parsing design file '../../rtl/verilog/wishbone_if.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/wishbone_if.v'.
+Parsing design file '../../rtl/verilog/xge_mac.v'
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../rtl/verilog/xge_mac.v'.
+Parsing design file '../../testbench/verilog/tb_xge_mac.sv'
+Parsing included file '../../rtl/include/timescale.v'.
+Back to file '../../testbench/verilog/tb_xge_mac.sv'.
+Parsing included file '../../rtl/include/defines.v'.
+Back to file '../../testbench/verilog/tb_xge_mac.sv'.
+Top Level Modules:
+       tb
+TimeScale is 1 ps / 1 ps
+Starting vcs inline pass...
+4 modules and 0 UDP read.
+recompiling module fault_sm
+recompiling module meta_sync_single
+recompiling module tb
+All of 4 modules done
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv -melf_i386 -m32   -Wl,-whole-archive    -Wl,-no-whole-archive  _vcsobj_1_1.o \
+5NrI_d.o 5NrIB_d.o SIM_l.o     rmapats_mop.o rmapats.o      /home/tools/vcs/2011.03-SP1-2/linux/lib/libvirsim.so \
+/home/tools/vcs/2011.03-SP1-2/linux/lib/librterrorinf.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libsnpsmalloc.so \
+/home/tools/vcs/2011.03-SP1-2/linux/lib/libvcsnew.so /home/tools/vcs/2011.03-SP1-2/linux/lib/libuclinative.so \
+/home/tools/vcs/2011.03-SP1-2/linux/lib/vcs_save_restore_new.o /home/tools/vcs/2011.03-SP1-2/linux/lib/ctype-stubs_32.a \
+-ldl  -lc -lm -lpthread -ldl 
+../simv up to date
+Command: ./simv -a vcs.log -oldui
+Chronologic VCS simulator copyright 1991-2011
+Contains Synopsys proprietary information.
+Compiler version E-2011.03-SP1-2; Runtime version E-2011.03-SP1-2;  Aug 15 20:46 2015
+
+CMD SEND_PKT
+Transmit packet with length:          59
+CMD SEND_PKT
+Transmit packet with length:          60
+CMD SEND_PKT
+Transmit packet with length:          61
+CMD SEND_PKT
+Transmit packet with length:          62
+CMD SEND_PKT
+Transmit packet with length:          63
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+CMD SEND_PKT
+Transmit packet with length:          64
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c000e3d4784
+------------------------
+
+
+CMD SEND_PKT
+Transmit packet with length:          65
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d7b6198c1
+------------------------
+
+
+CMD SEND_PKT
+Transmit packet with length:          66
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e97d2c2
+------------------------
+
+
+CMD SEND_PKT
+Transmit packet with length:          67
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2fe116
+------------------------
+
+
+CMD SEND_PKT
+Transmit packet with length:          68
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f30d9
+------------------------
+
+
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f3031
+------------------------
+
+
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f3031
+324d241a46fd0707
+------------------------
+
+
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f3031
+323392a9f965fd07
+------------------------
+
+
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f3031
+323334f910d2edfd
+------------------------
+
+
+
+
+------------------------
+Received Packet
+------------------------
+0000010000010010
+9400000288b50001
+0203040506070809
+0a0b0c0d0e0f1011
+1213141516171819
+1a1b1c1d1e1f2021
+2223242526272829
+2a2b2c2d2e2f3031
+3233343506b33d40
+------------------------
+
+
+All packets received. Sumulation done!!!
+
+$finish called from file "../../testbench/verilog/tb_xge_mac.sv", line 453.
+$finish at simulation time             55597800
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 55597800 ps
+CPU Time:      0.060 seconds;       Data structure size:   0.0Mb
+Sat Aug 15 20:46:51 2015
+CPU time: .454 seconds to compile + .064 seconds to elab + .122 seconds to link + .120 seconds in simulation

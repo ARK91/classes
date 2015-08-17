@@ -33,6 +33,7 @@ run-vcs \
     ../../sim/verilog/scoreboard.sv \
     ../../sim/verilog/env.sv \
     testcase.sv \
+    -v2k_generate +warn=noOBSV2G \
     -override_timescale=1ps/1ps \
     +incdir+../../rtl/include \
     +plusarg_save +ntb_random_seed_automatic
