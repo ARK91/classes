@@ -30,13 +30,13 @@ class env;
     task initialize_dut();
 
         // Reset the device under test:
-        reset_156m25_n = 1'b0;
-        reset_xgmii_rx_n = 1'b0;
-        reset_xgmii_tx_n = 1'b0;
+        m_vi.cb.reset_156m25_n = 1'b0;
+        m_vi.cb.reset_xgmii_rx_n = 1'b0;
+        m_vi.cb.reset_xgmii_tx_n = 1'b0;
         WaitNS(20);
-        reset_156m25_n = 1'b1;
-        reset_xgmii_rx_n = 1'b1;
-        reset_xgmii_tx_n = 1'b1;
+        m_vi.cb.reset_156m25_n = 1'b1;
+        m_vi.cb.reset_xgmii_rx_n = 1'b1;
+        m_vi.cb.reset_xgmii_tx_n = 1'b1;
 
         // Wait this long for the device to come out of reset and become usable:
         WaitNS(5000);

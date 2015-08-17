@@ -23,6 +23,11 @@ interface switch_interface(input clk);
     logic [63:0]  pkt_rx_data;
     logic         pkt_rx_err;
 
+    // Reset DUT inputs;
+    logic         reset_156m25_n;
+    logic         reset_xgmii_rx_n;
+    logic         reset_xgmii_tx_n;
+
     // RX path DUT inputs:
     logic         pkt_rx_ren;
 
@@ -32,7 +37,10 @@ interface switch_interface(input clk);
                    pkt_tx_eop,
                    pkt_tx_mod,
                    pkt_tx_data,
-                   pkt_rx_ren;
+                   pkt_rx_ren,
+                   reset_156m25_n,
+                   reset_xgmii_rx_n,
+                   reset_xgmii_tx_n;
 
         input #2  pkt_tx_full,
                   pkt_rx_avail,
