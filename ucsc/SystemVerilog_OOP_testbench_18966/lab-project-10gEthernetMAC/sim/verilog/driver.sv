@@ -43,14 +43,14 @@ class driver;
                 m_vi.cb.pkt_tx_mod <= 2'b0;
             end
 
-            m_vi.cb.pkt_tx_data[`LANE7] = local_pkt.tx_buffer[i];
-            m_vi.cb.pkt_tx_data[`LANE6] = local_pkt.tx_buffer[i+1];
-            m_vi.cb.pkt_tx_data[`LANE5] = local_pkt.tx_buffer[i+2];
-            m_vi.cb.pkt_tx_data[`LANE4] = local_pkt.tx_buffer[i+3];
-            m_vi.cb.pkt_tx_data[`LANE3] = local_pkt.tx_buffer[i+4];
-            m_vi.cb.pkt_tx_data[`LANE2] = local_pkt.tx_buffer[i+5];
-            m_vi.cb.pkt_tx_data[`LANE1] = local_pkt.tx_buffer[i+6];
-            m_vi.cb.pkt_tx_data[`LANE0] = local_pkt.tx_buffer[i+7];
+            m_vi.cb.pkt_tx_data[`LANE7] <= local_pkt.tx_buffer[i];
+            m_vi.cb.pkt_tx_data[`LANE6] <= local_pkt.tx_buffer[i+1];
+            m_vi.cb.pkt_tx_data[`LANE5] <= local_pkt.tx_buffer[i+2];
+            m_vi.cb.pkt_tx_data[`LANE4] <= local_pkt.tx_buffer[i+3];
+            m_vi.cb.pkt_tx_data[`LANE3] <= local_pkt.tx_buffer[i+4];
+            m_vi.cb.pkt_tx_data[`LANE2] <= local_pkt.tx_buffer[i+5];
+            m_vi.cb.pkt_tx_data[`LANE1] <= local_pkt.tx_buffer[i+6];
+            m_vi.cb.pkt_tx_data[`LANE0] <= local_pkt.tx_buffer[i+7];
 
             @(posedge m_vi.clk);
             local_wait_ns(1);
