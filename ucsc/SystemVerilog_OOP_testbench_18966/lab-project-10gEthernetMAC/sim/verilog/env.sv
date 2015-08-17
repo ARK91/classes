@@ -42,7 +42,7 @@ class env;
         WaitNS(5000);
     endtask
 
-    task run(int num_packets, verbosity_t verbosity_level, int debug_flags);
+    task run(int num_packets, int verbosity_level, int debug_flags);
 
         initialize_dut();
 
