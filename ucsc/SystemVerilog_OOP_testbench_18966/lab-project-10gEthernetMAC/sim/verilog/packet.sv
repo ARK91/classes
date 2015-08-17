@@ -16,8 +16,12 @@ class packet;
     endfunction
 
     function void print();
-        $display("pktid=%0d, packet tx_buffer=%h",
-                 pktid, tx_buffer);
+        $display("------------------- pktid: $0d -----------------------",
+                 pktid);
+        $display("Length: %4d, packet tx_buffer=%x",
+                 pkt_length, tx_buffer);
+        $display("------------------- END: pktid: $0d -----------------------",
+                 pktid);
     endfunction
 endclass
 

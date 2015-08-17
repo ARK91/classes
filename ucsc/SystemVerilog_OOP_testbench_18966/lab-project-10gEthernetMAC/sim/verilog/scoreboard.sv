@@ -26,7 +26,7 @@ class scoreboard;
         pkt_from_mon.print();
 
         // TODO: Fix: need to check each byte
-        if (pkt_from_mon.tx_buffer[0][63:0] != pkt_from_drv.tx_buffer[0][63:0]) begin
+        if (pkt_from_mon.tx_buffer[0] != pkt_from_drv.tx_buffer[0]) begin
                 $display("time: %0t ERROR: Packet mismatch!", $time);
                 error++;
         end
