@@ -24,6 +24,10 @@ class driver;
         assert(local_pkt.randomize());
 
         @(m_vi.cb);
+        m_vi.cb.pkt_tx_sop <= 1'b0;
+        m_vi.cb.pkt_tx_eop <= 1'b0;
+        m_vi.cb.pkt_tx_val <= 1'b0;
+
         local_wait_ns(1);
         m_vi.cb.pkt_tx_val <= 1'b1;
 

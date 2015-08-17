@@ -46,6 +46,13 @@ module testbench();
         end
     endtask
 
+task WaitNS;
+  input [31:0] delay;
+    begin
+        #(1000*delay);
+    end
+endtask
+
     // Start up the clocks
     initial begin
         forever begin
@@ -62,6 +69,19 @@ module testbench();
             clk_312m50 = ~clk_312m50;
         end
     end
+
+    // Reset the device under test:
+
+initial begin
+    reset_156m25_n = 1'b0;
+    reset_xgmii_rx_n = 1'b0;
+    reset_xgmii_tx_n = 1'b0;
+    WaitNS(20);
+    reset_156m25_n = 1'b1;
+    reset_xgmii_rx_n = 1'b1;
+    reset_xgmii_tx_n = 1'b1;
+end
+
 
     // Instantiate the testcase:
     switch_interface sif( .clk(clk_156m25) );
