@@ -15,12 +15,14 @@ class packet;
         m_packet_id = requested_packet_id;
     endfunction
     function void print(string extra_notes);
+        integer i;
+
         $display("------------------- Packet ID: %0d (%s) -----------------------",
                  m_packet_id, extra_notes);
 
         $display("Length: %4d\n",pkt_length);
 
-        for (i = 0; i < pkt_length; i++) begin
+        for (i = 0; i < pkt_length; i = i + 16) begin
             $display("%h %h %h %h %h %h %h %h %h %h %h %h %h %h %h %h",
                      tx_buffer[i],
                      tx_buffer[i+1],
@@ -29,7 +31,7 @@ class packet;
                      tx_buffer[i+4],
                      tx_buffer[i+5],
                      tx_buffer[i+6],
-                     tx_buffer[i+7]);
+                     tx_buffer[i+7],
                      tx_buffer[i+8],
                      tx_buffer[i+9],
                      tx_buffer[i+10],
