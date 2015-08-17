@@ -24,7 +24,7 @@ class packet;
         $display("Length: %4d\n",pkt_length);
 
         for (i = 0; i < pkt_length; i = i + 16) begin
-            $display("%h %h %h %h %h %h %h %h %h %h %h %h %h %h %h %h",
+            $display("%h %h %h %h %h %h %h %h  |  %h %h %h %h %h %h %h %h",
                      tx_buffer[i],
                      tx_buffer[i+1],
                      tx_buffer[i+2],
@@ -46,4 +46,5 @@ class packet;
         $display("------------------------------------------");
     endfunction
 endclass
+
 
