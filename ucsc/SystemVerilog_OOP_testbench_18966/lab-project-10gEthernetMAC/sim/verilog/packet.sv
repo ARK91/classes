@@ -1,10 +1,13 @@
 class packet;
 
     // Signals that will be sent to RTL:
-    rand bit [63:0] pkt_data;
+    rand bit [7:0]  tx_buffer[1500];
+    rand integer    pkt_length;
 
     // Signals that are just for the test framework (not for RTL):
     static bit [15:0] pktid;
+
+    constraint legal_payload {pkt_length inside {[46:1500]} };
 
     function new();
         pktid++;
