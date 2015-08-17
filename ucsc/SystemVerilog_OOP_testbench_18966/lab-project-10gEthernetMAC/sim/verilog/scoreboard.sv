@@ -35,8 +35,16 @@ class scoreboard;
             end
         end
 
+       if(pkt_from_mon.pkt_length != pkt_from_mon.pkt_length) begin
+           $display("time: %0t ERROR: Packet length mismatch!", $time);
+           error++;
+       end
+
         if (error == 0)
-            $display("time: %0t PASS: Packet matches", $time);
+            $display("time: %0t PASS: All packets passed", $time);
+        else
+            $display("time: %0t FAIL ***** FAIL", $time);
+
     endtask
 
 endclass

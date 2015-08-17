@@ -43,7 +43,10 @@ class monitor;
 
                     done = 1;
                     // Take care of not-a-multiple-of-8 bytes:
-                    rcv_packet.pkt_length = byte_index + m_mi.cb.pkt_rx_mod;
+                    if(m_mi.cb.pkt_rx_mod == 0)
+                        rcv_packet.pkt_length = byte_index + 8;
+                    else
+                        rcv_packet.pkt_length = byte_index + m_mi.cb.pkt_rx_mod;
                 end
 
                 // Only increment the byte counter while the pkt_rx_val is set:
