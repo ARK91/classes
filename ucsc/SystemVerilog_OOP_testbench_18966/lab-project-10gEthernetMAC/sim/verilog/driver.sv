@@ -30,7 +30,7 @@ class driver;
         assert(local_pkt.randomize());
 
         if (debug_flags & `DEBUG_FLAGS_UNDERSIZE_PACKET_ON_TX) begin
-            local_pkt.pkt_length = $urandom_range(1, 20);
+            local_pkt.pkt_length = $urandom_range(30,40);
         end
         else if (debug_flags & `DEBUG_FLAGS_OVERSIZE_PACKET_ON_TX) begin
             local_pkt.pkt_length = $urandom_range(2000, 3000);
