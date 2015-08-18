@@ -25,13 +25,15 @@ class oversize_packet_env extends env;
             m_drv.send_packet(i, debug_flags);
 
             if (verbosity_level > `VERBOSITY_SILENT)
-                $display("==== time=%0t: Verifying that no packet comes back due to oversize SOP #%0d ==============",
+                $display("==== time=%0t: Setting up a receive case to trigger and error for oversize case #%0d ==============",
                          $time, i);
 
-            // Wait 50 cycles to see if a packet comes back. It should not.
+            m_mon.collect_error_packet(i);
+
+            // Wait for ptk_rx_err to go high, as a result of the oversize packet:
             repeat(50) @(m_vi.cb);
 
-            if (m_vi.cb.pkt_rx_avail == 1'b0)
+            if (m_vi.cb.pkt_rx_err == 1'b1)
                 $display("time: %0t PASS: Expected behavior for oversize packet case.", $time);
             else
                 $display("time: %0t FAIL ***** Oversize packet case FAILED", $time);
@@ -62,4 +64,5 @@ program testcase(interface tcif_driver,
     end
 
 endprogram
+
 
