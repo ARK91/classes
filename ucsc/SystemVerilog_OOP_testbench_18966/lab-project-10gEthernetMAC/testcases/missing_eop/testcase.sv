@@ -4,14 +4,42 @@
 
 `include "sim_types.sv"
 
-// This test is still under construction. The DEBUG_FLAG_SKIP_EOP_ON_TX
-// is still being ignored by the .run() method, so this test acts, for now,
-// just like the simple loopback test (DEBUG_FLAGS_SIMPLE_LOOPBACK).
+class missing_eop_env extends env;
+    virtual task run(int num_packets, int verbosity_level, int debug_flags);
+
+        initialize_dut();
+
+        for (int i = 0; i < num_packets; i++) begin
+
+            if (verbosity_level > `VERBOSITY_SILENT)
+                $display("==== time=%0t: Sending missing EOP packet #%0d =================",
+                         $time, i);
+
+            m_drv.send_packet(i, debug_flags);
+
+            if (verbosity_level > `VERBOSITY_SILENT)
+                $display("==== time=%0t: Setting up a receive case to trigger and error for missing EOP case #%0d ==============",
+                         $time, i);
+
+            m_mon.collect_error_packet(i);
+
+            // Wait for ptk_rx_err to go high, as a result of the missing EOP:
+            repeat(50) @(m_vi.cb);
+
+            if (m_vi.cb.pkt_rx_err == 1b'1)
+                $display("time: %0t PASS: Expected behavior for missing EOP case.", $time);
+            else
+                $display("time: %0t FAIL ***** Missing EOP case FAILED", $time);
+
+        end
+    endtask
+
+endclass
 
 program testcase(interface tcif_driver,
                  interface tcif_monitor);
 
-    env env0;
+    missing_eop_env env0;
     int num_packets;
 
     initial begin

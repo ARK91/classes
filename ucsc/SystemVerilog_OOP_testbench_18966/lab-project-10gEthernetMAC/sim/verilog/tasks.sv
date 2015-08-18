@@ -16,3 +16,7 @@ task WaitNS;
     end
 endtask
 
+function bit should_get_valid_received_packet(logic [7:0] debug_flags);
+    return (debug_flags == DEBUG_FLAGS_SIMPLE_LOOPBACK);
+endfunction
+

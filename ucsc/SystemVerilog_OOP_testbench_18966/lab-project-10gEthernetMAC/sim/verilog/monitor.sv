@@ -62,9 +62,35 @@ class monitor;
 
         // Send the packet to the scoreboard, and also print it:
         rcv_packet.zero_out_trailing_bytes();
-        m_mon2sb.put(rcv_packet);
         rcv_packet.print("Received");
 
+        if (should_get_valid_received_packet(debug_flags))
+            m_mon2sb.put(rcv_packet);
+    endtask
+
+    task collect_error_packet(integer expected_packet_id);
+        bit done = 0;
+
+        // Wait for the device to indicate that a packet has arrived:
+        while(!m_mi.cb.pkt_rx_avail)
+            @(posedge m_mi.clk);
+
+        m_mi.cb.pkt_rx_ren <= 1'b1;
+        @(posedge m_mi.clk);
+
+        while (!done) begin
+            if (m_mi.cb.pkt_rx_val) && (m_mi.cb.pkt_rx_eop) begin
+
+                m_mi.cb.pkt_rx_ren <= 1'b0;
+                done = 1;
+            end
+
+            @(posedge m_mi.clk);
+        end
+
+        m_mi.cb.pkt_rx_ren <= 1'b0;
+
+        rcv_packet.print("Done setting up to receive errors.");
     endtask
 endclass
 

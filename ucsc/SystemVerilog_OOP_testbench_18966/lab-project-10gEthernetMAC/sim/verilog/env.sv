@@ -42,19 +42,19 @@ class env;
         WaitNS(5000);
     endtask
 
-    task run(int num_packets, int verbosity_level, int debug_flags);
+    virtual task run(int num_packets, int verbosity_level, int debug_flags);
 
         initialize_dut();
 
         for (int i = 0; i < num_packets; i++) begin
 
-            if (verbosity_level > 0)
+            if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: Sending packet #%0d =================",
                          $time, i);
 
             m_drv.send_packet(i, debug_flags);
 
-            if (verbosity_level > 0)
+            if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: Collecting packet #%0d ==============",
                          $time, i);
 
@@ -65,6 +65,7 @@ class env;
                          $time, i);
 
             m_sb.compare(verbosity_level);
+
         end
     endtask
 endclass

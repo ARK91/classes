@@ -75,7 +75,9 @@ class driver;
         m_vi.cb.pkt_tx_mod <= 3'b0;
 
         local_pkt.print("Sent");
-        m_drv2sb.put(local_pkt);
+
+        if (should_get_valid_received_packet(debug_flags))
+            m_drv2sb.put(local_pkt);
     endtask
 endclass
 

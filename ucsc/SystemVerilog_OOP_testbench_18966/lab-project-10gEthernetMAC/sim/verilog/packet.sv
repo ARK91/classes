@@ -7,7 +7,7 @@ class packet;
     `define TX_BUFFER_LEN 128
 
     // Signals that will be sent to RTL:
-    rand bit [7:0]  tx_buffer[`TX_BUFFER_LEN];
+    rand bit [7:0]  pkt_buffer[`TX_BUFFER_LEN];
     rand integer    pkt_length;
 
     // Signals that are just for the test framework (not for RTL):
@@ -25,7 +25,7 @@ class packet;
         integer i;
 
         for (i = pkt_length; i < `TX_BUFFER_LEN; i++) begin
-            tx_buffer[i] = 0;
+            pkt_buffer[i] = 0;
         end
     endfunction
 
@@ -39,22 +39,22 @@ class packet;
 
         for (i = 0; i < pkt_length; i = i + 16) begin
             $display("%h %h %h %h %h %h %h %h  |  %h %h %h %h %h %h %h %h",
-                     tx_buffer[i],
-                     tx_buffer[i+1],
-                     tx_buffer[i+2],
-                     tx_buffer[i+3],
-                     tx_buffer[i+4],
-                     tx_buffer[i+5],
-                     tx_buffer[i+6],
-                     tx_buffer[i+7],
-                     tx_buffer[i+8],
-                     tx_buffer[i+9],
-                     tx_buffer[i+10],
-                     tx_buffer[i+11],
-                     tx_buffer[i+12],
-                     tx_buffer[i+13],
-                     tx_buffer[i+14],
-                     tx_buffer[i+15]);
+                     pkt_buffer[i],
+                     pkt_buffer[i+1],
+                     pkt_buffer[i+2],
+                     pkt_buffer[i+3],
+                     pkt_buffer[i+4],
+                     pkt_buffer[i+5],
+                     pkt_buffer[i+6],
+                     pkt_buffer[i+7],
+                     pkt_buffer[i+8],
+                     pkt_buffer[i+9],
+                     pkt_buffer[i+10],
+                     pkt_buffer[i+11],
+                     pkt_buffer[i+12],
+                     pkt_buffer[i+13],
+                     pkt_buffer[i+14],
+                     pkt_buffer[i+15]);
         end
 
         $display("------------------------------------------");
