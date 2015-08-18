@@ -22,7 +22,7 @@ class driver;
         end
     endtask
 
-    task send_packet(integer packet_id, integer debug_flags);
+    task send_packet(integer packet_id, logic [7:0] debug_flags);
         integer i;
         packet local_pkt;
         local_pkt = new(packet_id);
@@ -40,15 +40,15 @@ class driver;
 
         for (i = 0; i < local_pkt.pkt_length; i = i + 8) begin
 
-            if (i == 0) // TODO: && ~(debug_flags & DEBUG_FLAG_SKIP_SOP_ON_TX))
+            if (i == 0 && ((debug_flags & `DEBUG_FLAG_SKIP_SOP_ON_TX) == 0))
                 m_vi.cb.pkt_tx_sop <= 1'b1;
             else
                 m_vi.cb.pkt_tx_sop <= 1'b0;
 
             if (i + 8 >= local_pkt.pkt_length) begin
 
-                // TODO: if (~(debug_flags & DEBUG_FLAG_SKIP_EOP_ON_TX)
-                m_vi.cb.pkt_tx_eop <= 1'b1;
+                if ((debug_flags & `DEBUG_FLAG_SKIP_EOP_ON_TX) == 0)
+                    m_vi.cb.pkt_tx_eop <= 1'b1;
 
                 m_vi.cb.pkt_tx_mod <= local_pkt.pkt_length % 8;
             end
