@@ -58,7 +58,7 @@ class env;
                 $display("==== time=%0t: Collecting packet #%0d ==============",
                          $time, i);
 
-            m_mon.collect_packet(i);
+            m_mon.collect_packet(i, debug_flags);
 
             if (verbosity_level > 0)
                 $display("==== time=%0t: Comparing packet #%0d ===============",

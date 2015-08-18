@@ -14,7 +14,7 @@ class monitor;
         m_mi.cb.pkt_rx_ren <= 1'b0;
     endfunction
 
-    task collect_packet(integer expected_packet_id);
+    task collect_packet(integer expected_packet_id, bit [7:0] debug_flags);
         bit done;
         integer byte_index;
         packet rcv_packet;
@@ -33,14 +33,14 @@ class monitor;
         while (!done) begin
             if (m_mi.cb.pkt_rx_val) begin
 
-                rcv_packet.tx_buffer[byte_index+0] <= m_mi.cb.pkt_rx_data[`LANE7];
-                rcv_packet.tx_buffer[byte_index+1] <= m_mi.cb.pkt_rx_data[`LANE6];
-                rcv_packet.tx_buffer[byte_index+2] <= m_mi.cb.pkt_rx_data[`LANE5];
-                rcv_packet.tx_buffer[byte_index+3] <= m_mi.cb.pkt_rx_data[`LANE4];
-                rcv_packet.tx_buffer[byte_index+4] <= m_mi.cb.pkt_rx_data[`LANE3];
-                rcv_packet.tx_buffer[byte_index+5] <= m_mi.cb.pkt_rx_data[`LANE2];
-                rcv_packet.tx_buffer[byte_index+6] <= m_mi.cb.pkt_rx_data[`LANE1];
-                rcv_packet.tx_buffer[byte_index+7] <= m_mi.cb.pkt_rx_data[`LANE0];
+                rcv_packet.pkt_buffer[byte_index+0] <= m_mi.cb.pkt_rx_data[`LANE7];
+                rcv_packet.pkt_buffer[byte_index+1] <= m_mi.cb.pkt_rx_data[`LANE6];
+                rcv_packet.pkt_buffer[byte_index+2] <= m_mi.cb.pkt_rx_data[`LANE5];
+                rcv_packet.pkt_buffer[byte_index+3] <= m_mi.cb.pkt_rx_data[`LANE4];
+                rcv_packet.pkt_buffer[byte_index+4] <= m_mi.cb.pkt_rx_data[`LANE3];
+                rcv_packet.pkt_buffer[byte_index+5] <= m_mi.cb.pkt_rx_data[`LANE2];
+                rcv_packet.pkt_buffer[byte_index+6] <= m_mi.cb.pkt_rx_data[`LANE1];
+                rcv_packet.pkt_buffer[byte_index+7] <= m_mi.cb.pkt_rx_data[`LANE0];
 
                 if (m_mi.cb.pkt_rx_eop) begin
                     m_mi.cb.pkt_rx_ren <= 1'b0;
@@ -71,6 +71,10 @@ class monitor;
     task collect_error_packet(integer expected_packet_id);
         bit done = 0;
 
+        if (m_mi.cb.pkt_rx_err) begin
+            $display("collect_error_packet: Returning early.");
+            return;
+        end
         // Wait for the device to indicate that a packet has arrived:
         while(!m_mi.cb.pkt_rx_avail)
             @(posedge m_mi.clk);
@@ -79,7 +83,7 @@ class monitor;
         @(posedge m_mi.clk);
 
         while (!done) begin
-            if (m_mi.cb.pkt_rx_val) && (m_mi.cb.pkt_rx_eop) begin
+            if ((m_mi.cb.pkt_rx_val) && (m_mi.cb.pkt_rx_eop)) begin
 
                 m_mi.cb.pkt_rx_ren <= 1'b0;
                 done = 1;
@@ -90,7 +94,7 @@ class monitor;
 
         m_mi.cb.pkt_rx_ren <= 1'b0;
 
-        rcv_packet.print("Done setting up to receive errors.");
+        $display("collect_error_packet: Done setting up to receive errors.");
     endtask
 endclass
 

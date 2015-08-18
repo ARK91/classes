@@ -5,6 +5,13 @@
 `include "sim_types.sv"
 
 class missing_eop_env extends env;
+
+    function new(input virtual switch_interface vif,
+                 input virtual switch_interface mif);
+
+        super.new(vif, mif);
+    endfunction
+
     virtual task run(int num_packets, int verbosity_level, int debug_flags);
 
         initialize_dut();
@@ -26,7 +33,7 @@ class missing_eop_env extends env;
             // Wait for ptk_rx_err to go high, as a result of the missing EOP:
             repeat(50) @(m_vi.cb);
 
-            if (m_vi.cb.pkt_rx_err == 1b'1)
+            if (m_vi.cb.pkt_rx_err == 1'b1)
                 $display("time: %0t PASS: Expected behavior for missing EOP case.", $time);
             else
                 $display("time: %0t FAIL ***** Missing EOP case FAILED", $time);

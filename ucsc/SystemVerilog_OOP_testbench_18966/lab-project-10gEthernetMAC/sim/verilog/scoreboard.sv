@@ -31,10 +31,10 @@ class scoreboard;
         m_mbx_from_mon.get(pkt_from_mon);
 
         for (i = 0; i < pkt_from_mon.pkt_length; i++) begin
-            if (pkt_from_mon.tx_buffer[i] != pkt_from_drv.tx_buffer[i]) begin
+            if (pkt_from_mon.pkt_buffer[i] != pkt_from_drv.pkt_buffer[i]) begin
                 $display("time: %0t ERROR: Packet mismatch!", $time);
-                $display("pkt_from_mon.tx_buffer[i]: %h, pkt_from_drv.tx_buffer[i]: %h",
-                         pkt_from_mon.tx_buffer[i], pkt_from_drv.tx_buffer[i]);
+                $display("pkt_from_mon.pkt_buffer[i]: %h, pkt_from_drv.pkt_buffer[i]: %h",
+                         pkt_from_mon.pkt_buffer[i], pkt_from_drv.pkt_buffer[i]);
                 error++;
             end
         end
