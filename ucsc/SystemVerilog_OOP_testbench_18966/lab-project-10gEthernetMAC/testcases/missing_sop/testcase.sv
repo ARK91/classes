@@ -5,6 +5,13 @@
 `include "sim_types.sv"
 
 class missing_sop_env extends env;
+
+    function new(input virtual switch_interface vif,
+                 input virtual switch_interface mif);
+
+        super.new(vif, mif);
+    endfunction
+
     virtual task run(int num_packets, int verbosity_level, int debug_flags);
 
         initialize_dut();
@@ -24,7 +31,7 @@ class missing_sop_env extends env;
             // Wait 50 cycles to see if a packet comes back. It should not.
             repeat(50) @(m_vi.cb);
 
-            if (m_vi.cb.pkt_rx_avail == 1b'1)
+            if (m_vi.cb.pkt_rx_avail == 1'b0)
                 $display("time: %0t PASS: Expected behavior for missing SOP case.", $time);
             else
                 $display("time: %0t FAIL ***** Missing SOP case FAILED", $time);
