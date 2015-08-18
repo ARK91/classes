@@ -4,14 +4,47 @@
 
 `include "sim_types.sv"
 
-// This test is still under construction. The DEBUG_FLAG_USE_ZERO_IPG_ON_TX
-// is still being ignored by the .run() method, so this test acts, for now,
-// just like the simple loopback test (DEBUG_FLAGS_SIMPLE_LOOPBACK).
+class zero_ipg_packet_env extends env;
+
+    function new(input virtual switch_interface vif,
+                 input virtual switch_interface mif);
+
+        super.new(vif, mif);
+    endfunction
+
+    virtual task run(int num_packets, int verbosity_level, int debug_flags);
+
+        initialize_dut();
+
+        for (int i = 0; i < num_packets; i++) begin
+
+            if (verbosity_level > `VERBOSITY_SILENT)
+                $display("==== time=%0t: Sending Zero IPG (interpacket gap) packet #%0d =================",
+                         $time, i);
+
+            m_drv.send_packet(i, debug_flags);
+
+            if (verbosity_level > `VERBOSITY_SILENT)
+                $display("==== time=%0t: Verifying that no packet comes back due to Zero IPG (interpacket gap) #%0d ==============",
+                         $time, i);
+
+            // Wait 50 cycles to see if a packet comes back. It should not.
+            repeat(50) @(m_vi.cb);
+
+            if (m_vi.cb.pkt_rx_avail == 1'b0)
+                $display("time: %0t PASS: Expected behavior for Zero IPG (interpacket gap) case.", $time);
+            else
+                $display("time: %0t FAIL ***** Zero IPG (interpacket gap) case FAILED", $time);
+        end
+    endtask
+
+endclass
+
 
 program testcase(interface tcif_driver,
                  interface tcif_monitor);
 
-    env env0;
+    zero_ipg_packet_env env0;
     int num_packets;
 
     initial begin

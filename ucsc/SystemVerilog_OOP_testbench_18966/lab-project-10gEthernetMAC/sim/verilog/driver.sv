@@ -28,6 +28,14 @@ class driver;
         local_pkt = new(packet_id);
 
         assert(local_pkt.randomize());
+
+        if (debug_flags & `DEBUG_FLAGS_UNDERSIZE_PACKET_ON_TX) begin
+            local_pkt.pkt_length = $urandom_range(1, 20);
+        end
+        else if (debug_flags & `DEBUG_FLAGS_OVERSIZE_PACKET_ON_TX) begin
+            local_pkt.pkt_length = $urandom_range(2000, 3000);
+        end
+
         local_pkt.zero_out_trailing_bytes();
 
         @(m_vi.cb);
@@ -40,14 +48,14 @@ class driver;
 
         for (i = 0; i < local_pkt.pkt_length; i = i + 8) begin
 
-            if (i == 0 && ((debug_flags & `DEBUG_FLAG_SKIP_SOP_ON_TX) == 0))
+            if (i == 0 && ((debug_flags & `DEBUG_FLAGS_SKIP_SOP_ON_TX) == 0))
                 m_vi.cb.pkt_tx_sop <= 1'b1;
             else
                 m_vi.cb.pkt_tx_sop <= 1'b0;
 
             if (i + 8 >= local_pkt.pkt_length) begin
 
-                if ((debug_flags & `DEBUG_FLAG_SKIP_EOP_ON_TX) == 0)
+                if ((debug_flags & `DEBUG_FLAGS_SKIP_EOP_ON_TX) == 0)
                     m_vi.cb.pkt_tx_eop <= 1'b1;
 
                 m_vi.cb.pkt_tx_mod <= local_pkt.pkt_length % 8;

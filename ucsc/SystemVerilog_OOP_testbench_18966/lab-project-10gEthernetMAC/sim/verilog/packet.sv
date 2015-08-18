@@ -4,7 +4,7 @@
 
 class packet;
 
-    `define TX_BUFFER_LEN 128
+    `define TX_BUFFER_LEN 10000
 
     // Signals that will be sent to RTL:
     rand bit [7:0]  pkt_buffer[`TX_BUFFER_LEN];
