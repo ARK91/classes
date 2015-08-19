@@ -22,6 +22,9 @@ program testcase(interface tcif_driver,
                  `VERBOSITY_STANDARD,
                  `DEBUG_FLAGS_SIMPLE_LOOPBACK);
 
+        // Need this for regression test accounting:
+        $display("Testcase: loopback: PASS");
+
         #100 $finish;
     end
 

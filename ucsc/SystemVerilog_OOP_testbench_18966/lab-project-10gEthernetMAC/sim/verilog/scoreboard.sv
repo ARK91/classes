@@ -45,9 +45,9 @@ class scoreboard;
        end
 
         if (error == 0)
-            $display("time: %0t PASS: All packets passed", $time);
+            $display("time: %0t scoreboard: OK: All packets passed", $time);
         else
-            $display("time: %0t FAIL ***** FAIL", $time);
+            $display("time: %0t scoreboard: FAIL ***** FAIL", $time);
 
     endtask
 

@@ -32,7 +32,7 @@ class missing_sop_env extends env;
             repeat(50) @(m_vi.cb);
 
             if (m_vi.cb.pkt_rx_avail == 1'b0)
-                $display("time: %0t PASS: Expected behavior for missing SOP case.", $time);
+                $display("time: %0t OK: Expected behavior for missing SOP case.", $time);
             else
                 $display("time: %0t FAIL ***** Missing SOP case FAILED", $time);
         end
@@ -57,6 +57,9 @@ program testcase(interface tcif_driver,
         env0.run(num_packets,
                  `VERBOSITY_STANDARD,
                  `DEBUG_FLAGS_SKIP_SOP_ON_TX);
+
+        // Need this for regression test accounting:
+        $display("Testcase: missing sop: PASS");
 
         #100 $finish;
     end

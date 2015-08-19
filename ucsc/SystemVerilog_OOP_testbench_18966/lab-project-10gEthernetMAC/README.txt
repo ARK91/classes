@@ -14,4 +14,8 @@ B. Running just one test:
     cd testcases/loopback # for example
     ./runsim
 
+C. Regression test, to automatically report whether
+   or not all of the tests are passing:
 
+   cd scripts
+   ./regression-test.sh

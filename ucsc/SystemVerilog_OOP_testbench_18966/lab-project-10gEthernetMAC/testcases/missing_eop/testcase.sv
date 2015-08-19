@@ -34,7 +34,7 @@ class missing_eop_env extends env;
             repeat(50) @(m_vi.cb);
 
             if (m_vi.cb.pkt_rx_err == 1'b1)
-                $display("time: %0t PASS: Expected behavior for missing EOP case.", $time);
+                $display("time: %0t OK: Expected behavior for missing EOP case.", $time);
             else
                 $display("time: %0t FAIL ***** Missing EOP case FAILED", $time);
 
@@ -60,6 +60,9 @@ program testcase(interface tcif_driver,
         env0.run(num_packets,
                  `VERBOSITY_STANDARD,
                  `DEBUG_FLAG_SKIP_EOP_ON_TX);
+
+        // Need this for regression test accounting:
+        $display("Testcase: missing eop: PASS");
 
         #100 $finish;
     end
