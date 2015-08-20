@@ -11,13 +11,21 @@ class env;
     driver     m_drv;
     monitor    m_mon;
 
+    string                   m_testcase_display_string;
+    integer                  m_error_count;
+    bit                      m_passed;
+
     virtual switch_interface m_vi;
     virtual switch_interface m_mi;
 
     function new(input virtual switch_interface vif,
-                 input virtual switch_interface mif);
+                 input virtual switch_interface mif,
+                 input string testcase_display_string);
         m_vi = vif;
         m_mi = mif;
+        m_error_count = 0;
+        passed = 0;
+        m_testcase_display_string = testcase_display_string;
 
         m_drv2sb = new();
         m_mon2sb = new();
@@ -43,30 +51,28 @@ class env;
     endtask
 
     virtual task run(int num_packets, int verbosity_level, int debug_flags);
+        // Do nothing. This method is meant to be overridden.
+    endtask;
 
-        initialize_dut();
+    task report_testcase_results();
+        if (m_error_count == 0)
+            $display("time: %0t %s case: PASS",
+                     $time, m_testcase_display_string);
+        else
+            $display("time: %0t %s case: FAIL ************ %d errors",
+                     $time, m_testcase_display_string, m_error_count);
+    endtask
 
-        for (int i = 0; i < num_packets; i++) begin
-
-            if (verbosity_level > `VERBOSITY_SILENT)
-                $display("==== time=%0t: Sending packet #%0d =================",
-                         $time, i);
-
-            m_drv.send_packet(i, debug_flags);
-
-            if (verbosity_level > `VERBOSITY_SILENT)
-                $display("==== time=%0t: Collecting packet #%0d ==============",
-                         $time, i);
-
-            m_mon.collect_packet(i, debug_flags);
-
-            if (verbosity_level > 0)
-                $display("==== time=%0t: Comparing packet #%0d ===============",
-                         $time, i);
-
-            m_sb.compare(verbosity_level);
-
+    task report_intermediate_results(bit passed);
+        if (passed)
+            $display("time: %0t OK: Expected behavior for %s case.",
+                     $time, m_testcase_display_string);
+        else begin
+            m_error_count++;
+            $display("time: %0t ERROR ***** %s case ERROR",
+                     $time, m_testcase_display_string);
         end
     endtask
+
 endclass
 

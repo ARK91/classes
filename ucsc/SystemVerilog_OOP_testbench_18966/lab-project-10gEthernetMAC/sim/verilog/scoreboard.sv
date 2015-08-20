@@ -12,8 +12,7 @@ class scoreboard;
         m_mbx_from_mon = mon2sb;
     endfunction
 
-    task compare(input bit verbosity_level);
-        bit error;
+    task compare(input bit verbosity_level, output integer error_count);
         integer i;
         packet pkt_from_drv;
         packet pkt_from_mon;
@@ -35,19 +34,14 @@ class scoreboard;
                 $display("time: %0t ERROR: Packet mismatch!", $time);
                 $display("pkt_from_mon.pkt_buffer[i]: %h, pkt_from_drv.pkt_buffer[i]: %h",
                          pkt_from_mon.pkt_buffer[i], pkt_from_drv.pkt_buffer[i]);
-                error++;
+                error_count++;
             end
         end
 
        if(pkt_from_mon.pkt_length != pkt_from_mon.pkt_length) begin
            $display("time: %0t ERROR: Packet length mismatch!", $time);
-           error++;
+           error_count++;
        end
-
-        if (error == 0)
-            $display("time: %0t scoreboard: OK: All packets passed", $time);
-        else
-            $display("time: %0t scoreboard: FAIL ***** FAIL", $time);
 
     endtask
 
