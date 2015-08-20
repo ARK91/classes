@@ -32,6 +32,7 @@ class oversize_packet_env extends env;
                              $time, m_testcase_display_string, i);
 
                 m_mon.collect_error_packet(i);
+            end
 
             // Wait for ptk_rx_err to go high, as a result of the oversize packet:
             repeat(50) @(m_vi.cb);
