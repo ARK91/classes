@@ -32,7 +32,7 @@ class missing_sop_env extends env;
             // Wait 50 cycles to see if a packet comes back. It should not.
             repeat(50) @(m_vi.cb);
 
-            m_passed = (m_vi.cb.pkt_rx_avail == 1'b0)
+            m_passed = (m_vi.cb.pkt_rx_avail == 1'b0);
             report_intermediate_results();
         end
 

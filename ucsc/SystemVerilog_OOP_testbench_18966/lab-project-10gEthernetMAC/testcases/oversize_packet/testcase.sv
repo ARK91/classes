@@ -36,7 +36,7 @@ class oversize_packet_env extends env;
             // Wait for ptk_rx_err to go high, as a result of the oversize packet:
             repeat(50) @(m_vi.cb);
 
-            m_passed = (m_vi.cb.pkt_rx_err == 1'b1)
+            m_passed = (m_vi.cb.pkt_rx_err == 1'b1);
             report_intermediate_results();
         end
 

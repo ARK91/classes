@@ -33,7 +33,7 @@ class undersize_packet_env extends env;
             // It generally should not.
             repeat(50) @(m_vi.cb);
 
-            m_passed = (m_vi.cb.pkt_rx_err == 1'b0)
+            m_passed = (m_vi.cb.pkt_rx_err == 1'b0);
             report_intermediate_results();
         end
 
