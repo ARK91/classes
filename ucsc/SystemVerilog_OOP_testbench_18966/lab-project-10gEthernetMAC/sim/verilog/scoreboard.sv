@@ -16,6 +16,7 @@ class scoreboard;
         integer i;
         packet pkt_from_drv;
         packet pkt_from_mon;
+        error_count = 0;
 
         if (verbosity_level > 1)
             $display("time %0t: About to get a packet from DRIVER mailbox. Number of mailbox entries: %0d",
