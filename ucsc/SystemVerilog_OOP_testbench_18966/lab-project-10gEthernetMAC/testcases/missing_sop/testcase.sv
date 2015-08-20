@@ -21,13 +21,13 @@ class missing_sop_env extends env;
 
             if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: Sending: %s case #%0d ===============",
-                         $time, i, m_testcase_display_string);
+                         $time, m_testcase_display_string, i);
 
             m_drv.send_packet(i, debug_flags);
 
             if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: no packet should come back for: %s case #%0d ==============",
-                         $time, i, m_testcase_display_string);
+                         $time, m_testcase_display_string, i);
 
             // Wait 50 cycles to see if a packet comes back. It should not.
             repeat(50) @(m_vi.cb);
@@ -46,7 +46,7 @@ program testcase(interface tcif_driver,
     missing_sop_env env0;
     int num_packets;
 
-    begin
+    initial begin
         // Enable waveform dumps for use by Synopsys DVE:
         $vcdpluson();
 

@@ -21,13 +21,13 @@ class missing_eop_env extends env;
 
             if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: Sending: %s case #%0d ===============",
-                         $time, i, m_testcase_display_string);
+                         $time, m_testcase_display_string, i);
 
             m_drv.send_packet(i, debug_flags);
 
             if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: receiving: %s case #%0d ==============",
-                         $time, i, m_testcase_display_string);
+                         $time, m_testcase_display_string, i);
 
             m_mon.collect_error_packet(i);
 
@@ -48,7 +48,7 @@ program testcase(interface tcif_driver,
     missing_eop_env env0;
     int num_packets;
 
-    begin
+    initial begin
         // Enable waveform dumps for use by Synopsys DVE:
         $vcdpluson();
 

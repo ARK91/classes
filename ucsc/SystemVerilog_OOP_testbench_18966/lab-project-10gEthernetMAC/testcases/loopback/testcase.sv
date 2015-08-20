@@ -21,23 +21,24 @@ class loopback_env extends env;
 
             if (verbosity_level > `VERBOSITY_SILENT)
                 $display("==== time=%0t: Sending: %s case #%0d ===============",
-                         $time, i, m_testcase_display_string);
+                         $time, m_testcase_display_string, i);
 
             m_drv.send_packet(i, debug_flags);
 
             if (verbosity_level > `VERBOSITY_SILENT)
-                $display("==== time=%0t: Collecting packet #%0d ==============",
-                         $time, i);
+                $display("==== time=%0t: Collecting: %s case #%0d ===============",
+                         $time, m_testcase_display_string, i);
 
             m_mon.collect_packet(i, debug_flags);
 
             if (verbosity_level > 0)
-                $display("==== time=%0t: Comparing packet #%0d ===============",
-                         $time, i);
+                $display("==== time=%0t: Comparing: %s case #%0d ===============",
+                         $time, m_testcase_display_string, i);
 
             // Scoreboard will update env.m_error_count, for use later by
             // env.report_testcase_results():
             m_sb.compare(verbosity_level, m_error_count);
+            m_passed = (0 == m_error_count);
         end
 
     endtask
