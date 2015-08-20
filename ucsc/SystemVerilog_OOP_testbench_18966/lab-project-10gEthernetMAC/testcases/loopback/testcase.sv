@@ -50,7 +50,7 @@ program testcase(interface tcif_driver,
     loopback_env env0;
     integer num_packets;
 
-    begin
+    initial begin
         // Enable waveform dumps for use by Synopsys DVE:
         $vcdpluson();
 

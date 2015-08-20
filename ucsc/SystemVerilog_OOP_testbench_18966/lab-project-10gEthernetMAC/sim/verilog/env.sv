@@ -24,7 +24,7 @@ class env;
         m_vi = vif;
         m_mi = mif;
         m_error_count = 0;
-        passed = 0;
+        m_passed = 0;
         m_testcase_display_string = testcase_display_string;
 
         m_drv2sb = new();
@@ -63,8 +63,8 @@ class env;
                      $time, m_testcase_display_string, m_error_count);
     endtask
 
-    task report_intermediate_results(bit passed);
-        if (passed)
+    task report_intermediate_results();
+        if (m_passed)
             $display("time: %0t OK: Expected behavior for %s case.",
                      $time, m_testcase_display_string);
         else begin
