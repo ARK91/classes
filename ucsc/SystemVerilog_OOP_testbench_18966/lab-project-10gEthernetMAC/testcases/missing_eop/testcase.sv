@@ -57,7 +57,7 @@ program testcase(interface tcif_driver,
         num_packets = $urandom_range(4, 10);
         env0.run(num_packets,
                  `VERBOSITY_STANDARD,
-                 `DEBUG_FLAG_SKIP_EOP_ON_TX);
+                 `DEBUG_FLAGS_SKIP_EOP_ON_TX);
 
         env0.report_testcase_results();
 
